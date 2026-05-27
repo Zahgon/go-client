@@ -31,42 +31,20 @@ type EmbedOptions struct {
 // The application must call Serve() to handle RPC requests and responses.
 //
 // Deprecated: Use NewChildProcess instead.
-func NewEmbedded(options *EmbedOptions) (*Nvim, error) {
-	if options == nil {
-		options = &EmbedOptions{}
-	}
-	path := options.Path
-	if path == "" {
-		path = "nvim"
-	}
-
-	return NewChildProcess(
-		ChildProcessArgs(append([]string{"--embed"}, options.Args...)...),
-		ChildProcessCommand(path),
-		ChildProcessEnv(options.Env),
-		ChildProcessDir(options.Dir),
-		ChildProcessServe(false))
-}
+func NewEmbedded(options *EmbedOptions) (*Nvim, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // ExecuteLua executes a Lua block.
 //
 // Deprecated: Use ExecLua instead.
 func (v *Nvim) ExecuteLua(code string, result any, args ...any) error {
-	if args == nil {
-		args = emptyArgs
-	}
-	return v.call("nvim_execute_lua", result, code, args)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ExecuteLua executes a Lua block.
 //
 // Deprecated: Use ExecLua instead.
-func (b *Batch) ExecuteLua(code string, result any, args ...any) {
-	if args == nil {
-		args = emptyArgs
-	}
-	b.call("nvim_execute_lua", result, code, args)
-}
+func (b *Batch) ExecuteLua(code string, result any, args ...any) { _ = "STUB: not implemented"; return }
 
 // BufferNumber gets a buffer's number.
 //
@@ -76,8 +54,8 @@ func (b *Batch) ExecuteLua(code string, result any, args ...any) {
 //
 // [nvim_buf_get_number()]: https://neovim.io/doc/user/api.html#nvim_buf_get_number()
 func (v *Nvim) BufferNumber(buffer Buffer) (number int, err error) {
-	err = v.call("nvim_buf_get_number", &number, buffer)
-	return number, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // BufferNumber gets a buffer's number.
@@ -87,9 +65,7 @@ func (v *Nvim) BufferNumber(buffer Buffer) (number int, err error) {
 // See: [nvim_buf_get_number()]
 //
 // [nvim_buf_get_number()]: https://neovim.io/doc/user/api.html#nvim_buf_get_number()
-func (b *Batch) BufferNumber(buffer Buffer, number *int) {
-	b.call("nvim_buf_get_number", number, buffer)
-}
+func (b *Batch) BufferNumber(buffer Buffer, number *int) { _ = "STUB: not implemented"; return }
 
 // ClearBufferHighlight clears highlights from a given source group and a range
 // of lines.
@@ -106,7 +82,8 @@ func (b *Batch) BufferNumber(buffer Buffer, number *int) {
 //
 // [nvim_buf_clear_highlight()]: https://neovim.io/doc/user/api.html#nvim_buf_clear_highlight()
 func (v *Nvim) ClearBufferHighlight(buffer Buffer, srcID int, startLine int, endLine int) error {
-	return v.call("nvim_buf_clear_highlight", nil, buffer, srcID, startLine, endLine)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ClearBufferHighlight clears highlights from a given source group and a range
@@ -124,7 +101,8 @@ func (v *Nvim) ClearBufferHighlight(buffer Buffer, srcID int, startLine int, end
 //
 // [nvim_buf_clear_highlight()]: https://neovim.io/doc/user/api.html#nvim_buf_clear_highlight()
 func (b *Batch) ClearBufferHighlight(buffer Buffer, srcID int, startLine int, endLine int) {
-	b.call("nvim_buf_clear_highlight", nil, buffer, srcID, startLine, endLine)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferVirtualText set the virtual text (annotation) for a buffer line.
@@ -153,8 +131,8 @@ func (b *Batch) ClearBufferHighlight(buffer Buffer, srcID int, startLine int, en
 //
 // [nvim_buf_set_virtual_text()]: https://neovim.io/doc/user/api.html#nvim_buf_set_virtual_text()
 func (v *Nvim) SetBufferVirtualText(buffer Buffer, nsID int, line int, chunks []TextChunk, opts map[string]any) (id int, err error) {
-	err = v.call("nvim_buf_set_virtual_text", &id, buffer, nsID, line, chunks, opts)
-	return id, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // SetBufferVirtualText set the virtual text (annotation) for a buffer line.
@@ -183,7 +161,8 @@ func (v *Nvim) SetBufferVirtualText(buffer Buffer, nsID int, line int, chunks []
 //
 // [nvim_buf_set_virtual_text()]: https://neovim.io/doc/user/api.html#nvim_buf_set_virtual_text()
 func (b *Batch) SetBufferVirtualText(buffer Buffer, nsID int, line int, chunks []TextChunk, opts map[string]any, id *int) {
-	b.call("nvim_buf_set_virtual_text", id, buffer, nsID, line, chunks, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // HLByID gets a highlight definition by name.
@@ -198,9 +177,8 @@ func (b *Batch) SetBufferVirtualText(buffer Buffer, nsID int, line int, chunks [
 //
 // [nvim_get_hl_by_id()]: https://neovim.io/doc/user/api.html#nvim_get_hl_by_id()
 func (v *Nvim) HLByID(hlID int, rgb bool) (highlight *HLAttrs, err error) {
-	var result HLAttrs
-	err = v.call("nvim_get_hl_by_id", &result, hlID, rgb)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // HLByID gets a highlight definition by name.
@@ -214,9 +192,7 @@ func (v *Nvim) HLByID(hlID int, rgb bool) (highlight *HLAttrs, err error) {
 // See: [nvim_get_hl_by_id()]
 //
 // [nvim_get_hl_by_id()]: https://neovim.io/doc/user/api.html#nvim_get_hl_by_id()
-func (b *Batch) HLByID(hlID int, rgb bool, highlight *HLAttrs) {
-	b.call("nvim_get_hl_by_id", highlight, hlID, rgb)
-}
+func (b *Batch) HLByID(hlID int, rgb bool, highlight *HLAttrs) { _ = "STUB: not implemented"; return }
 
 // HLByName gets a highlight definition by id.
 //
@@ -230,9 +206,8 @@ func (b *Batch) HLByID(hlID int, rgb bool, highlight *HLAttrs) {
 //
 // [nvim_get_hl_by_name()]: https://neovim.io/doc/user/api.html#nvim_get_hl_by_name()
 func (v *Nvim) HLByName(name string, rgb bool) (highlight *HLAttrs, err error) {
-	var result HLAttrs
-	err = v.call("nvim_get_hl_by_name", &result, name, rgb)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // HLByName gets a highlight definition by id.
@@ -247,7 +222,8 @@ func (v *Nvim) HLByName(name string, rgb bool) (highlight *HLAttrs, err error) {
 //
 // [nvim_get_hl_by_name()]: https://neovim.io/doc/user/api.html#nvim_get_hl_by_name()
 func (b *Batch) HLByName(name string, rgb bool, highlight *HLAttrs) {
-	b.call("nvim_get_hl_by_name", highlight, name, rgb)
+	_ = "STUB: not implemented"
+	return
 }
 
 // CommandOutput executes a single ex command and returns the output.
@@ -258,8 +234,8 @@ func (b *Batch) HLByName(name string, rgb bool, highlight *HLAttrs) {
 //
 // [nvim_command_output()]: https://neovim.io/doc/user/api.html#nvim_command_output()
 func (v *Nvim) CommandOutput(cmd string) (out string, err error) {
-	err = v.call("nvim_command_output", &out, cmd)
-	return out, err
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // CommandOutput executes a single ex command and returns the output.
@@ -269,6 +245,4 @@ func (v *Nvim) CommandOutput(cmd string) (out string, err error) {
 // See: [nvim_command_output()]
 //
 // [nvim_command_output()]: https://neovim.io/doc/user/api.html#nvim_command_output()
-func (b *Batch) CommandOutput(cmd string, out *string) {
-	b.call("nvim_command_output", out, cmd)
-}
+func (b *Batch) CommandOutput(cmd string, out *string) { _ = "STUB: not implemented"; return }

@@ -6,23 +6,12 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"flag"
-	"fmt"
 	"go/ast"
-	"go/format"
-	"go/parser"
 	"go/token"
 	"log"
-	"os"
-	"os/exec"
-	"sort"
-	"strconv"
 	"strings"
 	"text/template"
-
-	"github.com/neovim/go-client/msgpack"
 )
 
 // APIInfo represents the output from nvim --api-info
@@ -94,107 +83,17 @@ var extensionTypes = map[string]ExtensionType{
 	},
 }
 
-func formatNode(fset *token.FileSet, node any) string {
-	var buf strings.Builder
-	if err := format.Node(&buf, fset, node); err != nil {
-		panic(err)
-	}
-	return buf.String()
-}
+func formatNode(fset *token.FileSet, node any) string { _ = "STUB: not implemented"; return "" }
 
 func parseFields(fset *token.FileSet, fl *ast.FieldList) []*Field {
-	if fl == nil {
-		return nil
-	}
-	var fields []*Field
-	for _, f := range fl.List {
-		typ := formatNode(fset, f.Type)
-		if len(f.Names) == 0 {
-			fields = append(fields, &Field{Type: typ})
-		} else {
-			for _, id := range f.Names {
-				fields = append(fields, &Field{Name: id.Name, Type: typ})
-			}
-		}
-	}
-	return fields
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // parseAPIDef parses the file api_def.go.
 func parseAPIDef() ([]*Function, []*Function, error) {
-	fset := token.NewFileSet()
-	file, err := parser.ParseFile(fset, "api_def.go", nil, parser.ParseComments)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var functions []*Function
-	var deprecated []*Function
-
-	for _, decl := range file.Decls {
-		fdecl, ok := decl.(*ast.FuncDecl)
-		if !ok {
-			continue
-		}
-		var doc []byte
-		if cg := fdecl.Doc; cg != nil {
-			for i, c := range cg.List {
-				if i > 0 {
-					doc = append(doc, '\n')
-				}
-				doc = append(doc, c.Text...)
-			}
-		}
-		m := &Function{
-			GoName:     fdecl.Name.Name,
-			Doc:        string(doc),
-			Parameters: parseFields(fset, fdecl.Type.Params),
-		}
-
-		fields := parseFields(fset, fdecl.Type.Results)
-		if len(fields) > 1 {
-			return nil, nil, fmt.Errorf("%s: more than one result for %s", fset.Position(fdecl.Pos()), m.Name)
-		}
-
-		if len(fields) == 1 {
-			m.ReturnName = fields[0].Name
-			m.ReturnType = fields[0].Type
-		}
-		for _, n := range fdecl.Body.List {
-			if expr, ok := n.(*ast.ExprStmt); ok {
-				if call, ok := expr.X.(*ast.CallExpr); ok {
-					if id, ok := call.Fun.(*ast.Ident); ok {
-						switch id.Name {
-						case "name":
-							if len(call.Args) == 1 {
-								if id, ok := call.Args[0].(*ast.Ident); ok {
-									m.Name = id.Name
-								}
-							}
-						case "deprecatedSince":
-							if lit, ok := call.Args[0].(*ast.BasicLit); ok && lit.Kind == token.INT {
-								m.DeprecatedSince, _ = strconv.Atoi(lit.Value)
-							}
-						case "returnPtr":
-							m.ReturnPtr = true
-						}
-					}
-				}
-			}
-		}
-
-		if m.Name == "" {
-			return nil, nil, fmt.Errorf("%s: service method not specified for %s", fset.Position(fdecl.Pos()), m.Name)
-		}
-
-		if m.DeprecatedSince > 0 {
-			deprecated = append(deprecated, m)
-			continue
-		}
-		functions = append(functions, m)
-	}
-
-	return functions, deprecated, nil
+	_ = "STUB: not implemented"
+	return nil, nil, nil
 }
 
 const genTemplate = `
@@ -392,55 +291,23 @@ func (b *Batch) ExecuteLua(code string, result any, args ...any) {
 ` + genTemplate))
 
 func printImplementation(functions []*Function, tmpl *template.Template, outFile string) error {
-	var buf bytes.Buffer
-	if err := tmpl.Execute(&buf, &APIInfo{
-		Functions:  functions,
-		Types:      extensionTypes,
-		ErrorTypes: errorTypes,
-	}); err != nil {
-		return fmt.Errorf("falied to Execute implementationTemplate: %w", err)
-	}
-
-	out, err := format.Source(buf.Bytes())
-	if err != nil {
-		for i, p := range bytes.Split(buf.Bytes(), []byte("\n")) {
-			fmt.Fprintf(os.Stderr, "%d: %s\n", i+1, p)
-		}
-		return fmt.Errorf("error formating source: %w", err)
-	}
-
-	if outFile != "" {
-		return os.WriteFile(outFile, out, 0666)
-	}
-	_, err = os.Stdout.Write(out)
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func readAPIInfo(cmdName string) (*APIInfo, error) {
-	const cmdArgs = "--api-info"
-	output, err := exec.Command(cmdName, cmdArgs).Output()
-	if err != nil {
-		return nil, fmt.Errorf("failed to execuce %s %s: %w", cmdName, cmdArgs, err)
-	}
-
-	var info APIInfo
-	if err := msgpack.NewDecoder(bytes.NewReader(output)).Decode(&info); err != nil {
-		return nil, fmt.Errorf("failed to decode APIInfo: %w", err)
-	}
-	return &info, nil
-}
+func readAPIInfo(cmdName string) (*APIInfo, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // nvimTypes maps Go types to Nvim API types.
 var nvimTypes = map[string]string{
-	"":              "void",
-	"[]byte":        "String",
-	"[]uint":        "Array",
-	"[]any": "Array",
-	"bool":          "Boolean",
-	"int":           "Integer",
-	"any":   "Object",
-	"string":        "String",
-	"float64":       "Float",
+	"":        "void",
+	"[]byte":  "String",
+	"[]uint":  "Array",
+	"[]any":   "Array",
+	"bool":    "Boolean",
+	"int":     "Integer",
+	"any":     "Object",
+	"string":  "String",
+	"float64": "Float",
 
 	"ClientType":  "String",
 	"Process":     "Object",
@@ -463,7 +330,7 @@ var nvimTypes = map[string]string{
 	"map[string][]string":         "Dictionary",
 	"map[string]bool":             "Dictionary",
 	"map[string]int":              "Dictionary",
-	"map[string]any":      "Dictionary",
+	"map[string]any":              "Dictionary",
 	"map[string]OptionValueScope": "Dictionary",
 	"Mode":                        "Dictionary",
 	"OptionInfo":                  "Dictionary",
@@ -486,23 +353,13 @@ var nvimTypes = map[string]string{
 	"[]Window":   "ArrayOf(Window)",
 }
 
-func convertToNvimTypes(f *Function) *Function {
-	if t, ok := nvimTypes[f.ReturnType]; ok {
-		f.ReturnType = t
-	}
-	for _, p := range f.Parameters {
-		if t, ok := nvimTypes[p.Type]; ok {
-			p.Type = t
-		}
-	}
-	return f
-}
+func convertToNvimTypes(f *Function) *Function { _ = "STUB: not implemented"; return nil }
 
 type byName []*Function
 
-func (a byName) Len() int           { return len(a) }
-func (a byName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a byName) Less(i, j int) bool { return a[i].Name < a[j].Name }
+func (a byName) Len() int           { _ = "STUB: not implemented"; return 0 }
+func (a byName) Swap(i, j int)      { _ = "STUB: not implemented"; return }
+func (a byName) Less(i, j int) bool { _ = "STUB: not implemented"; return false }
 
 var compareTemplate = template.Must(template.New("").Funcs(template.FuncMap{
 	"lower": strings.ToLower,
@@ -536,96 +393,11 @@ var specialAPIs = map[string]bool{
 }
 
 func compareFunctions(cmdName string, functions []*Function) error {
-	info, err := readAPIInfo(cmdName)
-	if err != nil {
-		return fmt.Errorf("failed to real APIInfo :%w", err)
-	}
-
-	sort.Sort(byName(functions))
-	sort.Sort(byName(info.Functions))
-
-	var data struct {
-		Extra     []*Function
-		Missing   []*Function
-		Different [][2]*Function
-	}
-
-	i := 0
-	j := 0
-	for i < len(functions) && j < len(info.Functions) {
-		a := convertToNvimTypes(functions[i])
-		b := info.Functions[j]
-
-		if a.Name < b.Name {
-			if !hiddenAPIs[a.Name] {
-				data.Extra = append(data.Extra, a)
-			}
-			i++
-			continue
-		}
-		if b.Name < a.Name {
-			if b.DeprecatedSince == 0 && !specialAPIs[b.Name] {
-				data.Missing = append(data.Missing, b)
-			}
-			j++
-			continue
-		}
-
-		equal := len(a.Parameters) == len(b.Parameters) && a.ReturnType == b.ReturnType && a.DeprecatedSince == b.DeprecatedSince
-		if equal {
-			for i := range a.Parameters {
-				if a.Parameters[i].Type != b.Parameters[i].Type {
-					equal = false
-					break
-				}
-			}
-		}
-		if !equal {
-			data.Different = append(data.Different, [2]*Function{a, b})
-		}
-		i++
-		j++
-	}
-
-	for i < len(functions) {
-		a := convertToNvimTypes(functions[i])
-		data.Extra = append(data.Extra, a)
-		i++
-	}
-
-	for j < len(info.Functions) {
-		b := info.Functions[j]
-		if b.DeprecatedSince == 0 {
-			data.Missing = append(data.Missing, b)
-		}
-		j++
-	}
-
-	if err := compareTemplate.Execute(os.Stdout, &data); err != nil {
-		return fmt.Errorf("falied to Execute compareTemplate: %w", err)
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func dumpAPI(cmdName string) error {
-	output, err := exec.Command(cmdName, "--api-info").Output()
-	if err != nil {
-		return fmt.Errorf("error getting API info: %w", err)
-	}
-
-	var v any
-	if err := msgpack.NewDecoder(bytes.NewReader(output)).Decode(&v); err != nil {
-		return fmt.Errorf("error parsing msppack: %w", err)
-	}
-
-	p, err := json.MarshalIndent(v, "", "    ")
-	if err != nil {
-		return nil
-	}
-
-	os.Stdout.Write(append(p, '\n'))
-	return nil
-}
+func dumpAPI(cmdName string) error { _ = "STUB: not implemented"; return nil }
 
 var (
 	flagNvim       string

@@ -86,9 +86,7 @@ type CommandCompletionArgs struct {
 }
 
 // CursorPos returns the cursor position.
-func (a *CommandCompletionArgs) CursorPos() int {
-	return a.CursorPosString
-}
+func (a *CommandCompletionArgs) CursorPos() int { _ = "STUB: not implemented"; return 0 }
 
 // Mode represents a Nvim's current mode.
 type Mode struct {
@@ -520,9 +518,13 @@ type UserVimCommand string
 var _ UserCommand = (*UserVimCommand)(nil)
 
 // command implements UserCommand.command.
-func (UserVimCommand) command() {}
+func (UserVimCommand) command() {
+	_ = "STUB: not implemented"
 
-// UserLuaCommand is a user Lua command executed at UserCommand.
+	// UserLuaCommand is a user Lua command executed at UserCommand.
+	return
+}
+
 type UserLuaCommand struct {
 	// Args passed to the command, if any.
 	Args string `msgpack:"args,omitempty"`
@@ -553,9 +555,13 @@ type UserLuaCommand struct {
 var _ UserCommand = (*UserLuaCommand)(nil)
 
 // command implements UserCommand.command.
-func (UserLuaCommand) command() {}
+func (UserLuaCommand) command() {
+	_ = "STUB: not implemented"
 
-// TextChunk represents a text chunk.
+	// TextChunk represents a text chunk.
+	return
+}
+
 type TextChunk struct {
 	// Text is text.
 	Text string `msgpack:",array"`
@@ -832,22 +838,7 @@ const (
 )
 
 // String returns a string representation of the LogLevel.
-func (level LogLevel) String() string {
-	switch level {
-	case LogTraceLevel:
-		return "TraceLevel"
-	case LogDebugLevel:
-		return "DebugLevel"
-	case LogInfoLevel:
-		return "InfoLevel"
-	case LogWarnLevel:
-		return "WarnLevel"
-	case LogErrorLevel:
-		return "ErrorLevel"
-	default:
-		return "unknown Level"
-	}
-}
+func (level LogLevel) String() string { _ = "STUB: not implemented"; return "" }
 
 // AutocmdArg is the type of autocmd API arguments.
 type AutocmdArg struct {

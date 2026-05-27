@@ -3,8 +3,6 @@
 package nvim
 
 import (
-	"fmt"
-
 	"github.com/neovim/go-client/msgpack"
 	"github.com/neovim/go-client/msgpack/rpc"
 )
@@ -14,84 +12,52 @@ const (
 	validationError = 1
 )
 
-func withExtensions() rpc.Option {
-	return rpc.WithExtensions(msgpack.ExtensionMap{
-		0: func(p []byte) (any, error) {
-			x, err := decodeExt(p)
-			return Buffer(x), err
-		},
-
-		2: func(p []byte) (any, error) {
-			x, err := decodeExt(p)
-			return Tabpage(x), err
-		},
-
-		1: func(p []byte) (any, error) {
-			x, err := decodeExt(p)
-			return Window(x), err
-		},
-	})
-}
+func withExtensions() rpc.Option { _ = "STUB: not implemented"; return *new(rpc.Option) }
 
 // Buffer represents a Nvim buffer.
 type Buffer int
 
 // MarshalMsgPack implements msgpack.Marshaler.
-func (x Buffer) MarshalMsgPack(enc *msgpack.Encoder) error {
-	return enc.PackExtension(0, encodeExt(int(x)))
-}
+func (x Buffer) MarshalMsgPack(enc *msgpack.Encoder) error { _ = "STUB: not implemented"; return nil }
 
 // UnmarshalMsgPack implements msgpack.Unmarshaler.
 func (x *Buffer) UnmarshalMsgPack(dec *msgpack.Decoder) error {
-	n, err := unmarshalExt(dec, 0, x)
-	*x = Buffer(n)
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // String returns a string representation of the Buffer.
-func (x Buffer) String() string {
-	return fmt.Sprintf("Buffer:%d", int(x))
-}
+func (x Buffer) String() string { _ = "STUB: not implemented"; return "" }
 
 // Tabpage represents a Nvim tabpage.
 type Tabpage int
 
 // MarshalMsgPack implements msgpack.Marshaler.
-func (x Tabpage) MarshalMsgPack(enc *msgpack.Encoder) error {
-	return enc.PackExtension(2, encodeExt(int(x)))
-}
+func (x Tabpage) MarshalMsgPack(enc *msgpack.Encoder) error { _ = "STUB: not implemented"; return nil }
 
 // UnmarshalMsgPack implements msgpack.Unmarshaler.
 func (x *Tabpage) UnmarshalMsgPack(dec *msgpack.Decoder) error {
-	n, err := unmarshalExt(dec, 2, x)
-	*x = Tabpage(n)
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // String returns a string representation of the Tabpage.
-func (x Tabpage) String() string {
-	return fmt.Sprintf("Tabpage:%d", int(x))
-}
+func (x Tabpage) String() string { _ = "STUB: not implemented"; return "" }
 
 // Window represents a Nvim window.
 type Window int
 
 // MarshalMsgPack implements msgpack.Marshaler.
-func (x Window) MarshalMsgPack(enc *msgpack.Encoder) error {
-	return enc.PackExtension(1, encodeExt(int(x)))
-}
+func (x Window) MarshalMsgPack(enc *msgpack.Encoder) error { _ = "STUB: not implemented"; return nil }
 
 // UnmarshalMsgPack implements msgpack.Unmarshaler.
 func (x *Window) UnmarshalMsgPack(dec *msgpack.Decoder) error {
-	n, err := unmarshalExt(dec, 1, x)
-	*x = Window(n)
-	return err
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // String returns a string representation of the Window.
-func (x Window) String() string {
-	return fmt.Sprintf("Window:%d", int(x))
-}
+func (x Window) String() string { _ = "STUB: not implemented"; return "" }
 
 // Autocmds get all autocommands that match the corresponding {opts}.
 //
@@ -102,8 +68,8 @@ func (x Window) String() string {
 //
 // [nvim_get_autocmds()]: https://neovim.io/doc/user/api.html#nvim_get_autocmds()
 func (v *Nvim) Autocmds(opts map[string]any) (result []*AutocmdType, err error) {
-	err = v.call("nvim_get_autocmds", &result, opts)
-	return result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Autocmds get all autocommands that match the corresponding {opts}.
@@ -115,7 +81,8 @@ func (v *Nvim) Autocmds(opts map[string]any) (result []*AutocmdType, err error) 
 //
 // [nvim_get_autocmds()]: https://neovim.io/doc/user/api.html#nvim_get_autocmds()
 func (b *Batch) Autocmds(opts map[string]any, result *[]*AutocmdType) {
-	b.call("nvim_get_autocmds", result, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // CreateAutocmd create an autocommand.
@@ -127,8 +94,8 @@ func (b *Batch) Autocmds(opts map[string]any, result *[]*AutocmdType) {
 //
 // [nvim_create_autocmd()]: https://neovim.io/doc/user/api.html#nvim_create_autocmd()
 func (v *Nvim) CreateAutocmd(event any, opts map[string]any) (id int, err error) {
-	err = v.call("nvim_create_autocmd", &id, event, opts)
-	return id, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // CreateAutocmd create an autocommand.
@@ -140,7 +107,8 @@ func (v *Nvim) CreateAutocmd(event any, opts map[string]any) (id int, err error)
 //
 // [nvim_create_autocmd()]: https://neovim.io/doc/user/api.html#nvim_create_autocmd()
 func (b *Batch) CreateAutocmd(event any, opts map[string]any, id *int) {
-	b.call("nvim_create_autocmd", id, event, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteAutocmd delete an autocommand by id.
@@ -150,9 +118,7 @@ func (b *Batch) CreateAutocmd(event any, opts map[string]any, id *int) {
 // See: [nvim_del_autocmd()]
 //
 // [nvim_del_autocmd()]: https://neovim.io/doc/user/api.html#nvim_del_autocmd()
-func (v *Nvim) DeleteAutocmd(id int) error {
-	return v.call("nvim_del_autocmd", nil, id)
-}
+func (v *Nvim) DeleteAutocmd(id int) error { _ = "STUB: not implemented"; return nil }
 
 // DeleteAutocmd delete an autocommand by id.
 //
@@ -161,9 +127,7 @@ func (v *Nvim) DeleteAutocmd(id int) error {
 // See: [nvim_del_autocmd()]
 //
 // [nvim_del_autocmd()]: https://neovim.io/doc/user/api.html#nvim_del_autocmd()
-func (b *Batch) DeleteAutocmd(id int) {
-	b.call("nvim_del_autocmd", nil, id)
-}
+func (b *Batch) DeleteAutocmd(id int) { _ = "STUB: not implemented"; return }
 
 // ClearAutocmds clear all autocommands that match the corresponding {opts}.
 //
@@ -172,9 +136,7 @@ func (b *Batch) DeleteAutocmd(id int) {
 // See: [nvim_clear_autocmds()]
 //
 // [nvim_clear_autocmds()]: https://neovim.io/doc/user/api.html#nvim_clear_autocmds()
-func (v *Nvim) ClearAutocmds(opts map[string]any) error {
-	return v.call("nvim_clear_autocmds", nil, opts)
-}
+func (v *Nvim) ClearAutocmds(opts map[string]any) error { _ = "STUB: not implemented"; return nil }
 
 // ClearAutocmds clear all autocommands that match the corresponding {opts}.
 //
@@ -183,9 +145,7 @@ func (v *Nvim) ClearAutocmds(opts map[string]any) error {
 // See: [nvim_clear_autocmds()]
 //
 // [nvim_clear_autocmds()]: https://neovim.io/doc/user/api.html#nvim_clear_autocmds()
-func (b *Batch) ClearAutocmds(opts map[string]any) {
-	b.call("nvim_clear_autocmds", nil, opts)
-}
+func (b *Batch) ClearAutocmds(opts map[string]any) { _ = "STUB: not implemented"; return }
 
 // CreateAugroup create or get an autocommand group(autocmd-groups).
 //
@@ -193,8 +153,8 @@ func (b *Batch) ClearAutocmds(opts map[string]any) {
 //
 // [nvim_create_augroup()]: https://neovim.io/doc/user/api.html#nvim_create_augroup()
 func (v *Nvim) CreateAugroup(name string, opts map[string]any) (id int, err error) {
-	err = v.call("nvim_create_augroup", &id, name, opts)
-	return id, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // CreateAugroup create or get an autocommand group(autocmd-groups).
@@ -203,7 +163,8 @@ func (v *Nvim) CreateAugroup(name string, opts map[string]any) (id int, err erro
 //
 // [nvim_create_augroup()]: https://neovim.io/doc/user/api.html#nvim_create_augroup()
 func (b *Batch) CreateAugroup(name string, opts map[string]any, id *int) {
-	b.call("nvim_create_augroup", id, name, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteAugroupByID delete an autocommand group by id.
@@ -211,36 +172,28 @@ func (b *Batch) CreateAugroup(name string, opts map[string]any, id *int) {
 // See: [nvim_del_augroup_by_id()]
 //
 // [nvim_del_augroup_by_id()]: https://neovim.io/doc/user/api.html#nvim_del_augroup_by_id()
-func (v *Nvim) DeleteAugroupByID(id int) error {
-	return v.call("nvim_del_augroup_by_id", nil, id)
-}
+func (v *Nvim) DeleteAugroupByID(id int) error { _ = "STUB: not implemented"; return nil }
 
 // DeleteAugroupByID delete an autocommand group by id.
 //
 // See: [nvim_del_augroup_by_id()]
 //
 // [nvim_del_augroup_by_id()]: https://neovim.io/doc/user/api.html#nvim_del_augroup_by_id()
-func (b *Batch) DeleteAugroupByID(id int) {
-	b.call("nvim_del_augroup_by_id", nil, id)
-}
+func (b *Batch) DeleteAugroupByID(id int) { _ = "STUB: not implemented"; return }
 
 // DeleteAugroupByID delete an autocommand group by name.
 //
 // See: [nvim_del_augroup_by_name()]
 //
 // [nvim_del_augroup_by_name()]: https://neovim.io/doc/user/api.html#nvim_del_augroup_by_name()
-func (v *Nvim) DeleteAugroupByName(name string) error {
-	return v.call("nvim_del_augroup_by_name", nil, name)
-}
+func (v *Nvim) DeleteAugroupByName(name string) error { _ = "STUB: not implemented"; return nil }
 
 // DeleteAugroupByID delete an autocommand group by name.
 //
 // See: [nvim_del_augroup_by_name()]
 //
 // [nvim_del_augroup_by_name()]: https://neovim.io/doc/user/api.html#nvim_del_augroup_by_name()
-func (b *Batch) DeleteAugroupByName(name string) {
-	b.call("nvim_del_augroup_by_name", nil, name)
-}
+func (b *Batch) DeleteAugroupByName(name string) { _ = "STUB: not implemented"; return }
 
 // ExecAutocmds execute all autocommands for {event} that match the corresponding {opts} autocmd-execute.
 //
@@ -248,7 +201,8 @@ func (b *Batch) DeleteAugroupByName(name string) {
 //
 // [nvim_exec_autocmds()]: https://neovim.io/doc/user/api.html#nvim_exec_autocmds()
 func (v *Nvim) ExecAutocmds(event any, opts map[string]any) error {
-	return v.call("nvim_exec_autocmds", nil, event, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ExecAutocmds execute all autocommands for {event} that match the corresponding {opts} autocmd-execute.
@@ -256,9 +210,7 @@ func (v *Nvim) ExecAutocmds(event any, opts map[string]any) error {
 // See: [nvim_exec_autocmds()]
 //
 // [nvim_exec_autocmds()]: https://neovim.io/doc/user/api.html#nvim_exec_autocmds()
-func (b *Batch) ExecAutocmds(event any, opts map[string]any) {
-	b.call("nvim_exec_autocmds", nil, event, opts)
-}
+func (b *Batch) ExecAutocmds(event any, opts map[string]any) { _ = "STUB: not implemented"; return }
 
 // BufferLineCount gets the buffer line count.
 //
@@ -270,8 +222,8 @@ func (b *Batch) ExecAutocmds(event any, opts map[string]any) {
 //
 // [nvim_buf_line_count()]: https://neovim.io/doc/user/api.html#nvim_buf_line_count()
 func (v *Nvim) BufferLineCount(buffer Buffer) (count int, err error) {
-	err = v.call("nvim_buf_line_count", &count, buffer)
-	return count, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // BufferLineCount gets the buffer line count.
@@ -283,9 +235,7 @@ func (v *Nvim) BufferLineCount(buffer Buffer) (count int, err error) {
 // See: [nvim_buf_line_count()]
 //
 // [nvim_buf_line_count()]: https://neovim.io/doc/user/api.html#nvim_buf_line_count()
-func (b *Batch) BufferLineCount(buffer Buffer, count *int) {
-	b.call("nvim_buf_line_count", count, buffer)
-}
+func (b *Batch) BufferLineCount(buffer Buffer, count *int) { _ = "STUB: not implemented"; return }
 
 // AttachBuffer activates buffer-update events on a channel.
 //
@@ -301,8 +251,8 @@ func (b *Batch) BufferLineCount(buffer Buffer, count *int) {
 //
 // [nvim_buf_attach()]: https://neovim.io/doc/user/api.html#nvim_buf_attach()
 func (v *Nvim) AttachBuffer(buffer Buffer, sendBuffer bool, opts map[string]any) (attached bool, err error) {
-	err = v.call("nvim_buf_attach", &attached, buffer, sendBuffer, opts)
-	return attached, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // AttachBuffer activates buffer-update events on a channel.
@@ -319,7 +269,8 @@ func (v *Nvim) AttachBuffer(buffer Buffer, sendBuffer bool, opts map[string]any)
 //
 // [nvim_buf_attach()]: https://neovim.io/doc/user/api.html#nvim_buf_attach()
 func (b *Batch) AttachBuffer(buffer Buffer, sendBuffer bool, opts map[string]any, attached *bool) {
-	b.call("nvim_buf_attach", attached, buffer, sendBuffer, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DetachBuffer deactivate updates from this buffer to the current channel.
@@ -330,8 +281,8 @@ func (b *Batch) AttachBuffer(buffer Buffer, sendBuffer bool, opts map[string]any
 //
 // [nvim_buf_detach()]: https://neovim.io/doc/user/api.html#nvim_buf_detach()
 func (v *Nvim) DetachBuffer(buffer Buffer) (detached bool, err error) {
-	err = v.call("nvim_buf_detach", &detached, buffer)
-	return detached, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // DetachBuffer deactivate updates from this buffer to the current channel.
@@ -341,9 +292,7 @@ func (v *Nvim) DetachBuffer(buffer Buffer) (detached bool, err error) {
 // See: [nvim_buf_detach()]
 //
 // [nvim_buf_detach()]: https://neovim.io/doc/user/api.html#nvim_buf_detach()
-func (b *Batch) DetachBuffer(buffer Buffer, detached *bool) {
-	b.call("nvim_buf_detach", detached, buffer)
-}
+func (b *Batch) DetachBuffer(buffer Buffer, detached *bool) { _ = "STUB: not implemented"; return }
 
 // BufferLines gets a line-range from the buffer.
 //
@@ -357,8 +306,8 @@ func (b *Batch) DetachBuffer(buffer Buffer, detached *bool) {
 //
 // [nvim_buf_get_lines()]: https://neovim.io/doc/user/api.html#nvim_buf_get_lines()
 func (v *Nvim) BufferLines(buffer Buffer, start int, end int, strictIndexing bool) (lines [][]byte, err error) {
-	err = v.call("nvim_buf_get_lines", &lines, buffer, start, end, strictIndexing)
-	return lines, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // BufferLines gets a line-range from the buffer.
@@ -373,7 +322,8 @@ func (v *Nvim) BufferLines(buffer Buffer, start int, end int, strictIndexing boo
 //
 // [nvim_buf_get_lines()]: https://neovim.io/doc/user/api.html#nvim_buf_get_lines()
 func (b *Batch) BufferLines(buffer Buffer, start int, end int, strictIndexing bool, lines *[][]byte) {
-	b.call("nvim_buf_get_lines", lines, buffer, start, end, strictIndexing)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferLines sets or replaces a line-range in the buffer.
@@ -393,7 +343,8 @@ func (b *Batch) BufferLines(buffer Buffer, start int, end int, strictIndexing bo
 //
 // [nvim_buf_set_lines()]: https://neovim.io/doc/user/api.html#nvim_buf_set_lines()
 func (v *Nvim) SetBufferLines(buffer Buffer, start int, end int, strictIndexing bool, replacement [][]byte) error {
-	return v.call("nvim_buf_set_lines", nil, buffer, start, end, strictIndexing, replacement)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetBufferLines sets or replaces a line-range in the buffer.
@@ -413,7 +364,8 @@ func (v *Nvim) SetBufferLines(buffer Buffer, start int, end int, strictIndexing 
 //
 // [nvim_buf_set_lines()]: https://neovim.io/doc/user/api.html#nvim_buf_set_lines()
 func (b *Batch) SetBufferLines(buffer Buffer, start int, end int, strictIndexing bool, replacement [][]byte) {
-	b.call("nvim_buf_set_lines", nil, buffer, start, end, strictIndexing, replacement)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferText sets or replaces a range in the buffer.
@@ -434,7 +386,8 @@ func (b *Batch) SetBufferLines(buffer Buffer, start int, end int, strictIndexing
 //
 // [nvim_buf_set_text()]: https://neovim.io/doc/user/api.html#nvim_buf_set_text()
 func (v *Nvim) SetBufferText(buffer Buffer, startRow int, startCol int, endRow int, endCol int, replacement [][]byte) error {
-	return v.call("nvim_buf_set_text", nil, buffer, startRow, startCol, endRow, endCol, replacement)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetBufferText sets or replaces a range in the buffer.
@@ -455,7 +408,8 @@ func (v *Nvim) SetBufferText(buffer Buffer, startRow int, startCol int, endRow i
 //
 // [nvim_buf_set_text()]: https://neovim.io/doc/user/api.html#nvim_buf_set_text()
 func (b *Batch) SetBufferText(buffer Buffer, startRow int, startCol int, endRow int, endCol int, replacement [][]byte) {
-	b.call("nvim_buf_set_text", nil, buffer, startRow, startCol, endRow, endCol, replacement)
+	_ = "STUB: not implemented"
+	return
 }
 
 // BufferText gets a range from the buffer.
@@ -473,9 +427,8 @@ func (b *Batch) SetBufferText(buffer Buffer, startRow int, startCol int, endRow 
 //
 // [nvim_buf_get_text()]: https://neovim.io/doc/user/api.html#nvim_buf_get_text()
 func (v *Nvim) BufferText(buffer Buffer, startRow int, startCol int, endRow int, endCol int, opts map[string]any) ([][]byte, error) {
-	var result [][]byte
-	err := v.call("nvim_buf_get_text", &result, buffer, startRow, startCol, endRow, endCol, opts)
-	return result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // BufferText gets a range from the buffer.
@@ -493,7 +446,8 @@ func (v *Nvim) BufferText(buffer Buffer, startRow int, startCol int, endRow int,
 //
 // [nvim_buf_get_text()]: https://neovim.io/doc/user/api.html#nvim_buf_get_text()
 func (b *Batch) BufferText(buffer Buffer, startRow int, startCol int, endRow int, endCol int, opts map[string]any, result *[][]byte) {
-	b.call("nvim_buf_get_text", result, buffer, startRow, startCol, endRow, endCol, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // BufferOffset returns the byte offset of a line (0-indexed).
@@ -512,8 +466,8 @@ func (b *Batch) BufferText(buffer Buffer, startRow int, startCol int, endRow int
 //
 // [nvim_buf_get_offset()]: https://neovim.io/doc/user/api.html#nvim_buf_get_offset()
 func (v *Nvim) BufferOffset(buffer Buffer, index int) (offset int, err error) {
-	err = v.call("nvim_buf_get_offset", &offset, buffer, index)
-	return offset, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // BufferOffset returns the byte offset of a line (0-indexed).
@@ -532,7 +486,8 @@ func (v *Nvim) BufferOffset(buffer Buffer, index int) (offset int, err error) {
 //
 // [nvim_buf_get_offset()]: https://neovim.io/doc/user/api.html#nvim_buf_get_offset()
 func (b *Batch) BufferOffset(buffer Buffer, index int, offset *int) {
-	b.call("nvim_buf_get_offset", offset, buffer, index)
+	_ = "STUB: not implemented"
+	return
 }
 
 // BufferVar gets a buffer-scoped (b:) variable.
@@ -541,7 +496,8 @@ func (b *Batch) BufferOffset(buffer Buffer, index int, offset *int) {
 //
 // [nvim_buf_get_var()]: https://neovim.io/doc/user/api.html#nvim_buf_get_var()
 func (v *Nvim) BufferVar(buffer Buffer, name string, result any) error {
-	return v.call("nvim_buf_get_var", result, buffer, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // BufferVar gets a buffer-scoped (b:) variable.
@@ -550,7 +506,8 @@ func (v *Nvim) BufferVar(buffer Buffer, name string, result any) error {
 //
 // [nvim_buf_get_var()]: https://neovim.io/doc/user/api.html#nvim_buf_get_var()
 func (b *Batch) BufferVar(buffer Buffer, name string, result any) {
-	b.call("nvim_buf_get_var", &result, buffer, name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // BufferChangedTick gets a changed tick of a buffer.
@@ -559,8 +516,8 @@ func (b *Batch) BufferVar(buffer Buffer, name string, result any) {
 //
 // [nvim_buf_get_changedtick()]: https://neovim.io/doc/user/api.html#nvim_buf_get_changedtick()
 func (v *Nvim) BufferChangedTick(buffer Buffer) (changedtick int, err error) {
-	err = v.call("nvim_buf_get_changedtick", &changedtick, buffer)
-	return changedtick, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // BufferChangedTick gets a changed tick of a buffer.
@@ -569,7 +526,8 @@ func (v *Nvim) BufferChangedTick(buffer Buffer) (changedtick int, err error) {
 //
 // [nvim_buf_get_changedtick()]: https://neovim.io/doc/user/api.html#nvim_buf_get_changedtick()
 func (b *Batch) BufferChangedTick(buffer Buffer, changedtick *int) {
-	b.call("nvim_buf_get_changedtick", changedtick, buffer)
+	_ = "STUB: not implemented"
+	return
 }
 
 // BufferKeymap gets a list of buffer-local mapping definitions.
@@ -580,9 +538,8 @@ func (b *Batch) BufferChangedTick(buffer Buffer, changedtick *int) {
 //
 // [nvim_buf_get_keymap()]: https://neovim.io/doc/user/api.html#nvim_buf_get_keymap()
 func (v *Nvim) BufferKeyMap(buffer Buffer, mode string) ([]*Mapping, error) {
-	var result []*Mapping
-	err := v.call("nvim_buf_get_keymap", &result, buffer, mode)
-	return result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // BufferKeymap gets a list of buffer-local mapping definitions.
@@ -593,7 +550,8 @@ func (v *Nvim) BufferKeyMap(buffer Buffer, mode string) ([]*Mapping, error) {
 //
 // [nvim_buf_get_keymap()]: https://neovim.io/doc/user/api.html#nvim_buf_get_keymap()
 func (b *Batch) BufferKeyMap(buffer Buffer, mode string, result *[]*Mapping) {
-	b.call("nvim_buf_get_keymap", result, buffer, mode)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferKeyMap sets a buffer-local mapping for the given mode.
@@ -602,7 +560,8 @@ func (b *Batch) BufferKeyMap(buffer Buffer, mode string, result *[]*Mapping) {
 //
 // [nvim_buf_set_keymap()]: https://neovim.io/doc/user/api.html#nvim_buf_set_keymap()
 func (v *Nvim) SetBufferKeyMap(buffer Buffer, mode string, lhs string, rhs string, opts map[string]bool) error {
-	return v.call("nvim_buf_set_keymap", nil, buffer, mode, lhs, rhs, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetBufferKeyMap sets a buffer-local mapping for the given mode.
@@ -611,7 +570,8 @@ func (v *Nvim) SetBufferKeyMap(buffer Buffer, mode string, lhs string, rhs strin
 //
 // [nvim_buf_set_keymap()]: https://neovim.io/doc/user/api.html#nvim_buf_set_keymap()
 func (b *Batch) SetBufferKeyMap(buffer Buffer, mode string, lhs string, rhs string, opts map[string]bool) {
-	b.call("nvim_buf_set_keymap", nil, buffer, mode, lhs, rhs, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteBufferKeyMap unmaps a buffer-local mapping for the given mode.
@@ -620,7 +580,8 @@ func (b *Batch) SetBufferKeyMap(buffer Buffer, mode string, lhs string, rhs stri
 //
 // [nvim_buf_del_keymap()]: https://neovim.io/doc/user/api.html#nvim_buf_del_keymap()
 func (v *Nvim) DeleteBufferKeyMap(buffer Buffer, mode string, lhs string) error {
-	return v.call("nvim_buf_del_keymap", nil, buffer, mode, lhs)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteBufferKeyMap unmaps a buffer-local mapping for the given mode.
@@ -629,7 +590,8 @@ func (v *Nvim) DeleteBufferKeyMap(buffer Buffer, mode string, lhs string) error 
 //
 // [nvim_buf_del_keymap()]: https://neovim.io/doc/user/api.html#nvim_buf_del_keymap()
 func (b *Batch) DeleteBufferKeyMap(buffer Buffer, mode string, lhs string) {
-	b.call("nvim_buf_del_keymap", nil, buffer, mode, lhs)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferVar sets a buffer-scoped (b:) variable.
@@ -638,7 +600,8 @@ func (b *Batch) DeleteBufferKeyMap(buffer Buffer, mode string, lhs string) {
 //
 // [nvim_buf_set_var()]: https://neovim.io/doc/user/api.html#nvim_buf_set_var()
 func (v *Nvim) SetBufferVar(buffer Buffer, name string, value any) error {
-	return v.call("nvim_buf_set_var", nil, buffer, name, value)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetBufferVar sets a buffer-scoped (b:) variable.
@@ -647,7 +610,8 @@ func (v *Nvim) SetBufferVar(buffer Buffer, name string, value any) error {
 //
 // [nvim_buf_set_var()]: https://neovim.io/doc/user/api.html#nvim_buf_set_var()
 func (b *Batch) SetBufferVar(buffer Buffer, name string, value any) {
-	b.call("nvim_buf_set_var", nil, buffer, name, value)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteBufferVar removes a buffer-scoped (b:) variable.
@@ -656,7 +620,8 @@ func (b *Batch) SetBufferVar(buffer Buffer, name string, value any) {
 //
 // [nvim_buf_del_var()]: https://neovim.io/doc/user/api.html#nvim_buf_del_var()
 func (v *Nvim) DeleteBufferVar(buffer Buffer, name string) error {
-	return v.call("nvim_buf_del_var", nil, buffer, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteBufferVar removes a buffer-scoped (b:) variable.
@@ -664,9 +629,7 @@ func (v *Nvim) DeleteBufferVar(buffer Buffer, name string) error {
 // See: [nvim_buf_del_var()]
 //
 // [nvim_buf_del_var()]: https://neovim.io/doc/user/api.html#nvim_buf_del_var()
-func (b *Batch) DeleteBufferVar(buffer Buffer, name string) {
-	b.call("nvim_buf_del_var", nil, buffer, name)
-}
+func (b *Batch) DeleteBufferVar(buffer Buffer, name string) { _ = "STUB: not implemented"; return }
 
 // BufferName gets the full file name for the buffer.
 //
@@ -674,8 +637,8 @@ func (b *Batch) DeleteBufferVar(buffer Buffer, name string) {
 //
 // [nvim_buf_get_name()]: https://neovim.io/doc/user/api.html#nvim_buf_get_name()
 func (v *Nvim) BufferName(buffer Buffer) (name string, err error) {
-	err = v.call("nvim_buf_get_name", &name, buffer)
-	return name, err
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // BufferName gets the full file name for the buffer.
@@ -683,9 +646,7 @@ func (v *Nvim) BufferName(buffer Buffer) (name string, err error) {
 // See: [nvim_buf_get_name()]
 //
 // [nvim_buf_get_name()]: https://neovim.io/doc/user/api.html#nvim_buf_get_name()
-func (b *Batch) BufferName(buffer Buffer, name *string) {
-	b.call("nvim_buf_get_name", name, buffer)
-}
+func (b *Batch) BufferName(buffer Buffer, name *string) { _ = "STUB: not implemented"; return }
 
 // SetBufferName sets the full file name for a buffer.
 //
@@ -693,7 +654,8 @@ func (b *Batch) BufferName(buffer Buffer, name *string) {
 //
 // [nvim_buf_set_name()]: https://neovim.io/doc/user/api.html#nvim_buf_set_name()
 func (v *Nvim) SetBufferName(buffer Buffer, name string) error {
-	return v.call("nvim_buf_set_name", nil, buffer, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetBufferName sets the full file name for a buffer.
@@ -701,9 +663,7 @@ func (v *Nvim) SetBufferName(buffer Buffer, name string) error {
 // See: [nvim_buf_set_name()]
 //
 // [nvim_buf_set_name()]: https://neovim.io/doc/user/api.html#nvim_buf_set_name()
-func (b *Batch) SetBufferName(buffer Buffer, name string) {
-	b.call("nvim_buf_set_name", nil, buffer, name)
-}
+func (b *Batch) SetBufferName(buffer Buffer, name string) { _ = "STUB: not implemented"; return }
 
 // IsBufferLoaded checks if a buffer is valid and loaded.
 //
@@ -713,8 +673,8 @@ func (b *Batch) SetBufferName(buffer Buffer, name string) {
 //
 // [nvim_buf_is_loaded()]: https://neovim.io/doc/user/api.html#nvim_buf_is_loaded()
 func (v *Nvim) IsBufferLoaded(buffer Buffer) (loaded bool, err error) {
-	err = v.call("nvim_buf_is_loaded", &loaded, buffer)
-	return loaded, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // IsBufferLoaded checks if a buffer is valid and loaded.
@@ -724,9 +684,7 @@ func (v *Nvim) IsBufferLoaded(buffer Buffer) (loaded bool, err error) {
 // See: [nvim_buf_is_loaded()]
 //
 // [nvim_buf_is_loaded()]: https://neovim.io/doc/user/api.html#nvim_buf_is_loaded()
-func (b *Batch) IsBufferLoaded(buffer Buffer, loaded *bool) {
-	b.call("nvim_buf_is_loaded", loaded, buffer)
-}
+func (b *Batch) IsBufferLoaded(buffer Buffer, loaded *bool) { _ = "STUB: not implemented"; return }
 
 // DeleteBuffer deletes the buffer.
 // See
@@ -747,7 +705,8 @@ func (b *Batch) IsBufferLoaded(buffer Buffer, loaded *bool) {
 //
 // [nvim_buf_delete()]: https://neovim.io/doc/user/api.html#nvim_buf_delete()
 func (v *Nvim) DeleteBuffer(buffer Buffer, opts map[string]bool) error {
-	return v.call("nvim_buf_delete", nil, buffer, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteBuffer deletes the buffer.
@@ -769,7 +728,8 @@ func (v *Nvim) DeleteBuffer(buffer Buffer, opts map[string]bool) error {
 //
 // [nvim_buf_delete()]: https://neovim.io/doc/user/api.html#nvim_buf_delete()
 func (b *Batch) DeleteBuffer(buffer Buffer, opts map[string]bool) {
-	b.call("nvim_buf_delete", nil, buffer, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // IsBufferValid returns whether the buffer is valid.
@@ -781,8 +741,8 @@ func (b *Batch) DeleteBuffer(buffer Buffer, opts map[string]bool) {
 //
 // [nvim_buf_is_valid()]: https://neovim.io/doc/user/api.html#nvim_buf_is_valid()
 func (v *Nvim) IsBufferValid(buffer Buffer) (valid bool, err error) {
-	err = v.call("nvim_buf_is_valid", &valid, buffer)
-	return valid, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // IsBufferValid returns whether the buffer is valid.
@@ -793,9 +753,7 @@ func (v *Nvim) IsBufferValid(buffer Buffer) (valid bool, err error) {
 // See: [nvim_buf_is_valid()]
 //
 // [nvim_buf_is_valid()]: https://neovim.io/doc/user/api.html#nvim_buf_is_valid()
-func (b *Batch) IsBufferValid(buffer Buffer, valid *bool) {
-	b.call("nvim_buf_is_valid", valid, buffer)
-}
+func (b *Batch) IsBufferValid(buffer Buffer, valid *bool) { _ = "STUB: not implemented"; return }
 
 // DeleteBufferMark deletes a named mark in the buffer.
 // See |help mark-motions|.
@@ -804,8 +762,8 @@ func (b *Batch) IsBufferValid(buffer Buffer, valid *bool) {
 //
 // [nvim_buf_del_mark()]: https://neovim.io/doc/user/api.html#nvim_buf_del_mark()
 func (v *Nvim) DeleteBufferMark(buffer Buffer, name string) (deleted bool, err error) {
-	err = v.call("nvim_buf_del_mark", &deleted, buffer, name)
-	return deleted, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // DeleteBufferMark deletes a named mark in the buffer.
@@ -815,7 +773,8 @@ func (v *Nvim) DeleteBufferMark(buffer Buffer, name string) (deleted bool, err e
 //
 // [nvim_buf_del_mark()]: https://neovim.io/doc/user/api.html#nvim_buf_del_mark()
 func (b *Batch) DeleteBufferMark(buffer Buffer, name string, deleted *bool) {
-	b.call("nvim_buf_del_mark", deleted, buffer, name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferMark sets a named mark in the given buffer, all marks are allowed
@@ -830,8 +789,8 @@ func (b *Batch) DeleteBufferMark(buffer Buffer, name string, deleted *bool) {
 //
 // [nvim_buf_set_mark()]: https://neovim.io/doc/user/api.html#nvim_buf_set_mark()
 func (v *Nvim) SetBufferMark(buffer Buffer, name string, line int, col int, opts map[string]any) (set bool, err error) {
-	err = v.call("nvim_buf_set_mark", &set, buffer, name, line, col, opts)
-	return set, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // SetBufferMark sets a named mark in the given buffer, all marks are allowed
@@ -846,7 +805,8 @@ func (v *Nvim) SetBufferMark(buffer Buffer, name string, line int, col int, opts
 //
 // [nvim_buf_set_mark()]: https://neovim.io/doc/user/api.html#nvim_buf_set_mark()
 func (b *Batch) SetBufferMark(buffer Buffer, name string, line int, col int, opts map[string]any, set *bool) {
-	b.call("nvim_buf_set_mark", set, buffer, name, line, col, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // BufferMark return a tuple (row,col) representing the position of the named mark.
@@ -857,8 +817,8 @@ func (b *Batch) SetBufferMark(buffer Buffer, name string, line int, col int, opt
 //
 // [nvim_buf_get_mark()]: https://neovim.io/doc/user/api.html#nvim_buf_get_mark()
 func (v *Nvim) BufferMark(buffer Buffer, name string) (pos [2]int, err error) {
-	err = v.call("nvim_buf_get_mark", &pos, buffer, name)
-	return pos, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // BufferMark return a tuple (row,col) representing the position of the named mark.
@@ -869,7 +829,8 @@ func (v *Nvim) BufferMark(buffer Buffer, name string) (pos [2]int, err error) {
 //
 // [nvim_buf_get_mark()]: https://neovim.io/doc/user/api.html#nvim_buf_get_mark()
 func (b *Batch) BufferMark(buffer Buffer, name string, pos *[2]int) {
-	b.call("nvim_buf_get_mark", pos, buffer, name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // ParseCmd parse command line.
@@ -1033,9 +994,8 @@ func (b *Batch) BufferMark(buffer Buffer, name string, pos *[2]int) {
 //
 // [nvim_parse_cmd()]: https://neovim.io/doc/user/api.html#nvim_parse_cmd()
 func (v *Nvim) ParseCmd(str string, opts map[string]any) (cmd *Cmd, err error) {
-	var result Cmd
-	err = v.call("nvim_parse_cmd", &result, str, opts)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ParseCmd parse command line.
@@ -1199,7 +1159,8 @@ func (v *Nvim) ParseCmd(str string, opts map[string]any) (cmd *Cmd, err error) {
 //
 // [nvim_parse_cmd()]: https://neovim.io/doc/user/api.html#nvim_parse_cmd()
 func (b *Batch) ParseCmd(str string, opts map[string]any, cmd *Cmd) {
-	b.call("nvim_parse_cmd", cmd, str, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Cmd executes an Ex command.
@@ -1226,8 +1187,8 @@ func (b *Batch) ParseCmd(str string, opts map[string]any, cmd *Cmd) {
 //
 // [nvim_cmd()]: https://neovim.io/doc/user/api.html#nvim_cmd()
 func (v *Nvim) Cmd(cmd *Cmd, opts map[string]bool) (output string, err error) {
-	err = v.call("nvim_cmd", &output, cmd, opts)
-	return output, err
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // Cmd executes an Ex command.
@@ -1254,7 +1215,8 @@ func (v *Nvim) Cmd(cmd *Cmd, opts map[string]bool) (output string, err error) {
 //
 // [nvim_cmd()]: https://neovim.io/doc/user/api.html#nvim_cmd()
 func (b *Batch) Cmd(cmd *Cmd, opts map[string]bool, output *string) {
-	b.call("nvim_cmd", output, cmd, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // CreateUserCommand create a new user command.
@@ -1282,7 +1244,8 @@ func (b *Batch) Cmd(cmd *Cmd, opts map[string]bool, output *string) {
 //
 // [nvim_create_user_command()]: https://neovim.io/doc/user/api.html#nvim_create_user_command()
 func (v *Nvim) CreateUserCommand(name string, command UserCommand, opts map[string]any) error {
-	return v.call("nvim_create_user_command", nil, name, command, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CreateUserCommand create a new user command.
@@ -1310,7 +1273,8 @@ func (v *Nvim) CreateUserCommand(name string, command UserCommand, opts map[stri
 //
 // [nvim_create_user_command()]: https://neovim.io/doc/user/api.html#nvim_create_user_command()
 func (b *Batch) CreateUserCommand(name string, command UserCommand, opts map[string]any) {
-	b.call("nvim_create_user_command", nil, name, command, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteUserCommand delete a user-defined command.
@@ -1318,18 +1282,14 @@ func (b *Batch) CreateUserCommand(name string, command UserCommand, opts map[str
 // See: [nvim_del_user_command()]
 //
 // [nvim_del_user_command()]: https://neovim.io/doc/user/api.html#nvim_del_user_command()
-func (v *Nvim) DeleteUserCommand(name string) error {
-	return v.call("nvim_del_user_command", nil, name)
-}
+func (v *Nvim) DeleteUserCommand(name string) error { _ = "STUB: not implemented"; return nil }
 
 // DeleteUserCommand delete a user-defined command.
 //
 // See: [nvim_del_user_command()]
 //
 // [nvim_del_user_command()]: https://neovim.io/doc/user/api.html#nvim_del_user_command()
-func (b *Batch) DeleteUserCommand(name string) {
-	b.call("nvim_del_user_command", nil, name)
-}
+func (b *Batch) DeleteUserCommand(name string) { _ = "STUB: not implemented"; return }
 
 // CreateBufferUserCommand create a new user command |user-commands| in the given buffer.
 //
@@ -1339,7 +1299,8 @@ func (b *Batch) DeleteUserCommand(name string) {
 //
 // [nvim_buf_create_user_command()]: https://neovim.io/doc/user/api.html#nvim_buf_create_user_command()
 func (v *Nvim) CreateBufferUserCommand(buffer Buffer, name string, command UserCommand, opts map[string]any) error {
-	return v.call("nvim_buf_create_user_command", nil, buffer, name, command, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CreateBufferUserCommand create a new user command |user-commands| in the given buffer.
@@ -1350,7 +1311,8 @@ func (v *Nvim) CreateBufferUserCommand(buffer Buffer, name string, command UserC
 //
 // [nvim_buf_create_user_command()]: https://neovim.io/doc/user/api.html#nvim_buf_create_user_command()
 func (b *Batch) CreateBufferUserCommand(buffer Buffer, name string, command UserCommand, opts map[string]any) {
-	b.call("nvim_buf_create_user_command", nil, buffer, name, command, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteBufferUserCommand create a new user command |user-commands| in the given buffer.
@@ -1361,7 +1323,8 @@ func (b *Batch) CreateBufferUserCommand(buffer Buffer, name string, command User
 //
 // [nvim_buf_del_user_command()]: https://neovim.io/doc/user/api.html#nvim_buf_del_user_command()
 func (v *Nvim) DeleteBufferUserCommand(buffer Buffer, name string) error {
-	return v.call("nvim_buf_del_user_command", nil, buffer, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteBufferUserCommand create a new user command |user-commands| in the given buffer.
@@ -1372,7 +1335,8 @@ func (v *Nvim) DeleteBufferUserCommand(buffer Buffer, name string) error {
 //
 // [nvim_buf_del_user_command()]: https://neovim.io/doc/user/api.html#nvim_buf_del_user_command()
 func (b *Batch) DeleteBufferUserCommand(buffer Buffer, name string) {
-	b.call("nvim_buf_del_user_command", nil, buffer, name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Commands gets a map of global (non-buffer-local) Ex commands.
@@ -1386,8 +1350,8 @@ func (b *Batch) DeleteBufferUserCommand(buffer Buffer, name string) {
 //
 // [nvim_get_commands()]: https://neovim.io/doc/user/api.html#nvim_get_commands()
 func (v *Nvim) Commands(opts map[string]any) (commands map[string]*Command, err error) {
-	err = v.call("nvim_get_commands", &commands, opts)
-	return commands, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Commands gets a map of global (non-buffer-local) Ex commands.
@@ -1401,7 +1365,8 @@ func (v *Nvim) Commands(opts map[string]any) (commands map[string]*Command, err 
 //
 // [nvim_get_commands()]: https://neovim.io/doc/user/api.html#nvim_get_commands()
 func (b *Batch) Commands(opts map[string]any, commands *map[string]*Command) {
-	b.call("nvim_get_commands", commands, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // BufferCommands gets a map of buffer-local user-commands.
@@ -1412,9 +1377,8 @@ func (b *Batch) Commands(opts map[string]any, commands *map[string]*Command) {
 //
 // [nvim_buf_get_commands()]: https://neovim.io/doc/user/api.html#nvim_buf_get_commands()
 func (v *Nvim) BufferCommands(buffer Buffer, opts map[string]any) (map[string]*Command, error) {
-	var result map[string]*Command
-	err := v.call("nvim_buf_get_commands", &result, buffer, opts)
-	return result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // BufferCommands gets a map of buffer-local user-commands.
@@ -1425,7 +1389,8 @@ func (v *Nvim) BufferCommands(buffer Buffer, opts map[string]any) (map[string]*C
 //
 // [nvim_buf_get_commands()]: https://neovim.io/doc/user/api.html#nvim_buf_get_commands()
 func (b *Batch) BufferCommands(buffer Buffer, opts map[string]any, result *map[string]*Command) {
-	b.call("nvim_buf_get_commands", result, buffer, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // TabpageWindows gets the windows in a tabpage.
@@ -1434,8 +1399,8 @@ func (b *Batch) BufferCommands(buffer Buffer, opts map[string]any, result *map[s
 //
 // [nvim_tabpage_list_wins()]: https://neovim.io/doc/user/api.html#nvim_tabpage_list_wins()
 func (v *Nvim) TabpageWindows(tabpage Tabpage) (windows []Window, err error) {
-	err = v.call("nvim_tabpage_list_wins", &windows, tabpage)
-	return windows, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // TabpageWindows gets the windows in a tabpage.
@@ -1444,7 +1409,8 @@ func (v *Nvim) TabpageWindows(tabpage Tabpage) (windows []Window, err error) {
 //
 // [nvim_tabpage_list_wins()]: https://neovim.io/doc/user/api.html#nvim_tabpage_list_wins()
 func (b *Batch) TabpageWindows(tabpage Tabpage, windows *[]Window) {
-	b.call("nvim_tabpage_list_wins", windows, tabpage)
+	_ = "STUB: not implemented"
+	return
 }
 
 // TabpageVar gets a tab-scoped (t:) variable.
@@ -1453,7 +1419,8 @@ func (b *Batch) TabpageWindows(tabpage Tabpage, windows *[]Window) {
 //
 // [nvim_tabpage_get_var()]: https://neovim.io/doc/user/api.html#nvim_tabpage_get_var()
 func (v *Nvim) TabpageVar(tabpage Tabpage, name string, result any) error {
-	return v.call("nvim_tabpage_get_var", result, tabpage, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // TabpageVar gets a tab-scoped (t:) variable.
@@ -1462,7 +1429,8 @@ func (v *Nvim) TabpageVar(tabpage Tabpage, name string, result any) error {
 //
 // [nvim_tabpage_get_var()]: https://neovim.io/doc/user/api.html#nvim_tabpage_get_var()
 func (b *Batch) TabpageVar(tabpage Tabpage, name string, result any) {
-	b.call("nvim_tabpage_get_var", &result, tabpage, name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetTabpageVar sets a tab-scoped (t:) variable.
@@ -1471,7 +1439,8 @@ func (b *Batch) TabpageVar(tabpage Tabpage, name string, result any) {
 //
 // [nvim_tabpage_set_var()]: https://neovim.io/doc/user/api.html#nvim_tabpage_set_var()
 func (v *Nvim) SetTabpageVar(tabpage Tabpage, name string, value any) error {
-	return v.call("nvim_tabpage_set_var", nil, tabpage, name, value)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetTabpageVar sets a tab-scoped (t:) variable.
@@ -1480,7 +1449,8 @@ func (v *Nvim) SetTabpageVar(tabpage Tabpage, name string, value any) error {
 //
 // [nvim_tabpage_set_var()]: https://neovim.io/doc/user/api.html#nvim_tabpage_set_var()
 func (b *Batch) SetTabpageVar(tabpage Tabpage, name string, value any) {
-	b.call("nvim_tabpage_set_var", nil, tabpage, name, value)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteTabpageVar removes a tab-scoped (t:) variable.
@@ -1489,7 +1459,8 @@ func (b *Batch) SetTabpageVar(tabpage Tabpage, name string, value any) {
 //
 // [nvim_tabpage_del_var()]: https://neovim.io/doc/user/api.html#nvim_tabpage_del_var()
 func (v *Nvim) DeleteTabpageVar(tabpage Tabpage, name string) error {
-	return v.call("nvim_tabpage_del_var", nil, tabpage, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteTabpageVar removes a tab-scoped (t:) variable.
@@ -1497,9 +1468,7 @@ func (v *Nvim) DeleteTabpageVar(tabpage Tabpage, name string) error {
 // See: [nvim_tabpage_del_var()]
 //
 // [nvim_tabpage_del_var()]: https://neovim.io/doc/user/api.html#nvim_tabpage_del_var()
-func (b *Batch) DeleteTabpageVar(tabpage Tabpage, name string) {
-	b.call("nvim_tabpage_del_var", nil, tabpage, name)
-}
+func (b *Batch) DeleteTabpageVar(tabpage Tabpage, name string) { _ = "STUB: not implemented"; return }
 
 // TabpageWindow gets the current window in a tabpage.
 //
@@ -1507,9 +1476,8 @@ func (b *Batch) DeleteTabpageVar(tabpage Tabpage, name string) {
 //
 // [nvim_tabpage_get_win()]: https://neovim.io/doc/user/api.html#nvim_tabpage_get_win()
 func (v *Nvim) TabpageWindow(tabpage Tabpage) (Window, error) {
-	var result Window
-	err := v.call("nvim_tabpage_get_win", &result, tabpage)
-	return result, err
+	_ = "STUB: not implemented"
+	return *new(Window), nil
 }
 
 // TabpageWindow gets the current window in a tabpage.
@@ -1517,9 +1485,7 @@ func (v *Nvim) TabpageWindow(tabpage Tabpage) (Window, error) {
 // See: [nvim_tabpage_get_win()]
 //
 // [nvim_tabpage_get_win()]: https://neovim.io/doc/user/api.html#nvim_tabpage_get_win()
-func (b *Batch) TabpageWindow(tabpage Tabpage, result *Window) {
-	b.call("nvim_tabpage_get_win", result, tabpage)
-}
+func (b *Batch) TabpageWindow(tabpage Tabpage, result *Window) { _ = "STUB: not implemented"; return }
 
 // TabpageNumber gets the tabpage number.
 //
@@ -1527,8 +1493,8 @@ func (b *Batch) TabpageWindow(tabpage Tabpage, result *Window) {
 //
 // [nvim_tabpage_get_number()]: https://neovim.io/doc/user/api.html#nvim_tabpage_get_number()
 func (v *Nvim) TabpageNumber(tabpage Tabpage) (number int, err error) {
-	err = v.call("nvim_tabpage_get_number", &number, tabpage)
-	return number, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // TabpageNumber gets the tabpage number.
@@ -1536,9 +1502,7 @@ func (v *Nvim) TabpageNumber(tabpage Tabpage) (number int, err error) {
 // See: [nvim_tabpage_get_number()]
 //
 // [nvim_tabpage_get_number()]: https://neovim.io/doc/user/api.html#nvim_tabpage_get_number()
-func (b *Batch) TabpageNumber(tabpage Tabpage, number *int) {
-	b.call("nvim_tabpage_get_number", number, tabpage)
-}
+func (b *Batch) TabpageNumber(tabpage Tabpage, number *int) { _ = "STUB: not implemented"; return }
 
 // IsTabpageValid checks if a tabpage is valid.
 //
@@ -1546,8 +1510,8 @@ func (b *Batch) TabpageNumber(tabpage Tabpage, number *int) {
 //
 // [nvim_tabpage_is_valid()]: https://neovim.io/doc/user/api.html#nvim_tabpage_is_valid()
 func (v *Nvim) IsTabpageValid(tabpage Tabpage) (valid bool, err error) {
-	err = v.call("nvim_tabpage_is_valid", &valid, tabpage)
-	return valid, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // IsTabpageValid checks if a tabpage is valid.
@@ -1555,9 +1519,7 @@ func (v *Nvim) IsTabpageValid(tabpage Tabpage) (valid bool, err error) {
 // See: [nvim_tabpage_is_valid()]
 //
 // [nvim_tabpage_is_valid()]: https://neovim.io/doc/user/api.html#nvim_tabpage_is_valid()
-func (b *Batch) IsTabpageValid(tabpage Tabpage, valid *bool) {
-	b.call("nvim_tabpage_is_valid", valid, tabpage)
-}
+func (b *Batch) IsTabpageValid(tabpage Tabpage, valid *bool) { _ = "STUB: not implemented"; return }
 
 // CreateNamespace creates a new namespace, or gets an existing one.
 //
@@ -1574,8 +1536,8 @@ func (b *Batch) IsTabpageValid(tabpage Tabpage, valid *bool) {
 //
 // [nvim_create_namespace()]: https://neovim.io/doc/user/api.html#nvim_create_namespace()
 func (v *Nvim) CreateNamespace(name string) (nsID int, err error) {
-	err = v.call("nvim_create_namespace", &nsID, name)
-	return nsID, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // CreateNamespace creates a new namespace, or gets an existing one.
@@ -1592,9 +1554,7 @@ func (v *Nvim) CreateNamespace(name string) (nsID int, err error) {
 // See: [nvim_create_namespace()]
 //
 // [nvim_create_namespace()]: https://neovim.io/doc/user/api.html#nvim_create_namespace()
-func (b *Batch) CreateNamespace(name string, nsID *int) {
-	b.call("nvim_create_namespace", nsID, name)
-}
+func (b *Batch) CreateNamespace(name string, nsID *int) { _ = "STUB: not implemented"; return }
 
 // BufferExtmarkByID beturns position for a given extmark id.
 //
@@ -1608,8 +1568,8 @@ func (b *Batch) CreateNamespace(name string, nsID *int) {
 //
 // [nvim_buf_get_extmark_by_id()]: https://neovim.io/doc/user/api.html#nvim_buf_get_extmark_by_id()
 func (v *Nvim) BufferExtmarkByID(buffer Buffer, nsID int, id int, opt map[string]any) (pos []int, err error) {
-	err = v.call("nvim_buf_get_extmark_by_id", &pos, buffer, nsID, id, opt)
-	return pos, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // BufferExtmarkByID beturns position for a given extmark id.
@@ -1624,7 +1584,8 @@ func (v *Nvim) BufferExtmarkByID(buffer Buffer, nsID int, id int, opt map[string
 //
 // [nvim_buf_get_extmark_by_id()]: https://neovim.io/doc/user/api.html#nvim_buf_get_extmark_by_id()
 func (b *Batch) BufferExtmarkByID(buffer Buffer, nsID int, id int, opt map[string]any, pos *[]int) {
-	b.call("nvim_buf_get_extmark_by_id", pos, buffer, nsID, id, opt)
+	_ = "STUB: not implemented"
+	return
 }
 
 // BufferExtmarks gets extmarks in "traversal order" from a |charwise| region defined by
@@ -1657,8 +1618,8 @@ func (b *Batch) BufferExtmarkByID(buffer Buffer, nsID int, id int, opt map[strin
 //
 // [nvim_buf_get_extmarks()]: https://neovim.io/doc/user/api.html#nvim_buf_get_extmarks()
 func (v *Nvim) BufferExtmarks(buffer Buffer, nsID int, start any, end any, opt map[string]any) (marks []ExtMark, err error) {
-	err = v.call("nvim_buf_get_extmarks", &marks, buffer, nsID, start, end, opt)
-	return marks, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // BufferExtmarks gets extmarks in "traversal order" from a |charwise| region defined by
@@ -1691,7 +1652,8 @@ func (v *Nvim) BufferExtmarks(buffer Buffer, nsID int, start any, end any, opt m
 //
 // [nvim_buf_get_extmarks()]: https://neovim.io/doc/user/api.html#nvim_buf_get_extmarks()
 func (b *Batch) BufferExtmarks(buffer Buffer, nsID int, start any, end any, opt map[string]any, marks *[]ExtMark) {
-	b.call("nvim_buf_get_extmarks", marks, buffer, nsID, start, end, opt)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferExtmark creates or updates an extmark.
@@ -1795,8 +1757,8 @@ func (b *Batch) BufferExtmarks(buffer Buffer, nsID int, start any, end any, opt 
 //
 // [nvim_buf_set_extmark()]: https://neovim.io/doc/user/api.html#nvim_buf_set_extmark()
 func (v *Nvim) SetBufferExtmark(buffer Buffer, nsID int, line int, col int, opts map[string]any) (id int, err error) {
-	err = v.call("nvim_buf_set_extmark", &id, buffer, nsID, line, col, opts)
-	return id, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // SetBufferExtmark creates or updates an extmark.
@@ -1900,7 +1862,8 @@ func (v *Nvim) SetBufferExtmark(buffer Buffer, nsID int, line int, col int, opts
 //
 // [nvim_buf_set_extmark()]: https://neovim.io/doc/user/api.html#nvim_buf_set_extmark()
 func (b *Batch) SetBufferExtmark(buffer Buffer, nsID int, line int, col int, opts map[string]any, id *int) {
-	b.call("nvim_buf_set_extmark", id, buffer, nsID, line, col, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteBufferExtmark removes an extmark.
@@ -1911,8 +1874,8 @@ func (b *Batch) SetBufferExtmark(buffer Buffer, nsID int, line int, col int, opt
 //
 // [nvim_buf_del_extmark()]: https://neovim.io/doc/user/api.html#nvim_buf_del_extmark()
 func (v *Nvim) DeleteBufferExtmark(buffer Buffer, nsID int, extmarkID int) (deleted bool, err error) {
-	err = v.call("nvim_buf_del_extmark", &deleted, buffer, nsID, extmarkID)
-	return deleted, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // DeleteBufferExtmark removes an extmark.
@@ -1923,7 +1886,8 @@ func (v *Nvim) DeleteBufferExtmark(buffer Buffer, nsID int, extmarkID int) (dele
 //
 // [nvim_buf_del_extmark()]: https://neovim.io/doc/user/api.html#nvim_buf_del_extmark()
 func (b *Batch) DeleteBufferExtmark(buffer Buffer, nsID int, extmarkID int, deleted *bool) {
-	b.call("nvim_buf_del_extmark", deleted, buffer, nsID, extmarkID)
+	_ = "STUB: not implemented"
+	return
 }
 
 // AddBufferHighlight adds a highlight to buffer.
@@ -1950,8 +1914,8 @@ func (b *Batch) DeleteBufferExtmark(buffer Buffer, nsID int, extmarkID int, dele
 //
 // [nvim_buf_add_highlight()]: https://neovim.io/doc/user/api.html#nvim_buf_add_highlight()
 func (v *Nvim) AddBufferHighlight(buffer Buffer, srcID int, hlGroup string, line int, startCol int, endCol int) (id int, err error) {
-	err = v.call("nvim_buf_add_highlight", &id, buffer, srcID, hlGroup, line, startCol, endCol)
-	return id, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // AddBufferHighlight adds a highlight to buffer.
@@ -1978,7 +1942,8 @@ func (v *Nvim) AddBufferHighlight(buffer Buffer, srcID int, hlGroup string, line
 //
 // [nvim_buf_add_highlight()]: https://neovim.io/doc/user/api.html#nvim_buf_add_highlight()
 func (b *Batch) AddBufferHighlight(buffer Buffer, srcID int, hlGroup string, line int, startCol int, endCol int, id *int) {
-	b.call("nvim_buf_add_highlight", id, buffer, srcID, hlGroup, line, startCol, endCol)
+	_ = "STUB: not implemented"
+	return
 }
 
 // ClearBufferNamespace clears namespaced objects (highlights, extmarks, virtual text) from a region.
@@ -1990,7 +1955,8 @@ func (b *Batch) AddBufferHighlight(buffer Buffer, srcID int, hlGroup string, lin
 //
 // [nvim_buf_clear_namespace()]: https://neovim.io/doc/user/api.html#nvim_buf_clear_namespace()
 func (v *Nvim) ClearBufferNamespace(buffer Buffer, nsID int, lineStart int, lineEnd int) error {
-	return v.call("nvim_buf_clear_namespace", nil, buffer, nsID, lineStart, lineEnd)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ClearBufferNamespace clears namespaced objects (highlights, extmarks, virtual text) from a region.
@@ -2002,7 +1968,8 @@ func (v *Nvim) ClearBufferNamespace(buffer Buffer, nsID int, lineStart int, line
 //
 // [nvim_buf_clear_namespace()]: https://neovim.io/doc/user/api.html#nvim_buf_clear_namespace()
 func (b *Batch) ClearBufferNamespace(buffer Buffer, nsID int, lineStart int, lineEnd int) {
-	b.call("nvim_buf_clear_namespace", nil, buffer, nsID, lineStart, lineEnd)
+	_ = "STUB: not implemented"
+	return
 }
 
 // OptionValue gets the value of an option.
@@ -2025,7 +1992,8 @@ func (b *Batch) ClearBufferNamespace(buffer Buffer, nsID int, lineStart int, lin
 //
 // [nvim_get_option_value()]: https://neovim.io/doc/user/api.html#nvim_get_option_value()
 func (v *Nvim) OptionValue(name string, opts map[string]OptionValueScope, result any) error {
-	return v.call("nvim_get_option_value", result, name, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // OptionValue gets the value of an option.
@@ -2048,7 +2016,8 @@ func (v *Nvim) OptionValue(name string, opts map[string]OptionValueScope, result
 //
 // [nvim_get_option_value()]: https://neovim.io/doc/user/api.html#nvim_get_option_value()
 func (b *Batch) OptionValue(name string, opts map[string]OptionValueScope, result any) {
-	b.call("nvim_get_option_value", &result, name, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetOptionValue sets the value of an option. The behavior of this function matches that of
@@ -2066,7 +2035,8 @@ func (b *Batch) OptionValue(name string, opts map[string]OptionValueScope, resul
 //
 // [nvim_set_option_value()]: https://neovim.io/doc/user/api.html#nvim_set_option_value()
 func (v *Nvim) SetOptionValue(name string, value any, opts map[string]OptionValueScope) error {
-	return v.call("nvim_set_option_value", nil, name, value, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetOptionValue sets the value of an option. The behavior of this function matches that of
@@ -2084,7 +2054,8 @@ func (v *Nvim) SetOptionValue(name string, value any, opts map[string]OptionValu
 //
 // [nvim_set_option_value()]: https://neovim.io/doc/user/api.html#nvim_set_option_value()
 func (b *Batch) SetOptionValue(name string, value any, opts map[string]OptionValueScope) {
-	b.call("nvim_set_option_value", nil, name, value, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // AllOptionsInfo gets the option information for all options.
@@ -2146,9 +2117,8 @@ func (b *Batch) SetOptionValue(name string, value any, opts map[string]OptionVal
 //
 // [nvim_get_all_options_info()]: https://neovim.io/doc/user/api.html#nvim_get_all_options_info()
 func (v *Nvim) AllOptionsInfo() (opinfo *OptionInfo, err error) {
-	var result OptionInfo
-	err = v.call("nvim_get_all_options_info", &result)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // AllOptionsInfo gets the option information for all options.
@@ -2209,9 +2179,7 @@ func (v *Nvim) AllOptionsInfo() (opinfo *OptionInfo, err error) {
 // See: [nvim_get_all_options_info()]
 //
 // [nvim_get_all_options_info()]: https://neovim.io/doc/user/api.html#nvim_get_all_options_info()
-func (b *Batch) AllOptionsInfo(opinfo *OptionInfo) {
-	b.call("nvim_get_all_options_info", opinfo)
-}
+func (b *Batch) AllOptionsInfo(opinfo *OptionInfo) { _ = "STUB: not implemented"; return }
 
 // OptionInfo gets the option information for one option.
 //
@@ -2269,9 +2237,8 @@ func (b *Batch) AllOptionsInfo(opinfo *OptionInfo) {
 //
 // [nvim_get_option_info2()]: https://neovim.io/doc/user/api.html#nvim_get_option_info2()
 func (v *Nvim) OptionInfo(name string, opts map[string]any) (opinfo *OptionInfo, err error) {
-	var result OptionInfo
-	err = v.call("nvim_get_option_info2", &result, name, opts)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // OptionInfo gets the option information for one option.
@@ -2330,7 +2297,8 @@ func (v *Nvim) OptionInfo(name string, opts map[string]any) (opinfo *OptionInfo,
 //
 // [nvim_get_option_info2()]: https://neovim.io/doc/user/api.html#nvim_get_option_info2()
 func (b *Batch) OptionInfo(name string, opts map[string]any, opinfo *OptionInfo) {
-	b.call("nvim_get_option_info2", opinfo, name, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetOption sets an option value.
@@ -2338,36 +2306,28 @@ func (b *Batch) OptionInfo(name string, opts map[string]any, opinfo *OptionInfo)
 // See: [nvim_set_option()]
 //
 // [nvim_set_option()]: https://neovim.io/doc/user/api.html#nvim_set_option()
-func (v *Nvim) SetOption(name string, value any) error {
-	return v.call("nvim_set_option", nil, name, value)
-}
+func (v *Nvim) SetOption(name string, value any) error { _ = "STUB: not implemented"; return nil }
 
 // SetOption sets an option value.
 //
 // See: [nvim_set_option()]
 //
 // [nvim_set_option()]: https://neovim.io/doc/user/api.html#nvim_set_option()
-func (b *Batch) SetOption(name string, value any) {
-	b.call("nvim_set_option", nil, name, value)
-}
+func (b *Batch) SetOption(name string, value any) { _ = "STUB: not implemented"; return }
 
 // Option gets an option value string.
 //
 // See: [nvim_get_option()]
 //
 // [nvim_get_option()]: https://neovim.io/doc/user/api.html#nvim_get_option()
-func (v *Nvim) Option(name string, result any) error {
-	return v.call("nvim_get_option", result, name)
-}
+func (v *Nvim) Option(name string, result any) error { _ = "STUB: not implemented"; return nil }
 
 // Option gets an option value string.
 //
 // See: [nvim_get_option()]
 //
 // [nvim_get_option()]: https://neovim.io/doc/user/api.html#nvim_get_option()
-func (b *Batch) Option(name string, result any) {
-	b.call("nvim_get_option", &result, name)
-}
+func (b *Batch) Option(name string, result any) { _ = "STUB: not implemented"; return }
 
 // BufferOption gets a buffer option value.
 //
@@ -2375,7 +2335,8 @@ func (b *Batch) Option(name string, result any) {
 //
 // [nvim_buf_get_option()]: https://neovim.io/doc/user/api.html#nvim_buf_get_option()
 func (v *Nvim) BufferOption(buffer Buffer, name string, result any) error {
-	return v.call("nvim_buf_get_option", result, buffer, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // BufferOption gets a buffer option value.
@@ -2384,7 +2345,8 @@ func (v *Nvim) BufferOption(buffer Buffer, name string, result any) error {
 //
 // [nvim_buf_get_option()]: https://neovim.io/doc/user/api.html#nvim_buf_get_option()
 func (b *Batch) BufferOption(buffer Buffer, name string, result any) {
-	b.call("nvim_buf_get_option", &result, buffer, name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferOption sets a buffer option value.
@@ -2395,7 +2357,8 @@ func (b *Batch) BufferOption(buffer Buffer, name string, result any) {
 //
 // [nvim_buf_set_option()]: https://neovim.io/doc/user/api.html#nvim_buf_set_option()
 func (v *Nvim) SetBufferOption(buffer Buffer, name string, value any) error {
-	return v.call("nvim_buf_set_option", nil, buffer, name, value)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetBufferOption sets a buffer option value.
@@ -2406,7 +2369,8 @@ func (v *Nvim) SetBufferOption(buffer Buffer, name string, value any) error {
 //
 // [nvim_buf_set_option()]: https://neovim.io/doc/user/api.html#nvim_buf_set_option()
 func (b *Batch) SetBufferOption(buffer Buffer, name string, value any) {
-	b.call("nvim_buf_set_option", nil, buffer, name, value)
+	_ = "STUB: not implemented"
+	return
 }
 
 // WindowOption gets a window option value.
@@ -2415,7 +2379,8 @@ func (b *Batch) SetBufferOption(buffer Buffer, name string, value any) {
 //
 // [nvim_win_get_option()]: https://neovim.io/doc/user/api.html#nvim_win_get_option()
 func (v *Nvim) WindowOption(window Window, name string, result any) error {
-	return v.call("nvim_win_get_option", result, window, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WindowOption gets a window option value.
@@ -2424,7 +2389,8 @@ func (v *Nvim) WindowOption(window Window, name string, result any) error {
 //
 // [nvim_win_get_option()]: https://neovim.io/doc/user/api.html#nvim_win_get_option()
 func (b *Batch) WindowOption(window Window, name string, result any) {
-	b.call("nvim_win_get_option", &result, window, name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetWindowOption sets a window option value. Passing "nil" as value deletes the option(only works if there's a global fallback).
@@ -2433,7 +2399,8 @@ func (b *Batch) WindowOption(window Window, name string, result any) {
 //
 // [nvim_win_set_option()]: https://neovim.io/doc/user/api.html#nvim_win_set_option()
 func (v *Nvim) SetWindowOption(window Window, name string, value any) error {
-	return v.call("nvim_win_set_option", nil, window, name, value)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetWindowOption sets a window option value. Passing "nil" as value deletes the option(only works if there's a global fallback).
@@ -2442,7 +2409,8 @@ func (v *Nvim) SetWindowOption(window Window, name string, value any) error {
 //
 // [nvim_win_set_option()]: https://neovim.io/doc/user/api.html#nvim_win_set_option()
 func (b *Batch) SetWindowOption(window Window, name string, value any) {
-	b.call("nvim_win_set_option", nil, window, name, value)
+	_ = "STUB: not implemented"
+	return
 }
 
 // AttachUI registers the client as a remote UI. After this method is called,
@@ -2463,7 +2431,8 @@ func (b *Batch) SetWindowOption(window Window, name string, value any) {
 //
 // [nvim_ui_attach()]: https://neovim.io/doc/user/api.html#nvim_ui_attach()
 func (v *Nvim) AttachUI(width int, height int, options map[string]any) error {
-	return v.call("nvim_ui_attach", nil, width, height, options)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // AttachUI registers the client as a remote UI. After this method is called,
@@ -2484,7 +2453,8 @@ func (v *Nvim) AttachUI(width int, height int, options map[string]any) error {
 //
 // [nvim_ui_attach()]: https://neovim.io/doc/user/api.html#nvim_ui_attach()
 func (b *Batch) AttachUI(width int, height int, options map[string]any) {
-	b.call("nvim_ui_attach", nil, width, height, options)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetFocusUI tells the nvim server if focus was gained or lost by the GUI.
@@ -2492,36 +2462,28 @@ func (b *Batch) AttachUI(width int, height int, options map[string]any) {
 // See: [nvim_ui_set_focus()]
 //
 // [nvim_ui_set_focus()]: https://neovim.io/doc/user/api.html#nvim_ui_set_focus()
-func (v *Nvim) SetFocusUI(gained bool) error {
-	return v.call("nvim_ui_set_focus", nil, gained)
-}
+func (v *Nvim) SetFocusUI(gained bool) error { _ = "STUB: not implemented"; return nil }
 
 // SetFocusUI tells the nvim server if focus was gained or lost by the GUI.
 //
 // See: [nvim_ui_set_focus()]
 //
 // [nvim_ui_set_focus()]: https://neovim.io/doc/user/api.html#nvim_ui_set_focus()
-func (b *Batch) SetFocusUI(gained bool) {
-	b.call("nvim_ui_set_focus", nil, gained)
-}
+func (b *Batch) SetFocusUI(gained bool) { _ = "STUB: not implemented"; return }
 
 // DetachUI unregisters the client as a remote UI.
 //
 // See: [nvim_ui_detach()]
 //
 // [nvim_ui_detach()]: https://neovim.io/doc/user/api.html#nvim_ui_detach()
-func (v *Nvim) DetachUI() error {
-	return v.call("nvim_ui_detach", nil)
-}
+func (v *Nvim) DetachUI() error { _ = "STUB: not implemented"; return nil }
 
 // DetachUI unregisters the client as a remote UI.
 //
 // See: [nvim_ui_detach()]
 //
 // [nvim_ui_detach()]: https://neovim.io/doc/user/api.html#nvim_ui_detach()
-func (b *Batch) DetachUI() {
-	b.call("nvim_ui_detach", nil)
-}
+func (b *Batch) DetachUI() { _ = "STUB: not implemented"; return }
 
 // TryResizeUI notifies Nvim that the client window has resized. If possible,
 // Nvim will send a redraw request to resize.
@@ -2529,9 +2491,7 @@ func (b *Batch) DetachUI() {
 // See: [nvim_ui_try_resize()]
 //
 // [nvim_ui_try_resize()]: https://neovim.io/doc/user/api.html#nvim_ui_try_resize()
-func (v *Nvim) TryResizeUI(width int, height int) error {
-	return v.call("nvim_ui_try_resize", nil, width, height)
-}
+func (v *Nvim) TryResizeUI(width int, height int) error { _ = "STUB: not implemented"; return nil }
 
 // TryResizeUI notifies Nvim that the client window has resized. If possible,
 // Nvim will send a redraw request to resize.
@@ -2539,27 +2499,21 @@ func (v *Nvim) TryResizeUI(width int, height int) error {
 // See: [nvim_ui_try_resize()]
 //
 // [nvim_ui_try_resize()]: https://neovim.io/doc/user/api.html#nvim_ui_try_resize()
-func (b *Batch) TryResizeUI(width int, height int) {
-	b.call("nvim_ui_try_resize", nil, width, height)
-}
+func (b *Batch) TryResizeUI(width int, height int) { _ = "STUB: not implemented"; return }
 
 // SetUIOption sets a UI option.
 //
 // See: [nvim_ui_set_option()]
 //
 // [nvim_ui_set_option()]: https://neovim.io/doc/user/api.html#nvim_ui_set_option()
-func (v *Nvim) SetUIOption(name string, value any) error {
-	return v.call("nvim_ui_set_option", nil, name, value)
-}
+func (v *Nvim) SetUIOption(name string, value any) error { _ = "STUB: not implemented"; return nil }
 
 // SetUIOption sets a UI option.
 //
 // See: [nvim_ui_set_option()]
 //
 // [nvim_ui_set_option()]: https://neovim.io/doc/user/api.html#nvim_ui_set_option()
-func (b *Batch) SetUIOption(name string, value any) {
-	b.call("nvim_ui_set_option", nil, name, value)
-}
+func (b *Batch) SetUIOption(name string, value any) { _ = "STUB: not implemented"; return }
 
 // TryResizeUIGrid tell Nvim to resize a grid. Triggers a grid_resize event with the requested
 // grid size or the maximum size if it exceeds size limits.
@@ -2570,7 +2524,8 @@ func (b *Batch) SetUIOption(name string, value any) {
 //
 // [nvim_ui_try_resize_grid()]: https://neovim.io/doc/user/api.html#nvim_ui_try_resize_grid()
 func (v *Nvim) TryResizeUIGrid(grid int, width int, height int) error {
-	return v.call("nvim_ui_try_resize_grid", nil, grid, width, height)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // TryResizeUIGrid tell Nvim to resize a grid. Triggers a grid_resize event with the requested
@@ -2581,9 +2536,7 @@ func (v *Nvim) TryResizeUIGrid(grid int, width int, height int) error {
 // See: [nvim_ui_try_resize_grid()]
 //
 // [nvim_ui_try_resize_grid()]: https://neovim.io/doc/user/api.html#nvim_ui_try_resize_grid()
-func (b *Batch) TryResizeUIGrid(grid int, width int, height int) {
-	b.call("nvim_ui_try_resize_grid", nil, grid, width, height)
-}
+func (b *Batch) TryResizeUIGrid(grid int, width int, height int) { _ = "STUB: not implemented"; return }
 
 // SetPumHeight tells Nvim the number of elements displaying in the popumenu, to decide
 // <PageUp> and <PageDown> movement.
@@ -2593,9 +2546,7 @@ func (b *Batch) TryResizeUIGrid(grid int, width int, height int) {
 // See: [nvim_ui_pum_set_height()]
 //
 // [nvim_ui_pum_set_height()]: https://neovim.io/doc/user/api.html#nvim_ui_pum_set_height()
-func (v *Nvim) SetPumHeight(height int) error {
-	return v.call("nvim_ui_pum_set_height", nil, height)
-}
+func (v *Nvim) SetPumHeight(height int) error { _ = "STUB: not implemented"; return nil }
 
 // SetPumHeight tells Nvim the number of elements displaying in the popumenu, to decide
 // <PageUp> and <PageDown> movement.
@@ -2605,9 +2556,7 @@ func (v *Nvim) SetPumHeight(height int) error {
 // See: [nvim_ui_pum_set_height()]
 //
 // [nvim_ui_pum_set_height()]: https://neovim.io/doc/user/api.html#nvim_ui_pum_set_height()
-func (b *Batch) SetPumHeight(height int) {
-	b.call("nvim_ui_pum_set_height", nil, height)
-}
+func (b *Batch) SetPumHeight(height int) { _ = "STUB: not implemented"; return }
 
 // SetPumBounds tells Nvim the geometry of the popumenu, to align floating windows with an
 // external popup menu.
@@ -2624,7 +2573,8 @@ func (b *Batch) SetPumHeight(height int) {
 //
 // [nvim_ui_pum_set_bounds()]: https://neovim.io/doc/user/api.html#nvim_ui_pum_set_bounds()
 func (v *Nvim) SetPumBounds(width float64, height float64, row float64, col float64) error {
-	return v.call("nvim_ui_pum_set_bounds", nil, width, height, row, col)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetPumBounds tells Nvim the geometry of the popumenu, to align floating windows with an
@@ -2642,7 +2592,8 @@ func (v *Nvim) SetPumBounds(width float64, height float64, row float64, col floa
 //
 // [nvim_ui_pum_set_bounds()]: https://neovim.io/doc/user/api.html#nvim_ui_pum_set_bounds()
 func (b *Batch) SetPumBounds(width float64, height float64, row float64, col float64) {
-	b.call("nvim_ui_pum_set_bounds", nil, width, height, row, col)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Exec executes Vimscript (multiline block of Ex-commands), like anonymous source.
@@ -2655,8 +2606,8 @@ func (b *Batch) SetPumBounds(width float64, height float64, row float64, col flo
 //
 // [nvim_exec2()]: https://neovim.io/doc/user/api.html#nvim_exec2()
 func (v *Nvim) Exec(src string, opts map[string]any) (out map[string]any, err error) {
-	err = v.call("nvim_exec2", &out, src, opts)
-	return out, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Exec executes Vimscript (multiline block of Ex-commands), like anonymous source.
@@ -2669,7 +2620,8 @@ func (v *Nvim) Exec(src string, opts map[string]any) (out map[string]any, err er
 //
 // [nvim_exec2()]: https://neovim.io/doc/user/api.html#nvim_exec2()
 func (b *Batch) Exec(src string, opts map[string]any, out *map[string]any) {
-	b.call("nvim_exec2", out, src, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Command executes an ex-command.
@@ -2679,9 +2631,7 @@ func (b *Batch) Exec(src string, opts map[string]any, out *map[string]any) {
 // See: [nvim_command()]
 //
 // [nvim_command()]: https://neovim.io/doc/user/api.html#nvim_command()
-func (v *Nvim) Command(cmd string) error {
-	return v.call("nvim_command", nil, cmd)
-}
+func (v *Nvim) Command(cmd string) error { _ = "STUB: not implemented"; return nil }
 
 // Command executes an ex-command.
 //
@@ -2690,9 +2640,7 @@ func (v *Nvim) Command(cmd string) error {
 // See: [nvim_command()]
 //
 // [nvim_command()]: https://neovim.io/doc/user/api.html#nvim_command()
-func (b *Batch) Command(cmd string) {
-	b.call("nvim_command", nil, cmd)
-}
+func (b *Batch) Command(cmd string) { _ = "STUB: not implemented"; return }
 
 // ParseExpression parse a VimL expression.
 //
@@ -2700,8 +2648,8 @@ func (b *Batch) Command(cmd string) {
 //
 // [nvim_parse_expression()]: https://neovim.io/doc/user/api.html#nvim_parse_expression()
 func (v *Nvim) ParseExpression(expr string, flags string, highlight bool) (expression map[string]any, err error) {
-	err = v.call("nvim_parse_expression", &expression, expr, flags, highlight)
-	return expression, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ParseExpression parse a VimL expression.
@@ -2710,7 +2658,8 @@ func (v *Nvim) ParseExpression(expr string, flags string, highlight bool) (expre
 //
 // [nvim_parse_expression()]: https://neovim.io/doc/user/api.html#nvim_parse_expression()
 func (b *Batch) ParseExpression(expr string, flags string, highlight bool, expression *map[string]any) {
-	b.call("nvim_parse_expression", expression, expr, flags, highlight)
+	_ = "STUB: not implemented"
+	return
 }
 
 // HL gets a highlight definition by name.
@@ -2737,9 +2686,8 @@ func (b *Batch) ParseExpression(expr string, flags string, highlight bool, expre
 //
 // [nvim_get_hl()]: https://neovim.io/doc/user/api.html#nvim_get_hl()
 func (v *Nvim) HL(nsID int, opts map[string]any) (highlight *HLAttrs, err error) {
-	var result HLAttrs
-	err = v.call("nvim_get_hl", &result, nsID, opts)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // HL gets a highlight definition by name.
@@ -2766,7 +2714,8 @@ func (v *Nvim) HL(nsID int, opts map[string]any) (highlight *HLAttrs, err error)
 //
 // [nvim_get_hl()]: https://neovim.io/doc/user/api.html#nvim_get_hl()
 func (b *Batch) HL(nsID int, opts map[string]any, highlight *HLAttrs) {
-	b.call("nvim_get_hl", highlight, nsID, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // HLIDByName gets a highlight group by name.
@@ -2781,8 +2730,8 @@ func (b *Batch) HL(nsID int, opts map[string]any, highlight *HLAttrs) {
 //
 // [nvim_get_hl_id_by_name()]: https://neovim.io/doc/user/api.html#nvim_get_hl_id_by_name()
 func (v *Nvim) HLIDByName(name string) (hlID int, err error) {
-	err = v.call("nvim_get_hl_id_by_name", &hlID, name)
-	return hlID, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // HLIDByName gets a highlight group by name.
@@ -2796,9 +2745,7 @@ func (v *Nvim) HLIDByName(name string) (hlID int, err error) {
 // See: [nvim_get_hl_id_by_name()]
 //
 // [nvim_get_hl_id_by_name()]: https://neovim.io/doc/user/api.html#nvim_get_hl_id_by_name()
-func (b *Batch) HLIDByName(name string, hlID *int) {
-	b.call("nvim_get_hl_id_by_name", hlID, name)
-}
+func (b *Batch) HLIDByName(name string, hlID *int) { _ = "STUB: not implemented"; return }
 
 // SetHighlight sets a highlight group.
 //
@@ -2818,7 +2765,8 @@ func (b *Batch) HLIDByName(name string, hlID *int) {
 //
 // [nvim_set_hl()]: https://neovim.io/doc/user/api.html#nvim_set_hl()
 func (v *Nvim) SetHighlight(nsID int, name string, val *HLAttrs) error {
-	return v.call("nvim_set_hl", nil, nsID, name, val)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetHighlight sets a highlight group.
@@ -2839,7 +2787,8 @@ func (v *Nvim) SetHighlight(nsID int, name string, val *HLAttrs) error {
 //
 // [nvim_set_hl()]: https://neovim.io/doc/user/api.html#nvim_set_hl()
 func (b *Batch) SetHighlight(nsID int, name string, val *HLAttrs) {
-	b.call("nvim_set_hl", nil, nsID, name, val)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetHighlightNamespace set active namespace for highlights. This can be set for a single window,
@@ -2849,9 +2798,7 @@ func (b *Batch) SetHighlight(nsID int, name string, val *HLAttrs) {
 // See: [nvim_set_hl_ns()]
 //
 // [nvim_set_hl_ns()]: https://neovim.io/doc/user/api.html#nvim_set_hl_ns()
-func (v *Nvim) SetHighlightNamespace(nsID int) error {
-	return v.call("nvim_set_hl_ns", nil, nsID)
-}
+func (v *Nvim) SetHighlightNamespace(nsID int) error { _ = "STUB: not implemented"; return nil }
 
 // SetHighlightNamespace set active namespace for highlights. This can be set for a single window,
 //
@@ -2860,9 +2807,7 @@ func (v *Nvim) SetHighlightNamespace(nsID int) error {
 // See: [nvim_set_hl_ns()]
 //
 // [nvim_set_hl_ns()]: https://neovim.io/doc/user/api.html#nvim_set_hl_ns()
-func (b *Batch) SetHighlightNamespace(nsID int) {
-	b.call("nvim_set_hl_ns", nil, nsID)
-}
+func (b *Batch) SetHighlightNamespace(nsID int) { _ = "STUB: not implemented"; return }
 
 // SetFastHighlightNamespace set active namespace for highlights while redrawing.
 //
@@ -2873,9 +2818,7 @@ func (b *Batch) SetHighlightNamespace(nsID int) {
 // See: [nvim_set_hl_ns_fast()]
 //
 // [nvim_set_hl_ns_fast()]: https://neovim.io/doc/user/api.html#nvim_set_hl_ns_fast()
-func (v *Nvim) SetFastHighlightNamespace(nsID int) error {
-	return v.call("nvim_set_hl_ns_fast", nil, nsID)
-}
+func (v *Nvim) SetFastHighlightNamespace(nsID int) error { _ = "STUB: not implemented"; return nil }
 
 // SetFastHighlightNamespace set active namespace for highlights while redrawing.
 //
@@ -2886,9 +2829,7 @@ func (v *Nvim) SetFastHighlightNamespace(nsID int) error {
 // See: [nvim_set_hl_ns_fast()]
 //
 // [nvim_set_hl_ns_fast()]: https://neovim.io/doc/user/api.html#nvim_set_hl_ns_fast()
-func (b *Batch) SetFastHighlightNamespace(nsID int) {
-	b.call("nvim_set_hl_ns_fast", nil, nsID)
-}
+func (b *Batch) SetFastHighlightNamespace(nsID int) { _ = "STUB: not implemented"; return }
 
 // FeedKeys input-keys to Nvim, subject to various quirks controlled by "mode"
 // flags. Unlike Input, this is a blocking call.
@@ -2920,7 +2861,8 @@ func (b *Batch) SetFastHighlightNamespace(nsID int) {
 //
 // [nvim_feedkeys()]: https://neovim.io/doc/user/api.html#nvim_feedkeys()
 func (v *Nvim) FeedKeys(keys string, mode string, escapeCSI bool) error {
-	return v.call("nvim_feedkeys", nil, keys, mode, escapeCSI)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // FeedKeys input-keys to Nvim, subject to various quirks controlled by "mode"
@@ -2953,7 +2895,8 @@ func (v *Nvim) FeedKeys(keys string, mode string, escapeCSI bool) error {
 //
 // [nvim_feedkeys()]: https://neovim.io/doc/user/api.html#nvim_feedkeys()
 func (b *Batch) FeedKeys(keys string, mode string, escapeCSI bool) {
-	b.call("nvim_feedkeys", nil, keys, mode, escapeCSI)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Input queues raw user-input.
@@ -2976,8 +2919,8 @@ func (b *Batch) FeedKeys(keys string, mode string, escapeCSI bool) {
 //
 // [nvim_input()]: https://neovim.io/doc/user/api.html#nvim_input()
 func (v *Nvim) Input(keys string) (written int, err error) {
-	err = v.call("nvim_input", &written, keys)
-	return written, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // Input queues raw user-input.
@@ -2999,9 +2942,7 @@ func (v *Nvim) Input(keys string) (written int, err error) {
 // See: [nvim_input()]
 //
 // [nvim_input()]: https://neovim.io/doc/user/api.html#nvim_input()
-func (b *Batch) Input(keys string, written *int) {
-	b.call("nvim_input", written, keys)
-}
+func (b *Batch) Input(keys string, written *int) { _ = "STUB: not implemented"; return }
 
 // InputMouse Send mouse event from GUI.
 //
@@ -3043,7 +2984,8 @@ func (b *Batch) Input(keys string, written *int) {
 //
 // [nvim_input_mouse()]: https://neovim.io/doc/user/api.html#nvim_input_mouse()
 func (v *Nvim) InputMouse(button string, action string, modifier string, grid int, row int, col int) error {
-	return v.call("nvim_input_mouse", nil, button, action, modifier, grid, row, col)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // InputMouse Send mouse event from GUI.
@@ -3086,7 +3028,8 @@ func (v *Nvim) InputMouse(button string, action string, modifier string, grid in
 //
 // [nvim_input_mouse()]: https://neovim.io/doc/user/api.html#nvim_input_mouse()
 func (b *Batch) InputMouse(button string, action string, modifier string, grid int, row int, col int) {
-	b.call("nvim_input_mouse", nil, button, action, modifier, grid, row, col)
+	_ = "STUB: not implemented"
+	return
 }
 
 // ReplaceTermcodes replaces terminal codes and "keycodes" (<CR>, <Esc>, ...) in a string with
@@ -3113,8 +3056,8 @@ func (b *Batch) InputMouse(button string, action string, modifier string, grid i
 //
 // [nvim_replace_termcodes()]: https://neovim.io/doc/user/api.html#nvim_replace_termcodes()
 func (v *Nvim) ReplaceTermcodes(str string, fromPart bool, doLT bool, special bool) (input string, err error) {
-	err = v.call("nvim_replace_termcodes", &input, str, fromPart, doLT, special)
-	return input, err
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 // ReplaceTermcodes replaces terminal codes and "keycodes" (<CR>, <Esc>, ...) in a string with
@@ -3141,7 +3084,8 @@ func (v *Nvim) ReplaceTermcodes(str string, fromPart bool, doLT bool, special bo
 //
 // [nvim_replace_termcodes()]: https://neovim.io/doc/user/api.html#nvim_replace_termcodes()
 func (b *Batch) ReplaceTermcodes(str string, fromPart bool, doLT bool, special bool, input *string) {
-	b.call("nvim_replace_termcodes", input, str, fromPart, doLT, special)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Eval evaluates a VimL expression.
@@ -3157,9 +3101,7 @@ func (b *Batch) ReplaceTermcodes(str string, fromPart bool, doLT bool, special b
 // See: [nvim_eval()]
 //
 // [nvim_eval()]: https://neovim.io/doc/user/api.html#nvim_eval()
-func (v *Nvim) Eval(expr string, result any) error {
-	return v.call("nvim_eval", result, expr)
-}
+func (v *Nvim) Eval(expr string, result any) error { _ = "STUB: not implemented"; return nil }
 
 // Eval evaluates a VimL expression.
 //
@@ -3174,9 +3116,7 @@ func (v *Nvim) Eval(expr string, result any) error {
 // See: [nvim_eval()]
 //
 // [nvim_eval()]: https://neovim.io/doc/user/api.html#nvim_eval()
-func (b *Batch) Eval(expr string, result any) {
-	b.call("nvim_eval", &result, expr)
-}
+func (b *Batch) Eval(expr string, result any) { _ = "STUB: not implemented"; return }
 
 // StringWidth calculates the number of display cells occupied by "text".
 //
@@ -3186,8 +3126,8 @@ func (b *Batch) Eval(expr string, result any) {
 //
 // [nvim_strwidth()]: https://neovim.io/doc/user/api.html#nvim_strwidth()
 func (v *Nvim) StringWidth(s string) (width int, err error) {
-	err = v.call("nvim_strwidth", &width, s)
-	return width, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // StringWidth calculates the number of display cells occupied by "text".
@@ -3197,9 +3137,7 @@ func (v *Nvim) StringWidth(s string) (width int, err error) {
 // See: [nvim_strwidth()]
 //
 // [nvim_strwidth()]: https://neovim.io/doc/user/api.html#nvim_strwidth()
-func (b *Batch) StringWidth(s string, width *int) {
-	b.call("nvim_strwidth", width, s)
-}
+func (b *Batch) StringWidth(s string, width *int) { _ = "STUB: not implemented"; return }
 
 // RuntimePaths gets the paths contained in "runtimepath".
 //
@@ -3207,8 +3145,8 @@ func (b *Batch) StringWidth(s string, width *int) {
 //
 // [nvim_list_runtime_paths()]: https://neovim.io/doc/user/api.html#nvim_list_runtime_paths()
 func (v *Nvim) RuntimePaths() (paths []string, err error) {
-	err = v.call("nvim_list_runtime_paths", &paths)
-	return paths, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // RuntimePaths gets the paths contained in "runtimepath".
@@ -3216,9 +3154,7 @@ func (v *Nvim) RuntimePaths() (paths []string, err error) {
 // See: [nvim_list_runtime_paths()]
 //
 // [nvim_list_runtime_paths()]: https://neovim.io/doc/user/api.html#nvim_list_runtime_paths()
-func (b *Batch) RuntimePaths(paths *[]string) {
-	b.call("nvim_list_runtime_paths", paths)
-}
+func (b *Batch) RuntimePaths(paths *[]string) { _ = "STUB: not implemented"; return }
 
 // RuntimeFiles find files in runtime directories.
 //
@@ -3244,8 +3180,8 @@ func (b *Batch) RuntimePaths(paths *[]string) {
 //
 // [nvim_get_runtime_file()]: https://neovim.io/doc/user/api.html#nvim_get_runtime_file()
 func (v *Nvim) RuntimeFiles(name string, all bool) (files []string, err error) {
-	err = v.call("nvim_get_runtime_file", &files, name, all)
-	return files, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // RuntimeFiles find files in runtime directories.
@@ -3272,7 +3208,8 @@ func (v *Nvim) RuntimeFiles(name string, all bool) (files []string, err error) {
 //
 // [nvim_get_runtime_file()]: https://neovim.io/doc/user/api.html#nvim_get_runtime_file()
 func (b *Batch) RuntimeFiles(name string, all bool, files *[]string) {
-	b.call("nvim_get_runtime_file", files, name, all)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetCurrentDirectory changes the global working directory.
@@ -3280,163 +3217,126 @@ func (b *Batch) RuntimeFiles(name string, all bool, files *[]string) {
 // See: [nvim_set_current_dir()]
 //
 // [nvim_set_current_dir()]: https://neovim.io/doc/user/api.html#nvim_set_current_dir()
-func (v *Nvim) SetCurrentDirectory(dir string) error {
-	return v.call("nvim_set_current_dir", nil, dir)
-}
+func (v *Nvim) SetCurrentDirectory(dir string) error { _ = "STUB: not implemented"; return nil }
 
 // SetCurrentDirectory changes the global working directory.
 //
 // See: [nvim_set_current_dir()]
 //
 // [nvim_set_current_dir()]: https://neovim.io/doc/user/api.html#nvim_set_current_dir()
-func (b *Batch) SetCurrentDirectory(dir string) {
-	b.call("nvim_set_current_dir", nil, dir)
-}
+func (b *Batch) SetCurrentDirectory(dir string) { _ = "STUB: not implemented"; return }
 
 // CurrentLine gets the current line.
 //
 // See: [nvim_get_current_line()]
 //
 // [nvim_get_current_line()]: https://neovim.io/doc/user/api.html#nvim_get_current_line()
-func (v *Nvim) CurrentLine() (line []byte, err error) {
-	err = v.call("nvim_get_current_line", &line)
-	return line, err
-}
+func (v *Nvim) CurrentLine() (line []byte, err error) { _ = "STUB: not implemented"; return nil, nil }
 
 // CurrentLine gets the current line.
 //
 // See: [nvim_get_current_line()]
 //
 // [nvim_get_current_line()]: https://neovim.io/doc/user/api.html#nvim_get_current_line()
-func (b *Batch) CurrentLine(line *[]byte) {
-	b.call("nvim_get_current_line", line)
-}
+func (b *Batch) CurrentLine(line *[]byte) { _ = "STUB: not implemented"; return }
 
 // SetCurrentLine sets the current line.
 //
 // See: [nvim_set_current_line()]
 //
 // [nvim_set_current_line()]: https://neovim.io/doc/user/api.html#nvim_set_current_line()
-func (v *Nvim) SetCurrentLine(line []byte) error {
-	return v.call("nvim_set_current_line", nil, line)
-}
+func (v *Nvim) SetCurrentLine(line []byte) error { _ = "STUB: not implemented"; return nil }
 
 // SetCurrentLine sets the current line.
 //
 // See: [nvim_set_current_line()]
 //
 // [nvim_set_current_line()]: https://neovim.io/doc/user/api.html#nvim_set_current_line()
-func (b *Batch) SetCurrentLine(line []byte) {
-	b.call("nvim_set_current_line", nil, line)
-}
+func (b *Batch) SetCurrentLine(line []byte) { _ = "STUB: not implemented"; return }
 
 // DeleteCurrentLine deletes the current line.
 //
 // See: [nvim_del_current_line()]
 //
 // [nvim_del_current_line()]: https://neovim.io/doc/user/api.html#nvim_del_current_line()
-func (v *Nvim) DeleteCurrentLine() error {
-	return v.call("nvim_del_current_line", nil)
-}
+func (v *Nvim) DeleteCurrentLine() error { _ = "STUB: not implemented"; return nil }
 
 // DeleteCurrentLine deletes the current line.
 //
 // See: [nvim_del_current_line()]
 //
 // [nvim_del_current_line()]: https://neovim.io/doc/user/api.html#nvim_del_current_line()
-func (b *Batch) DeleteCurrentLine() {
-	b.call("nvim_del_current_line", nil)
-}
+func (b *Batch) DeleteCurrentLine() { _ = "STUB: not implemented"; return }
 
 // Var gets a global (g:) variable.
 //
 // See: [nvim_get_var()]
 //
 // [nvim_get_var()]: https://neovim.io/doc/user/api.html#nvim_get_var()
-func (v *Nvim) Var(name string, result any) error {
-	return v.call("nvim_get_var", result, name)
-}
+func (v *Nvim) Var(name string, result any) error { _ = "STUB: not implemented"; return nil }
 
 // Var gets a global (g:) variable.
 //
 // See: [nvim_get_var()]
 //
 // [nvim_get_var()]: https://neovim.io/doc/user/api.html#nvim_get_var()
-func (b *Batch) Var(name string, result any) {
-	b.call("nvim_get_var", &result, name)
-}
+func (b *Batch) Var(name string, result any) { _ = "STUB: not implemented"; return }
 
 // SetVar sets a global (g:) variable.
 //
 // See: [nvim_set_var()]
 //
 // [nvim_set_var()]: https://neovim.io/doc/user/api.html#nvim_set_var()
-func (v *Nvim) SetVar(name string, value any) error {
-	return v.call("nvim_set_var", nil, name, value)
-}
+func (v *Nvim) SetVar(name string, value any) error { _ = "STUB: not implemented"; return nil }
 
 // SetVar sets a global (g:) variable.
 //
 // See: [nvim_set_var()]
 //
 // [nvim_set_var()]: https://neovim.io/doc/user/api.html#nvim_set_var()
-func (b *Batch) SetVar(name string, value any) {
-	b.call("nvim_set_var", nil, name, value)
-}
+func (b *Batch) SetVar(name string, value any) { _ = "STUB: not implemented"; return }
 
 // DeleteVar removes a global (g:) variable.
 //
 // See: [nvim_del_var()]
 //
 // [nvim_del_var()]: https://neovim.io/doc/user/api.html#nvim_del_var()
-func (v *Nvim) DeleteVar(name string) error {
-	return v.call("nvim_del_var", nil, name)
-}
+func (v *Nvim) DeleteVar(name string) error { _ = "STUB: not implemented"; return nil }
 
 // DeleteVar removes a global (g:) variable.
 //
 // See: [nvim_del_var()]
 //
 // [nvim_del_var()]: https://neovim.io/doc/user/api.html#nvim_del_var()
-func (b *Batch) DeleteVar(name string) {
-	b.call("nvim_del_var", nil, name)
-}
+func (b *Batch) DeleteVar(name string) { _ = "STUB: not implemented"; return }
 
 // VVar gets a v: variable.
 //
 // See: [nvim_get_vvar()]
 //
 // [nvim_get_vvar()]: https://neovim.io/doc/user/api.html#nvim_get_vvar()
-func (v *Nvim) VVar(name string, result any) error {
-	return v.call("nvim_get_vvar", result, name)
-}
+func (v *Nvim) VVar(name string, result any) error { _ = "STUB: not implemented"; return nil }
 
 // VVar gets a v: variable.
 //
 // See: [nvim_get_vvar()]
 //
 // [nvim_get_vvar()]: https://neovim.io/doc/user/api.html#nvim_get_vvar()
-func (b *Batch) VVar(name string, result any) {
-	b.call("nvim_get_vvar", &result, name)
-}
+func (b *Batch) VVar(name string, result any) { _ = "STUB: not implemented"; return }
 
 // SetVVar sets a v: variable, if it is not readonly.
 //
 // See: [nvim_set_vvar()]
 //
 // [nvim_set_vvar()]: https://neovim.io/doc/user/api.html#nvim_set_vvar()
-func (v *Nvim) SetVVar(name string, value any) error {
-	return v.call("nvim_set_vvar", nil, name, value)
-}
+func (v *Nvim) SetVVar(name string, value any) error { _ = "STUB: not implemented"; return nil }
 
 // SetVVar sets a v: variable, if it is not readonly.
 //
 // See: [nvim_set_vvar()]
 //
 // [nvim_set_vvar()]: https://neovim.io/doc/user/api.html#nvim_set_vvar()
-func (b *Batch) SetVVar(name string, value any) {
-	b.call("nvim_set_vvar", nil, name, value)
-}
+func (b *Batch) SetVVar(name string, value any) { _ = "STUB: not implemented"; return }
 
 // Echo echo a message.
 //
@@ -3451,7 +3351,8 @@ func (b *Batch) SetVVar(name string, value any) {
 //
 // [nvim_echo()]: https://neovim.io/doc/user/api.html#nvim_echo()
 func (v *Nvim) Echo(chunks []TextChunk, history bool, opts map[string]any) error {
-	return v.call("nvim_echo", nil, chunks, history, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Echo echo a message.
@@ -3467,7 +3368,8 @@ func (v *Nvim) Echo(chunks []TextChunk, history bool, opts map[string]any) error
 //
 // [nvim_echo()]: https://neovim.io/doc/user/api.html#nvim_echo()
 func (b *Batch) Echo(chunks []TextChunk, history bool, opts map[string]any) {
-	b.call("nvim_echo", nil, chunks, history, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // WriteOut writes a message to the Vim output buffer.
@@ -3477,9 +3379,7 @@ func (b *Batch) Echo(chunks []TextChunk, history bool, opts map[string]any) {
 // See: [nvim_out_write()]
 //
 // [nvim_out_write()]: https://neovim.io/doc/user/api.html#nvim_out_write()
-func (v *Nvim) WriteOut(str string) error {
-	return v.call("nvim_out_write", nil, str)
-}
+func (v *Nvim) WriteOut(str string) error { _ = "STUB: not implemented"; return nil }
 
 // WriteOut writes a message to the Vim output buffer.
 //
@@ -3488,9 +3388,7 @@ func (v *Nvim) WriteOut(str string) error {
 // See: [nvim_out_write()]
 //
 // [nvim_out_write()]: https://neovim.io/doc/user/api.html#nvim_out_write()
-func (b *Batch) WriteOut(str string) {
-	b.call("nvim_out_write", nil, str)
-}
+func (b *Batch) WriteOut(str string) { _ = "STUB: not implemented"; return }
 
 // WriteErr writes a message to the Vim error buffer.
 //
@@ -3499,9 +3397,7 @@ func (b *Batch) WriteOut(str string) {
 // See: [nvim_err_write()]
 //
 // [nvim_err_write()]: https://neovim.io/doc/user/api.html#nvim_err_write()
-func (v *Nvim) WriteErr(str string) error {
-	return v.call("nvim_err_write", nil, str)
-}
+func (v *Nvim) WriteErr(str string) error { _ = "STUB: not implemented"; return nil }
 
 // WriteErr writes a message to the Vim error buffer.
 //
@@ -3510,9 +3406,7 @@ func (v *Nvim) WriteErr(str string) error {
 // See: [nvim_err_write()]
 //
 // [nvim_err_write()]: https://neovim.io/doc/user/api.html#nvim_err_write()
-func (b *Batch) WriteErr(str string) {
-	b.call("nvim_err_write", nil, str)
-}
+func (b *Batch) WriteErr(str string) { _ = "STUB: not implemented"; return }
 
 // WritelnErr writes a message to the Vim error buffer.
 //
@@ -3521,9 +3415,7 @@ func (b *Batch) WriteErr(str string) {
 // See: [nvim_err_writeln()]
 //
 // [nvim_err_writeln()]: https://neovim.io/doc/user/api.html#nvim_err_writeln()
-func (v *Nvim) WritelnErr(str string) error {
-	return v.call("nvim_err_writeln", nil, str)
-}
+func (v *Nvim) WritelnErr(str string) error { _ = "STUB: not implemented"; return nil }
 
 // WritelnErr writes a message to the Vim error buffer.
 //
@@ -3532,9 +3424,7 @@ func (v *Nvim) WritelnErr(str string) error {
 // See: [nvim_err_writeln()]
 //
 // [nvim_err_writeln()]: https://neovim.io/doc/user/api.html#nvim_err_writeln()
-func (b *Batch) WritelnErr(str string) {
-	b.call("nvim_err_writeln", nil, str)
-}
+func (b *Batch) WritelnErr(str string) { _ = "STUB: not implemented"; return }
 
 // Buffers gets the current list of buffer handles.
 //
@@ -3543,10 +3433,7 @@ func (b *Batch) WritelnErr(str string) {
 // See: [nvim_list_bufs()]
 //
 // [nvim_list_bufs()]: https://neovim.io/doc/user/api.html#nvim_list_bufs()
-func (v *Nvim) Buffers() (buffers []Buffer, err error) {
-	err = v.call("nvim_list_bufs", &buffers)
-	return buffers, err
-}
+func (v *Nvim) Buffers() (buffers []Buffer, err error) { _ = "STUB: not implemented"; return nil, nil }
 
 // Buffers gets the current list of buffer handles.
 //
@@ -3555,9 +3442,7 @@ func (v *Nvim) Buffers() (buffers []Buffer, err error) {
 // See: [nvim_list_bufs()]
 //
 // [nvim_list_bufs()]: https://neovim.io/doc/user/api.html#nvim_list_bufs()
-func (b *Batch) Buffers(buffers *[]Buffer) {
-	b.call("nvim_list_bufs", buffers)
-}
+func (b *Batch) Buffers(buffers *[]Buffer) { _ = "STUB: not implemented"; return }
 
 // CurrentBuffer gets the current buffer.
 //
@@ -3565,8 +3450,8 @@ func (b *Batch) Buffers(buffers *[]Buffer) {
 //
 // [nvim_get_current_buf()]: https://neovim.io/doc/user/api.html#nvim_get_current_buf()
 func (v *Nvim) CurrentBuffer() (buffer Buffer, err error) {
-	err = v.call("nvim_get_current_buf", &buffer)
-	return buffer, err
+	_ = "STUB: not implemented"
+	return *new(Buffer), nil
 }
 
 // CurrentBuffer gets the current buffer.
@@ -3574,46 +3459,35 @@ func (v *Nvim) CurrentBuffer() (buffer Buffer, err error) {
 // See: [nvim_get_current_buf()]
 //
 // [nvim_get_current_buf()]: https://neovim.io/doc/user/api.html#nvim_get_current_buf()
-func (b *Batch) CurrentBuffer(buffer *Buffer) {
-	b.call("nvim_get_current_buf", buffer)
-}
+func (b *Batch) CurrentBuffer(buffer *Buffer) { _ = "STUB: not implemented"; return }
 
 // SetCurrentBuffer sets the current buffer.
 //
 // See: [nvim_set_current_buf()]
 //
 // [nvim_set_current_buf()]: https://neovim.io/doc/user/api.html#nvim_set_current_buf()
-func (v *Nvim) SetCurrentBuffer(buffer Buffer) error {
-	return v.call("nvim_set_current_buf", nil, buffer)
-}
+func (v *Nvim) SetCurrentBuffer(buffer Buffer) error { _ = "STUB: not implemented"; return nil }
 
 // SetCurrentBuffer sets the current buffer.
 //
 // See: [nvim_set_current_buf()]
 //
 // [nvim_set_current_buf()]: https://neovim.io/doc/user/api.html#nvim_set_current_buf()
-func (b *Batch) SetCurrentBuffer(buffer Buffer) {
-	b.call("nvim_set_current_buf", nil, buffer)
-}
+func (b *Batch) SetCurrentBuffer(buffer Buffer) { _ = "STUB: not implemented"; return }
 
 // Windows gets the current list of window handles.
 //
 // See: [nvim_list_wins()]
 //
 // [nvim_list_wins()]: https://neovim.io/doc/user/api.html#nvim_list_wins()
-func (v *Nvim) Windows() (windows []Window, err error) {
-	err = v.call("nvim_list_wins", &windows)
-	return windows, err
-}
+func (v *Nvim) Windows() (windows []Window, err error) { _ = "STUB: not implemented"; return nil, nil }
 
 // Windows gets the current list of window handles.
 //
 // See: [nvim_list_wins()]
 //
 // [nvim_list_wins()]: https://neovim.io/doc/user/api.html#nvim_list_wins()
-func (b *Batch) Windows(windows *[]Window) {
-	b.call("nvim_list_wins", windows)
-}
+func (b *Batch) Windows(windows *[]Window) { _ = "STUB: not implemented"; return }
 
 // CurrentWindow gets the current window.
 //
@@ -3621,8 +3495,8 @@ func (b *Batch) Windows(windows *[]Window) {
 //
 // [nvim_get_current_win()]: https://neovim.io/doc/user/api.html#nvim_get_current_win()
 func (v *Nvim) CurrentWindow() (window Window, err error) {
-	err = v.call("nvim_get_current_win", &window)
-	return window, err
+	_ = "STUB: not implemented"
+	return *new(Window), nil
 }
 
 // CurrentWindow gets the current window.
@@ -3630,27 +3504,21 @@ func (v *Nvim) CurrentWindow() (window Window, err error) {
 // See: [nvim_get_current_win()]
 //
 // [nvim_get_current_win()]: https://neovim.io/doc/user/api.html#nvim_get_current_win()
-func (b *Batch) CurrentWindow(window *Window) {
-	b.call("nvim_get_current_win", window)
-}
+func (b *Batch) CurrentWindow(window *Window) { _ = "STUB: not implemented"; return }
 
 // SetCurrentWindow sets the current window.
 //
 // See: [nvim_set_current_win()]
 //
 // [nvim_set_current_win()]: https://neovim.io/doc/user/api.html#nvim_set_current_win()
-func (v *Nvim) SetCurrentWindow(window Window) error {
-	return v.call("nvim_set_current_win", nil, window)
-}
+func (v *Nvim) SetCurrentWindow(window Window) error { _ = "STUB: not implemented"; return nil }
 
 // SetCurrentWindow sets the current window.
 //
 // See: [nvim_set_current_win()]
 //
 // [nvim_set_current_win()]: https://neovim.io/doc/user/api.html#nvim_set_current_win()
-func (b *Batch) SetCurrentWindow(window Window) {
-	b.call("nvim_set_current_win", nil, window)
-}
+func (b *Batch) SetCurrentWindow(window Window) { _ = "STUB: not implemented"; return }
 
 // CreateBuffer creates a new, empty, unnamed buffer.
 //
@@ -3667,8 +3535,8 @@ func (b *Batch) SetCurrentWindow(window Window) {
 //
 // [nvim_create_buf()]: https://neovim.io/doc/user/api.html#nvim_create_buf()
 func (v *Nvim) CreateBuffer(listed bool, scratch bool) (buffer Buffer, err error) {
-	err = v.call("nvim_create_buf", &buffer, listed, scratch)
-	return buffer, err
+	_ = "STUB: not implemented"
+	return *new(Buffer), nil
 }
 
 // CreateBuffer creates a new, empty, unnamed buffer.
@@ -3686,7 +3554,8 @@ func (v *Nvim) CreateBuffer(listed bool, scratch bool) (buffer Buffer, err error
 //
 // [nvim_create_buf()]: https://neovim.io/doc/user/api.html#nvim_create_buf()
 func (b *Batch) CreateBuffer(listed bool, scratch bool, buffer *Buffer) {
-	b.call("nvim_create_buf", buffer, listed, scratch)
+	_ = "STUB: not implemented"
+	return
 }
 
 // OpenTerm opens a terminal instance in a buffer.
@@ -3711,8 +3580,8 @@ func (b *Batch) CreateBuffer(listed bool, scratch bool, buffer *Buffer) {
 //
 // [nvim_open_term()]: https://neovim.io/doc/user/api.html#nvim_open_term()
 func (v *Nvim) OpenTerm(buffer Buffer, opts map[string]any) (channel int, err error) {
-	err = v.call("nvim_open_term", &channel, buffer, opts)
-	return channel, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // OpenTerm opens a terminal instance in a buffer.
@@ -3737,7 +3606,8 @@ func (v *Nvim) OpenTerm(buffer Buffer, opts map[string]any) (channel int, err er
 //
 // [nvim_open_term()]: https://neovim.io/doc/user/api.html#nvim_open_term()
 func (b *Batch) OpenTerm(buffer Buffer, opts map[string]any, channel *int) {
-	b.call("nvim_open_term", channel, buffer, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // OpenWindow open a new window.
@@ -3771,8 +3641,8 @@ func (b *Batch) OpenTerm(buffer Buffer, opts map[string]any, channel *int) {
 //
 // [nvim_open_win()]: https://neovim.io/doc/user/api.html#nvim_open_win()
 func (v *Nvim) OpenWindow(buffer Buffer, enter bool, config *WindowConfig) (window Window, err error) {
-	err = v.call("nvim_open_win", &window, buffer, enter, config)
-	return window, err
+	_ = "STUB: not implemented"
+	return *new(Window), nil
 }
 
 // OpenWindow open a new window.
@@ -3806,7 +3676,8 @@ func (v *Nvim) OpenWindow(buffer Buffer, enter bool, config *WindowConfig) (wind
 //
 // [nvim_open_win()]: https://neovim.io/doc/user/api.html#nvim_open_win()
 func (b *Batch) OpenWindow(buffer Buffer, enter bool, config *WindowConfig, window *Window) {
-	b.call("nvim_open_win", window, buffer, enter, config)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Tabpages gets the current list of tabpage handles.
@@ -3815,8 +3686,8 @@ func (b *Batch) OpenWindow(buffer Buffer, enter bool, config *WindowConfig, wind
 //
 // [nvim_list_tabpages()]: https://neovim.io/doc/user/api.html#nvim_list_tabpages()
 func (v *Nvim) Tabpages() (tabpages []Tabpage, err error) {
-	err = v.call("nvim_list_tabpages", &tabpages)
-	return tabpages, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Tabpages gets the current list of tabpage handles.
@@ -3824,9 +3695,7 @@ func (v *Nvim) Tabpages() (tabpages []Tabpage, err error) {
 // See: [nvim_list_tabpages()]
 //
 // [nvim_list_tabpages()]: https://neovim.io/doc/user/api.html#nvim_list_tabpages()
-func (b *Batch) Tabpages(tabpages *[]Tabpage) {
-	b.call("nvim_list_tabpages", tabpages)
-}
+func (b *Batch) Tabpages(tabpages *[]Tabpage) { _ = "STUB: not implemented"; return }
 
 // CurrentTabpage gets the current tabpage.
 //
@@ -3834,8 +3703,8 @@ func (b *Batch) Tabpages(tabpages *[]Tabpage) {
 //
 // [nvim_get_current_tabpage()]: https://neovim.io/doc/user/api.html#nvim_get_current_tabpage()
 func (v *Nvim) CurrentTabpage() (tabpage Tabpage, err error) {
-	err = v.call("nvim_get_current_tabpage", &tabpage)
-	return tabpage, err
+	_ = "STUB: not implemented"
+	return *new(Tabpage), nil
 }
 
 // CurrentTabpage gets the current tabpage.
@@ -3843,27 +3712,21 @@ func (v *Nvim) CurrentTabpage() (tabpage Tabpage, err error) {
 // See: [nvim_get_current_tabpage()]
 //
 // [nvim_get_current_tabpage()]: https://neovim.io/doc/user/api.html#nvim_get_current_tabpage()
-func (b *Batch) CurrentTabpage(tabpage *Tabpage) {
-	b.call("nvim_get_current_tabpage", tabpage)
-}
+func (b *Batch) CurrentTabpage(tabpage *Tabpage) { _ = "STUB: not implemented"; return }
 
 // SetCurrentTabpage sets the current tabpage.
 //
 // See: [nvim_set_current_tabpage()]
 //
 // [nvim_set_current_tabpage()]: https://neovim.io/doc/user/api.html#nvim_set_current_tabpage()
-func (v *Nvim) SetCurrentTabpage(tabpage Tabpage) error {
-	return v.call("nvim_set_current_tabpage", nil, tabpage)
-}
+func (v *Nvim) SetCurrentTabpage(tabpage Tabpage) error { _ = "STUB: not implemented"; return nil }
 
 // SetCurrentTabpage sets the current tabpage.
 //
 // See: [nvim_set_current_tabpage()]
 //
 // [nvim_set_current_tabpage()]: https://neovim.io/doc/user/api.html#nvim_set_current_tabpage()
-func (b *Batch) SetCurrentTabpage(tabpage Tabpage) {
-	b.call("nvim_set_current_tabpage", nil, tabpage)
-}
+func (b *Batch) SetCurrentTabpage(tabpage Tabpage) { _ = "STUB: not implemented"; return }
 
 // Namespaces gets existing, non-anonymous namespaces.
 //
@@ -3873,8 +3736,8 @@ func (b *Batch) SetCurrentTabpage(tabpage Tabpage) {
 //
 // [nvim_get_namespaces()]: https://neovim.io/doc/user/api.html#nvim_get_namespaces()
 func (v *Nvim) Namespaces() (namespaces map[string]int, err error) {
-	err = v.call("nvim_get_namespaces", &namespaces)
-	return namespaces, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Namespaces gets existing, non-anonymous namespaces.
@@ -3884,9 +3747,7 @@ func (v *Nvim) Namespaces() (namespaces map[string]int, err error) {
 // See: [nvim_get_namespaces()]
 //
 // [nvim_get_namespaces()]: https://neovim.io/doc/user/api.html#nvim_get_namespaces()
-func (b *Batch) Namespaces(namespaces *map[string]int) {
-	b.call("nvim_get_namespaces", namespaces)
-}
+func (b *Batch) Namespaces(namespaces *map[string]int) { _ = "STUB: not implemented"; return }
 
 // Paste pastes at cursor, in any mode.
 //
@@ -3938,8 +3799,8 @@ func (b *Batch) Namespaces(namespaces *map[string]int) {
 //
 // [nvim_paste()]: https://neovim.io/doc/user/api.html#nvim_paste()
 func (v *Nvim) Paste(data string, crlf bool, phase int) (state bool, err error) {
-	err = v.call("nvim_paste", &state, data, crlf, phase)
-	return state, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // Paste pastes at cursor, in any mode.
@@ -3992,7 +3853,8 @@ func (v *Nvim) Paste(data string, crlf bool, phase int) (state bool, err error) 
 //
 // [nvim_paste()]: https://neovim.io/doc/user/api.html#nvim_paste()
 func (b *Batch) Paste(data string, crlf bool, phase int, state *bool) {
-	b.call("nvim_paste", state, data, crlf, phase)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Put puts text at cursor, in any mode.
@@ -4021,7 +3883,8 @@ func (b *Batch) Paste(data string, crlf bool, phase int, state *bool) {
 //
 // [nvim_put()]: https://neovim.io/doc/user/api.html#nvim_put()
 func (v *Nvim) Put(lines []string, typ string, after bool, follow bool) error {
-	return v.call("nvim_put", nil, lines, typ, after, follow)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Put puts text at cursor, in any mode.
@@ -4050,7 +3913,8 @@ func (v *Nvim) Put(lines []string, typ string, after bool, follow bool) error {
 //
 // [nvim_put()]: https://neovim.io/doc/user/api.html#nvim_put()
 func (b *Batch) Put(lines []string, typ string, after bool, follow bool) {
-	b.call("nvim_put", nil, lines, typ, after, follow)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Subscribe subscribes to event broadcasts.
@@ -4058,36 +3922,28 @@ func (b *Batch) Put(lines []string, typ string, after bool, follow bool) {
 // See: [nvim_subscribe()]
 //
 // [nvim_subscribe()]: https://neovim.io/doc/user/api.html#nvim_subscribe()
-func (v *Nvim) Subscribe(event string) error {
-	return v.call("nvim_subscribe", nil, event)
-}
+func (v *Nvim) Subscribe(event string) error { _ = "STUB: not implemented"; return nil }
 
 // Subscribe subscribes to event broadcasts.
 //
 // See: [nvim_subscribe()]
 //
 // [nvim_subscribe()]: https://neovim.io/doc/user/api.html#nvim_subscribe()
-func (b *Batch) Subscribe(event string) {
-	b.call("nvim_subscribe", nil, event)
-}
+func (b *Batch) Subscribe(event string) { _ = "STUB: not implemented"; return }
 
 // Unsubscribe unsubscribes to event broadcasts.
 //
 // See: [nvim_unsubscribe()]
 //
 // [nvim_unsubscribe()]: https://neovim.io/doc/user/api.html#nvim_unsubscribe()
-func (v *Nvim) Unsubscribe(event string) error {
-	return v.call("nvim_unsubscribe", nil, event)
-}
+func (v *Nvim) Unsubscribe(event string) error { _ = "STUB: not implemented"; return nil }
 
 // Unsubscribe unsubscribes to event broadcasts.
 //
 // See: [nvim_unsubscribe()]
 //
 // [nvim_unsubscribe()]: https://neovim.io/doc/user/api.html#nvim_unsubscribe()
-func (b *Batch) Unsubscribe(event string) {
-	b.call("nvim_unsubscribe", nil, event)
-}
+func (b *Batch) Unsubscribe(event string) { _ = "STUB: not implemented"; return }
 
 // ColorByName Returns the 24-bit RGB value of a ColorMap color name or "#rrggbb" hexadecimal string.
 //
@@ -4100,8 +3956,8 @@ func (b *Batch) Unsubscribe(event string) {
 //
 // [nvim_get_color_by_name()]: https://neovim.io/doc/user/api.html#nvim_get_color_by_name()
 func (v *Nvim) ColorByName(name string) (color int, err error) {
-	err = v.call("nvim_get_color_by_name", &color, name)
-	return color, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // ColorByName Returns the 24-bit RGB value of a ColorMap color name or "#rrggbb" hexadecimal string.
@@ -4114,9 +3970,7 @@ func (v *Nvim) ColorByName(name string) (color int, err error) {
 // See: [nvim_get_color_by_name()]
 //
 // [nvim_get_color_by_name()]: https://neovim.io/doc/user/api.html#nvim_get_color_by_name()
-func (b *Batch) ColorByName(name string, color *int) {
-	b.call("nvim_get_color_by_name", color, name)
-}
+func (b *Batch) ColorByName(name string, color *int) { _ = "STUB: not implemented"; return }
 
 // ColorMap returns a map of color names and RGB values.
 //
@@ -4128,8 +3982,8 @@ func (b *Batch) ColorByName(name string, color *int) {
 //
 // [nvim_get_color_map()]: https://neovim.io/doc/user/api.html#nvim_get_color_map()
 func (v *Nvim) ColorMap() (colorMap map[string]int, err error) {
-	err = v.call("nvim_get_color_map", &colorMap)
-	return colorMap, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ColorMap returns a map of color names and RGB values.
@@ -4141,9 +3995,7 @@ func (v *Nvim) ColorMap() (colorMap map[string]int, err error) {
 // See: [nvim_get_color_map()]
 //
 // [nvim_get_color_map()]: https://neovim.io/doc/user/api.html#nvim_get_color_map()
-func (b *Batch) ColorMap(colorMap *map[string]int) {
-	b.call("nvim_get_color_map", colorMap)
-}
+func (b *Batch) ColorMap(colorMap *map[string]int) { _ = "STUB: not implemented"; return }
 
 // Context gets a map of the current editor state.
 // This API still under development.
@@ -4164,8 +4016,8 @@ func (b *Batch) ColorMap(colorMap *map[string]int) {
 //
 // [nvim_get_context()]: https://neovim.io/doc/user/api.html#nvim_get_context()
 func (v *Nvim) Context(opts map[string][]string) (context map[string]any, err error) {
-	err = v.call("nvim_get_context", &context, opts)
-	return context, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Context gets a map of the current editor state.
@@ -4187,7 +4039,8 @@ func (v *Nvim) Context(opts map[string][]string) (context map[string]any, err er
 //
 // [nvim_get_context()]: https://neovim.io/doc/user/api.html#nvim_get_context()
 func (b *Batch) Context(opts map[string][]string, context *map[string]any) {
-	b.call("nvim_get_context", context, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // LoadContext Sets the current editor state from the given context map.
@@ -4196,7 +4049,8 @@ func (b *Batch) Context(opts map[string][]string, context *map[string]any) {
 //
 // [nvim_load_context()]: https://neovim.io/doc/user/api.html#nvim_load_context()
 func (v *Nvim) LoadContext(context map[string]any, result any) error {
-	return v.call("nvim_load_context", result, context)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // LoadContext Sets the current editor state from the given context map.
@@ -4204,9 +4058,7 @@ func (v *Nvim) LoadContext(context map[string]any, result any) error {
 // See: [nvim_load_context()]
 //
 // [nvim_load_context()]: https://neovim.io/doc/user/api.html#nvim_load_context()
-func (b *Batch) LoadContext(context map[string]any, result any) {
-	b.call("nvim_load_context", &result, context)
-}
+func (b *Batch) LoadContext(context map[string]any, result any) { _ = "STUB: not implemented"; return }
 
 // Mode gets the current mode.
 //
@@ -4215,11 +4067,7 @@ func (b *Batch) LoadContext(context map[string]any, result any) {
 // See: [nvim_get_mode()]
 //
 // [nvim_get_mode()]: https://neovim.io/doc/user/api.html#nvim_get_mode()
-func (v *Nvim) Mode() (mode *Mode, err error) {
-	var result Mode
-	err = v.call("nvim_get_mode", &result)
-	return &result, err
-}
+func (v *Nvim) Mode() (mode *Mode, err error) { _ = "STUB: not implemented"; return nil, nil }
 
 // Mode gets the current mode.
 //
@@ -4228,9 +4076,7 @@ func (v *Nvim) Mode() (mode *Mode, err error) {
 // See: [nvim_get_mode()]
 //
 // [nvim_get_mode()]: https://neovim.io/doc/user/api.html#nvim_get_mode()
-func (b *Batch) Mode(mode *Mode) {
-	b.call("nvim_get_mode", mode)
-}
+func (b *Batch) Mode(mode *Mode) { _ = "STUB: not implemented"; return }
 
 // KeyMap gets a list of global (non-buffer-local) |mapping| definitions.
 //
@@ -4240,8 +4086,8 @@ func (b *Batch) Mode(mode *Mode) {
 //
 // [nvim_get_keymap()]: https://neovim.io/doc/user/api.html#nvim_get_keymap()
 func (v *Nvim) KeyMap(mode string) (maps []*Mapping, err error) {
-	err = v.call("nvim_get_keymap", &maps, mode)
-	return maps, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // KeyMap gets a list of global (non-buffer-local) |mapping| definitions.
@@ -4251,9 +4097,7 @@ func (v *Nvim) KeyMap(mode string) (maps []*Mapping, err error) {
 // See: [nvim_get_keymap()]
 //
 // [nvim_get_keymap()]: https://neovim.io/doc/user/api.html#nvim_get_keymap()
-func (b *Batch) KeyMap(mode string, maps *[]*Mapping) {
-	b.call("nvim_get_keymap", maps, mode)
-}
+func (b *Batch) KeyMap(mode string, maps *[]*Mapping) { _ = "STUB: not implemented"; return }
 
 // SetKeyMap sets a global mapping for the given mode.
 //
@@ -4284,7 +4128,8 @@ func (b *Batch) KeyMap(mode string, maps *[]*Mapping) {
 //
 // [nvim_set_keymap()]: https://neovim.io/doc/user/api.html#nvim_set_keymap()
 func (v *Nvim) SetKeyMap(mode string, lhs string, rhs string, opts map[string]bool) error {
-	return v.call("nvim_set_keymap", nil, mode, lhs, rhs, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetKeyMap sets a global mapping for the given mode.
@@ -4316,7 +4161,8 @@ func (v *Nvim) SetKeyMap(mode string, lhs string, rhs string, opts map[string]bo
 //
 // [nvim_set_keymap()]: https://neovim.io/doc/user/api.html#nvim_set_keymap()
 func (b *Batch) SetKeyMap(mode string, lhs string, rhs string, opts map[string]bool) {
-	b.call("nvim_set_keymap", nil, mode, lhs, rhs, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteKeyMap unmaps a global mapping for the given mode.
@@ -4326,9 +4172,7 @@ func (b *Batch) SetKeyMap(mode string, lhs string, rhs string, opts map[string]b
 // See: [nvim_del_keymap()]
 //
 // [nvim_del_keymap()]: https://neovim.io/doc/user/api.html#nvim_del_keymap()
-func (v *Nvim) DeleteKeyMap(mode string, lhs string) error {
-	return v.call("nvim_del_keymap", nil, mode, lhs)
-}
+func (v *Nvim) DeleteKeyMap(mode string, lhs string) error { _ = "STUB: not implemented"; return nil }
 
 // DeleteKeyMap unmaps a global mapping for the given mode.
 //
@@ -4337,9 +4181,7 @@ func (v *Nvim) DeleteKeyMap(mode string, lhs string) error {
 // See: [nvim_del_keymap()]
 //
 // [nvim_del_keymap()]: https://neovim.io/doc/user/api.html#nvim_del_keymap()
-func (b *Batch) DeleteKeyMap(mode string, lhs string) {
-	b.call("nvim_del_keymap", nil, mode, lhs)
-}
+func (b *Batch) DeleteKeyMap(mode string, lhs string) { _ = "STUB: not implemented"; return }
 
 // APIInfo returns a 2-tuple (Array), where item 0 is the current channel id and item
 // 1 is the "api-metadata" map (Dictionary).
@@ -4349,10 +4191,7 @@ func (b *Batch) DeleteKeyMap(mode string, lhs string) {
 // See: [nvim_get_api_info()]
 //
 // [nvim_get_api_info()]: https://neovim.io/doc/user/api.html#nvim_get_api_info()
-func (v *Nvim) APIInfo() (apiInfo []any, err error) {
-	err = v.call("nvim_get_api_info", &apiInfo)
-	return apiInfo, err
-}
+func (v *Nvim) APIInfo() (apiInfo []any, err error) { _ = "STUB: not implemented"; return nil, nil }
 
 // APIInfo returns a 2-tuple (Array), where item 0 is the current channel id and item
 // 1 is the "api-metadata" map (Dictionary).
@@ -4362,9 +4201,7 @@ func (v *Nvim) APIInfo() (apiInfo []any, err error) {
 // See: [nvim_get_api_info()]
 //
 // [nvim_get_api_info()]: https://neovim.io/doc/user/api.html#nvim_get_api_info()
-func (b *Batch) APIInfo(apiInfo *[]any) {
-	b.call("nvim_get_api_info", apiInfo)
-}
+func (b *Batch) APIInfo(apiInfo *[]any) { _ = "STUB: not implemented"; return }
 
 // SetClientInfo self-identifies the client.
 //
@@ -4379,7 +4216,8 @@ func (b *Batch) APIInfo(apiInfo *[]any) {
 //
 // [nvim_set_client_info()]: https://neovim.io/doc/user/api.html#nvim_set_client_info()
 func (v *Nvim) SetClientInfo(name string, version ClientVersion, typ ClientType, methods map[string]*ClientMethod, attributes ClientAttributes) error {
-	return v.call("nvim_set_client_info", nil, name, version, typ, methods, attributes)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetClientInfo self-identifies the client.
@@ -4395,7 +4233,8 @@ func (v *Nvim) SetClientInfo(name string, version ClientVersion, typ ClientType,
 //
 // [nvim_set_client_info()]: https://neovim.io/doc/user/api.html#nvim_set_client_info()
 func (b *Batch) SetClientInfo(name string, version ClientVersion, typ ClientType, methods map[string]*ClientMethod, attributes ClientAttributes) {
-	b.call("nvim_set_client_info", nil, name, version, typ, methods, attributes)
+	_ = "STUB: not implemented"
+	return
 }
 
 // ChannelInfo get information about a channel.
@@ -4457,9 +4296,8 @@ func (b *Batch) SetClientInfo(name string, version ClientVersion, typ ClientType
 //
 // [nvim_get_chan_info()]: https://neovim.io/doc/user/api.html#nvim_get_chan_info()
 func (v *Nvim) ChannelInfo(channelID int) (channel *Channel, err error) {
-	var result Channel
-	err = v.call("nvim_get_chan_info", &result, channelID)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ChannelInfo get information about a channel.
@@ -4520,9 +4358,7 @@ func (v *Nvim) ChannelInfo(channelID int) (channel *Channel, err error) {
 // See: [nvim_get_chan_info()]
 //
 // [nvim_get_chan_info()]: https://neovim.io/doc/user/api.html#nvim_get_chan_info()
-func (b *Batch) ChannelInfo(channelID int, channel *Channel) {
-	b.call("nvim_get_chan_info", channel, channelID)
-}
+func (b *Batch) ChannelInfo(channelID int, channel *Channel) { _ = "STUB: not implemented"; return }
 
 // Channels get information about all open channels.
 //
@@ -4530,8 +4366,8 @@ func (b *Batch) ChannelInfo(channelID int, channel *Channel) {
 //
 // [nvim_list_chans()]: https://neovim.io/doc/user/api.html#nvim_list_chans()
 func (v *Nvim) Channels() (channels []*Channel, err error) {
-	err = v.call("nvim_list_chans", &channels)
-	return channels, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Channels get information about all open channels.
@@ -4539,28 +4375,21 @@ func (v *Nvim) Channels() (channels []*Channel, err error) {
 // See: [nvim_list_chans()]
 //
 // [nvim_list_chans()]: https://neovim.io/doc/user/api.html#nvim_list_chans()
-func (b *Batch) Channels(channels *[]*Channel) {
-	b.call("nvim_list_chans", channels)
-}
+func (b *Batch) Channels(channels *[]*Channel) { _ = "STUB: not implemented"; return }
 
 // UIs gets a list of dictionaries representing attached UIs.
 //
 // See: [nvim_list_uis()]
 //
 // [nvim_list_uis()]: https://neovim.io/doc/user/api.html#nvim_list_uis()
-func (v *Nvim) UIs() (uis []*UI, err error) {
-	err = v.call("nvim_list_uis", &uis)
-	return uis, err
-}
+func (v *Nvim) UIs() (uis []*UI, err error) { _ = "STUB: not implemented"; return nil, nil }
 
 // UIs gets a list of dictionaries representing attached UIs.
 //
 // See: [nvim_list_uis()]
 //
 // [nvim_list_uis()]: https://neovim.io/doc/user/api.html#nvim_list_uis()
-func (b *Batch) UIs(uis *[]*UI) {
-	b.call("nvim_list_uis", uis)
-}
+func (b *Batch) UIs(uis *[]*UI) { _ = "STUB: not implemented"; return }
 
 // ProcChildren gets the immediate children of process `pid`.
 //
@@ -4568,8 +4397,8 @@ func (b *Batch) UIs(uis *[]*UI) {
 //
 // [nvim_get_proc_children()]: https://neovim.io/doc/user/api.html#nvim_get_proc_children()
 func (v *Nvim) ProcChildren(pid int) (processes []uint, err error) {
-	err = v.call("nvim_get_proc_children", &processes, pid)
-	return processes, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ProcChildren gets the immediate children of process `pid`.
@@ -4577,9 +4406,7 @@ func (v *Nvim) ProcChildren(pid int) (processes []uint, err error) {
 // See: [nvim_get_proc_children()]
 //
 // [nvim_get_proc_children()]: https://neovim.io/doc/user/api.html#nvim_get_proc_children()
-func (b *Batch) ProcChildren(pid int, processes *[]uint) {
-	b.call("nvim_get_proc_children", processes, pid)
-}
+func (b *Batch) ProcChildren(pid int, processes *[]uint) { _ = "STUB: not implemented"; return }
 
 // Proc gets info describing process "pid".
 //
@@ -4587,8 +4414,8 @@ func (b *Batch) ProcChildren(pid int, processes *[]uint) {
 //
 // [nvim_get_proc()]: https://neovim.io/doc/user/api.html#nvim_get_proc()
 func (v *Nvim) Proc(pid int) (process Process, err error) {
-	err = v.call("nvim_get_proc", &process, pid)
-	return process, err
+	_ = "STUB: not implemented"
+	return *new(Process), nil
 }
 
 // Proc gets info describing process "pid".
@@ -4596,9 +4423,7 @@ func (v *Nvim) Proc(pid int) (process Process, err error) {
 // See: [nvim_get_proc()]
 //
 // [nvim_get_proc()]: https://neovim.io/doc/user/api.html#nvim_get_proc()
-func (b *Batch) Proc(pid int, process *Process) {
-	b.call("nvim_get_proc", process, pid)
-}
+func (b *Batch) Proc(pid int, process *Process) { _ = "STUB: not implemented"; return }
 
 // SelectPopupmenuItem selects an item in the completion popupmenu.
 //
@@ -4613,7 +4438,8 @@ func (b *Batch) Proc(pid int, process *Process) {
 //
 // [nvim_select_popupmenu_item()]: https://neovim.io/doc/user/api.html#nvim_select_popupmenu_item()
 func (v *Nvim) SelectPopupmenuItem(item int, insert bool, finish bool, opts map[string]any) error {
-	return v.call("nvim_select_popupmenu_item", nil, item, insert, finish, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SelectPopupmenuItem selects an item in the completion popupmenu.
@@ -4629,7 +4455,8 @@ func (v *Nvim) SelectPopupmenuItem(item int, insert bool, finish bool, opts map[
 //
 // [nvim_select_popupmenu_item()]: https://neovim.io/doc/user/api.html#nvim_select_popupmenu_item()
 func (b *Batch) SelectPopupmenuItem(item int, insert bool, finish bool, opts map[string]any) {
-	b.call("nvim_select_popupmenu_item", nil, item, insert, finish, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteMark deletes a uppercase/file named mark.
@@ -4639,8 +4466,8 @@ func (b *Batch) SelectPopupmenuItem(item int, insert bool, finish bool, opts map
 //
 // [nvim_del_mark()]: https://neovim.io/doc/user/api.html#nvim_del_mark()
 func (v *Nvim) DeleteMark(name string) (deleted bool, err error) {
-	err = v.call("nvim_del_mark", &deleted, name)
-	return deleted, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // DeleteMark deletes a uppercase/file named mark.
@@ -4649,9 +4476,7 @@ func (v *Nvim) DeleteMark(name string) (deleted bool, err error) {
 // See: [nvim_del_mark()]
 //
 // [nvim_del_mark()]: https://neovim.io/doc/user/api.html#nvim_del_mark()
-func (b *Batch) DeleteMark(name string, deleted *bool) {
-	b.call("nvim_del_mark", deleted, name)
-}
+func (b *Batch) DeleteMark(name string, deleted *bool) { _ = "STUB: not implemented"; return }
 
 // Mark returns a tuple (row, col, buffer, buffername) representing the position of
 // the uppercase/file named mark.
@@ -4663,9 +4488,8 @@ func (b *Batch) DeleteMark(name string, deleted *bool) {
 //
 // [nvim_get_mark()]: https://neovim.io/doc/user/api.html#nvim_get_mark()
 func (v *Nvim) Mark(name string, opts map[string]any) (mark *Mark, err error) {
-	var result Mark
-	err = v.call("nvim_get_mark", &result, name, opts)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Mark returns a tuple (row, col, buffer, buffername) representing the position of
@@ -4678,7 +4502,8 @@ func (v *Nvim) Mark(name string, opts map[string]any) (mark *Mark, err error) {
 //
 // [nvim_get_mark()]: https://neovim.io/doc/user/api.html#nvim_get_mark()
 func (b *Batch) Mark(name string, opts map[string]any, mark *Mark) {
-	b.call("nvim_get_mark", mark, name, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // EvalStatusLine evaluates statusline string.
@@ -4709,8 +4534,8 @@ func (b *Batch) Mark(name string, opts map[string]any, mark *Mark) {
 //
 // [nvim_eval_statusline()]: https://neovim.io/doc/user/api.html#nvim_eval_statusline()
 func (v *Nvim) EvalStatusLine(name string, opts map[string]any) (statusline map[string]any, err error) {
-	err = v.call("nvim_eval_statusline", &statusline, name, opts)
-	return statusline, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // EvalStatusLine evaluates statusline string.
@@ -4741,7 +4566,8 @@ func (v *Nvim) EvalStatusLine(name string, opts map[string]any) (statusline map[
 //
 // [nvim_eval_statusline()]: https://neovim.io/doc/user/api.html#nvim_eval_statusline()
 func (b *Batch) EvalStatusLine(name string, opts map[string]any, statusline *map[string]any) {
-	b.call("nvim_eval_statusline", statusline, name, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // WindowBuffer gets the current buffer in a window.
@@ -4750,8 +4576,8 @@ func (b *Batch) EvalStatusLine(name string, opts map[string]any, statusline *map
 //
 // [nvim_win_get_buf()]: https://neovim.io/doc/user/api.html#nvim_win_get_buf()
 func (v *Nvim) WindowBuffer(window Window) (buffer Buffer, err error) {
-	err = v.call("nvim_win_get_buf", &buffer, window)
-	return buffer, err
+	_ = "STUB: not implemented"
+	return *new(Buffer), nil
 }
 
 // WindowBuffer gets the current buffer in a window.
@@ -4759,9 +4585,7 @@ func (v *Nvim) WindowBuffer(window Window) (buffer Buffer, err error) {
 // See: [nvim_win_get_buf()]
 //
 // [nvim_win_get_buf()]: https://neovim.io/doc/user/api.html#nvim_win_get_buf()
-func (b *Batch) WindowBuffer(window Window, buffer *Buffer) {
-	b.call("nvim_win_get_buf", buffer, window)
-}
+func (b *Batch) WindowBuffer(window Window, buffer *Buffer) { _ = "STUB: not implemented"; return }
 
 // SetBufferToWindow Sets the current buffer in a window, without side-effects.
 //
@@ -4769,7 +4593,8 @@ func (b *Batch) WindowBuffer(window Window, buffer *Buffer) {
 //
 // [nvim_win_set_buf()]: https://neovim.io/doc/user/api.html#nvim_win_set_buf()
 func (v *Nvim) SetBufferToWindow(window Window, buffer Buffer) error {
-	return v.call("nvim_win_set_buf", nil, window, buffer)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetBufferToWindow Sets the current buffer in a window, without side-effects.
@@ -4777,9 +4602,7 @@ func (v *Nvim) SetBufferToWindow(window Window, buffer Buffer) error {
 // See: [nvim_win_set_buf()]
 //
 // [nvim_win_set_buf()]: https://neovim.io/doc/user/api.html#nvim_win_set_buf()
-func (b *Batch) SetBufferToWindow(window Window, buffer Buffer) {
-	b.call("nvim_win_set_buf", nil, window, buffer)
-}
+func (b *Batch) SetBufferToWindow(window Window, buffer Buffer) { _ = "STUB: not implemented"; return }
 
 // WindowCursor gets the (1,0)-indexed cursor position in the window.
 //
@@ -4787,8 +4610,8 @@ func (b *Batch) SetBufferToWindow(window Window, buffer Buffer) {
 //
 // [nvim_win_get_cursor()]: https://neovim.io/doc/user/api.html#nvim_win_get_cursor()
 func (v *Nvim) WindowCursor(window Window) (pos [2]int, err error) {
-	err = v.call("nvim_win_get_cursor", &pos, window)
-	return pos, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // WindowCursor gets the (1,0)-indexed cursor position in the window.
@@ -4796,9 +4619,7 @@ func (v *Nvim) WindowCursor(window Window) (pos [2]int, err error) {
 // See: [nvim_win_get_cursor()]
 //
 // [nvim_win_get_cursor()]: https://neovim.io/doc/user/api.html#nvim_win_get_cursor()
-func (b *Batch) WindowCursor(window Window, pos *[2]int) {
-	b.call("nvim_win_get_cursor", pos, window)
-}
+func (b *Batch) WindowCursor(window Window, pos *[2]int) { _ = "STUB: not implemented"; return }
 
 // SetWindowCursor sets the (1,0)-indexed cursor position in the window.
 //
@@ -4806,7 +4627,8 @@ func (b *Batch) WindowCursor(window Window, pos *[2]int) {
 //
 // [nvim_win_set_cursor()]: https://neovim.io/doc/user/api.html#nvim_win_set_cursor()
 func (v *Nvim) SetWindowCursor(window Window, pos [2]int) error {
-	return v.call("nvim_win_set_cursor", nil, window, pos)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetWindowCursor sets the (1,0)-indexed cursor position in the window.
@@ -4814,9 +4636,7 @@ func (v *Nvim) SetWindowCursor(window Window, pos [2]int) error {
 // See: [nvim_win_set_cursor()]
 //
 // [nvim_win_set_cursor()]: https://neovim.io/doc/user/api.html#nvim_win_set_cursor()
-func (b *Batch) SetWindowCursor(window Window, pos [2]int) {
-	b.call("nvim_win_set_cursor", nil, window, pos)
-}
+func (b *Batch) SetWindowCursor(window Window, pos [2]int) { _ = "STUB: not implemented"; return }
 
 // WindowHeight returns the window height.
 //
@@ -4824,8 +4644,8 @@ func (b *Batch) SetWindowCursor(window Window, pos [2]int) {
 //
 // [nvim_win_get_height()]: https://neovim.io/doc/user/api.html#nvim_win_get_height()
 func (v *Nvim) WindowHeight(window Window) (height int, err error) {
-	err = v.call("nvim_win_get_height", &height, window)
-	return height, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // WindowHeight returns the window height.
@@ -4833,9 +4653,7 @@ func (v *Nvim) WindowHeight(window Window) (height int, err error) {
 // See: [nvim_win_get_height()]
 //
 // [nvim_win_get_height()]: https://neovim.io/doc/user/api.html#nvim_win_get_height()
-func (b *Batch) WindowHeight(window Window, height *int) {
-	b.call("nvim_win_get_height", height, window)
-}
+func (b *Batch) WindowHeight(window Window, height *int) { _ = "STUB: not implemented"; return }
 
 // SetWindowHeight Sets the window height. This will only succeed if the screen is split horizontally.
 //
@@ -4843,7 +4661,8 @@ func (b *Batch) WindowHeight(window Window, height *int) {
 //
 // [nvim_win_set_height()]: https://neovim.io/doc/user/api.html#nvim_win_set_height()
 func (v *Nvim) SetWindowHeight(window Window, height int) error {
-	return v.call("nvim_win_set_height", nil, window, height)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetWindowHeight Sets the window height. This will only succeed if the screen is split horizontally.
@@ -4851,9 +4670,7 @@ func (v *Nvim) SetWindowHeight(window Window, height int) error {
 // See: [nvim_win_set_height()]
 //
 // [nvim_win_set_height()]: https://neovim.io/doc/user/api.html#nvim_win_set_height()
-func (b *Batch) SetWindowHeight(window Window, height int) {
-	b.call("nvim_win_set_height", nil, window, height)
-}
+func (b *Batch) SetWindowHeight(window Window, height int) { _ = "STUB: not implemented"; return }
 
 // WindowWidth returns the window width.
 //
@@ -4861,8 +4678,8 @@ func (b *Batch) SetWindowHeight(window Window, height int) {
 //
 // [nvim_win_get_width()]: https://neovim.io/doc/user/api.html#nvim_win_get_width()
 func (v *Nvim) WindowWidth(window Window) (width int, err error) {
-	err = v.call("nvim_win_get_width", &width, window)
-	return width, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // WindowWidth returns the window width.
@@ -4870,9 +4687,7 @@ func (v *Nvim) WindowWidth(window Window) (width int, err error) {
 // See: [nvim_win_get_width()]
 //
 // [nvim_win_get_width()]: https://neovim.io/doc/user/api.html#nvim_win_get_width()
-func (b *Batch) WindowWidth(window Window, width *int) {
-	b.call("nvim_win_get_width", width, window)
-}
+func (b *Batch) WindowWidth(window Window, width *int) { _ = "STUB: not implemented"; return }
 
 // SetWindowWidth Sets the window width. This will only succeed if the screen is split vertically.
 //
@@ -4880,7 +4695,8 @@ func (b *Batch) WindowWidth(window Window, width *int) {
 //
 // [nvim_win_set_width()]: https://neovim.io/doc/user/api.html#nvim_win_set_width()
 func (v *Nvim) SetWindowWidth(window Window, width int) error {
-	return v.call("nvim_win_set_width", nil, window, width)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetWindowWidth Sets the window width. This will only succeed if the screen is split vertically.
@@ -4888,9 +4704,7 @@ func (v *Nvim) SetWindowWidth(window Window, width int) error {
 // See: [nvim_win_set_width()]
 //
 // [nvim_win_set_width()]: https://neovim.io/doc/user/api.html#nvim_win_set_width()
-func (b *Batch) SetWindowWidth(window Window, width int) {
-	b.call("nvim_win_set_width", nil, window, width)
-}
+func (b *Batch) SetWindowWidth(window Window, width int) { _ = "STUB: not implemented"; return }
 
 // WindowVar gets a window-scoped (w:) variable.
 //
@@ -4898,7 +4712,8 @@ func (b *Batch) SetWindowWidth(window Window, width int) {
 //
 // [nvim_win_get_var()]: https://neovim.io/doc/user/api.html#nvim_win_get_var()
 func (v *Nvim) WindowVar(window Window, name string, result any) error {
-	return v.call("nvim_win_get_var", result, window, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WindowVar gets a window-scoped (w:) variable.
@@ -4907,7 +4722,8 @@ func (v *Nvim) WindowVar(window Window, name string, result any) error {
 //
 // [nvim_win_get_var()]: https://neovim.io/doc/user/api.html#nvim_win_get_var()
 func (b *Batch) WindowVar(window Window, name string, result any) {
-	b.call("nvim_win_get_var", &result, window, name)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetWindowVar sets a window-scoped (w:) variable.
@@ -4916,7 +4732,8 @@ func (b *Batch) WindowVar(window Window, name string, result any) {
 //
 // [nvim_win_set_var()]: https://neovim.io/doc/user/api.html#nvim_win_set_var()
 func (v *Nvim) SetWindowVar(window Window, name string, value any) error {
-	return v.call("nvim_win_set_var", nil, window, name, value)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetWindowVar sets a window-scoped (w:) variable.
@@ -4925,7 +4742,8 @@ func (v *Nvim) SetWindowVar(window Window, name string, value any) error {
 //
 // [nvim_win_set_var()]: https://neovim.io/doc/user/api.html#nvim_win_set_var()
 func (b *Batch) SetWindowVar(window Window, name string, value any) {
-	b.call("nvim_win_set_var", nil, window, name, value)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteWindowVar removes a window-scoped (w:) variable.
@@ -4934,7 +4752,8 @@ func (b *Batch) SetWindowVar(window Window, name string, value any) {
 //
 // [nvim_win_del_var()]: https://neovim.io/doc/user/api.html#nvim_win_del_var()
 func (v *Nvim) DeleteWindowVar(window Window, name string) error {
-	return v.call("nvim_win_del_var", nil, window, name)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DeleteWindowVar removes a window-scoped (w:) variable.
@@ -4942,9 +4761,7 @@ func (v *Nvim) DeleteWindowVar(window Window, name string) error {
 // See: [nvim_win_del_var()]
 //
 // [nvim_win_del_var()]: https://neovim.io/doc/user/api.html#nvim_win_del_var()
-func (b *Batch) DeleteWindowVar(window Window, name string) {
-	b.call("nvim_win_del_var", nil, window, name)
-}
+func (b *Batch) DeleteWindowVar(window Window, name string) { _ = "STUB: not implemented"; return }
 
 // WindowPosition gets the window position in display cells. First position is zero.
 //
@@ -4952,8 +4769,8 @@ func (b *Batch) DeleteWindowVar(window Window, name string) {
 //
 // [nvim_win_get_position()]: https://neovim.io/doc/user/api.html#nvim_win_get_position()
 func (v *Nvim) WindowPosition(window Window) (pos [2]int, err error) {
-	err = v.call("nvim_win_get_position", &pos, window)
-	return pos, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // WindowPosition gets the window position in display cells. First position is zero.
@@ -4961,9 +4778,7 @@ func (v *Nvim) WindowPosition(window Window) (pos [2]int, err error) {
 // See: [nvim_win_get_position()]
 //
 // [nvim_win_get_position()]: https://neovim.io/doc/user/api.html#nvim_win_get_position()
-func (b *Batch) WindowPosition(window Window, pos *[2]int) {
-	b.call("nvim_win_get_position", pos, window)
-}
+func (b *Batch) WindowPosition(window Window, pos *[2]int) { _ = "STUB: not implemented"; return }
 
 // WindowTabpage gets the window tabpage.
 //
@@ -4971,8 +4786,8 @@ func (b *Batch) WindowPosition(window Window, pos *[2]int) {
 //
 // [nvim_win_get_tabpage()]: https://neovim.io/doc/user/api.html#nvim_win_get_tabpage()
 func (v *Nvim) WindowTabpage(window Window) (tabpage Tabpage, err error) {
-	err = v.call("nvim_win_get_tabpage", &tabpage, window)
-	return tabpage, err
+	_ = "STUB: not implemented"
+	return *new(Tabpage), nil
 }
 
 // WindowTabpage gets the window tabpage.
@@ -4980,9 +4795,7 @@ func (v *Nvim) WindowTabpage(window Window) (tabpage Tabpage, err error) {
 // See: [nvim_win_get_tabpage()]
 //
 // [nvim_win_get_tabpage()]: https://neovim.io/doc/user/api.html#nvim_win_get_tabpage()
-func (b *Batch) WindowTabpage(window Window, tabpage *Tabpage) {
-	b.call("nvim_win_get_tabpage", tabpage, window)
-}
+func (b *Batch) WindowTabpage(window Window, tabpage *Tabpage) { _ = "STUB: not implemented"; return }
 
 // WindowNumber gets the window number.
 //
@@ -4990,8 +4803,8 @@ func (b *Batch) WindowTabpage(window Window, tabpage *Tabpage) {
 //
 // [nvim_win_get_number()]: https://neovim.io/doc/user/api.html#nvim_win_get_number()
 func (v *Nvim) WindowNumber(window Window) (number int, err error) {
-	err = v.call("nvim_win_get_number", &number, window)
-	return number, err
+	_ = "STUB: not implemented"
+	return 0, nil
 }
 
 // WindowNumber gets the window number.
@@ -4999,9 +4812,7 @@ func (v *Nvim) WindowNumber(window Window) (number int, err error) {
 // See: [nvim_win_get_number()]
 //
 // [nvim_win_get_number()]: https://neovim.io/doc/user/api.html#nvim_win_get_number()
-func (b *Batch) WindowNumber(window Window, number *int) {
-	b.call("nvim_win_get_number", number, window)
-}
+func (b *Batch) WindowNumber(window Window, number *int) { _ = "STUB: not implemented"; return }
 
 // IsWindowValid checks if a window is valid.
 //
@@ -5009,8 +4820,8 @@ func (b *Batch) WindowNumber(window Window, number *int) {
 //
 // [nvim_win_is_valid()]: https://neovim.io/doc/user/api.html#nvim_win_is_valid()
 func (v *Nvim) IsWindowValid(window Window) (valid bool, err error) {
-	err = v.call("nvim_win_is_valid", &valid, window)
-	return valid, err
+	_ = "STUB: not implemented"
+	return false, nil
 }
 
 // IsWindowValid checks if a window is valid.
@@ -5018,9 +4829,7 @@ func (v *Nvim) IsWindowValid(window Window) (valid bool, err error) {
 // See: [nvim_win_is_valid()]
 //
 // [nvim_win_is_valid()]: https://neovim.io/doc/user/api.html#nvim_win_is_valid()
-func (b *Batch) IsWindowValid(window Window, valid *bool) {
-	b.call("nvim_win_is_valid", valid, window)
-}
+func (b *Batch) IsWindowValid(window Window, valid *bool) { _ = "STUB: not implemented"; return }
 
 // SetWindowConfig configure window position. Currently this is only used to configure
 // floating and external windows (including changing a split window to these types).
@@ -5034,7 +4843,8 @@ func (b *Batch) IsWindowValid(window Window, valid *bool) {
 //
 // [nvim_win_set_config()]: https://neovim.io/doc/user/api.html#nvim_win_set_config()
 func (v *Nvim) SetWindowConfig(window Window, config *WindowConfig) error {
-	return v.call("nvim_win_set_config", nil, window, config)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetWindowConfig configure window position. Currently this is only used to configure
@@ -5049,7 +4859,8 @@ func (v *Nvim) SetWindowConfig(window Window, config *WindowConfig) error {
 //
 // [nvim_win_set_config()]: https://neovim.io/doc/user/api.html#nvim_win_set_config()
 func (b *Batch) SetWindowConfig(window Window, config *WindowConfig) {
-	b.call("nvim_win_set_config", nil, window, config)
+	_ = "STUB: not implemented"
+	return
 }
 
 // WindowConfig return window configuration.
@@ -5062,9 +4873,8 @@ func (b *Batch) SetWindowConfig(window Window, config *WindowConfig) {
 //
 // [nvim_win_get_config()]: https://neovim.io/doc/user/api.html#nvim_win_get_config()
 func (v *Nvim) WindowConfig(window Window) (config *WindowConfig, err error) {
-	var result WindowConfig
-	err = v.call("nvim_win_get_config", &result, window)
-	return &result, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // WindowConfig return window configuration.
@@ -5077,7 +4887,8 @@ func (v *Nvim) WindowConfig(window Window) (config *WindowConfig, err error) {
 //
 // [nvim_win_get_config()]: https://neovim.io/doc/user/api.html#nvim_win_get_config()
 func (b *Batch) WindowConfig(window Window, config *WindowConfig) {
-	b.call("nvim_win_get_config", config, window)
+	_ = "STUB: not implemented"
+	return
 }
 
 // HideWindow closes the window and hide the buffer it contains (like ":hide" with a
@@ -5090,9 +4901,7 @@ func (b *Batch) WindowConfig(window Window, config *WindowConfig) {
 // See: [nvim_win_hide()]
 //
 // [nvim_win_hide()]: https://neovim.io/doc/user/api.html#nvim_win_hide()
-func (v *Nvim) HideWindow(window Window) error {
-	return v.call("nvim_win_hide", nil, window)
-}
+func (v *Nvim) HideWindow(window Window) error { _ = "STUB: not implemented"; return nil }
 
 // HideWindow closes the window and hide the buffer it contains (like ":hide" with a
 // windowID).
@@ -5104,27 +4913,21 @@ func (v *Nvim) HideWindow(window Window) error {
 // See: [nvim_win_hide()]
 //
 // [nvim_win_hide()]: https://neovim.io/doc/user/api.html#nvim_win_hide()
-func (b *Batch) HideWindow(window Window) {
-	b.call("nvim_win_hide", nil, window)
-}
+func (b *Batch) HideWindow(window Window) { _ = "STUB: not implemented"; return }
 
 // CloseWindow Closes the window (like ":close" with a window-ID).
 //
 // See: [nvim_win_close()]
 //
 // [nvim_win_close()]: https://neovim.io/doc/user/api.html#nvim_win_close()
-func (v *Nvim) CloseWindow(window Window, force bool) error {
-	return v.call("nvim_win_close", nil, window, force)
-}
+func (v *Nvim) CloseWindow(window Window, force bool) error { _ = "STUB: not implemented"; return nil }
 
 // CloseWindow Closes the window (like ":close" with a window-ID).
 //
 // See: [nvim_win_close()]
 //
 // [nvim_win_close()]: https://neovim.io/doc/user/api.html#nvim_win_close()
-func (b *Batch) CloseWindow(window Window, force bool) {
-	b.call("nvim_win_close", nil, window, force)
-}
+func (b *Batch) CloseWindow(window Window, force bool) { _ = "STUB: not implemented"; return }
 
 // SetWindowHeightNamespace set highlight namespace for a window. This will use highlights defined in
 // this namespace, but fall back to global highlights (ns=0) when missing.
@@ -5135,7 +4938,8 @@ func (b *Batch) CloseWindow(window Window, force bool) {
 //
 // [nvim_win_set_hl_ns()]: https://neovim.io/doc/user/api.html#nvim_win_set_hl_ns()
 func (v *Nvim) SetWindowHeightNamespace(window Window, nsID int) error {
-	return v.call("nvim_win_set_hl_ns", nil, window, nsID)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetWindowHeightNamespace set highlight namespace for a window. This will use highlights defined in
@@ -5147,5 +4951,6 @@ func (v *Nvim) SetWindowHeightNamespace(window Window, nsID int) error {
 //
 // [nvim_win_set_hl_ns()]: https://neovim.io/doc/user/api.html#nvim_win_set_hl_ns()
 func (b *Batch) SetWindowHeightNamespace(window Window, nsID int) {
-	b.call("nvim_win_set_hl_ns", nil, window, nsID)
+	_ = "STUB: not implemented"
+	return
 }

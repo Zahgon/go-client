@@ -18,51 +18,35 @@ package main
 //
 // Note that when multiple patterns or events are provided, it will find all the autocommands that
 // match any combination of them.
-func Autocmds(opts map[string]any) (result []*AutocmdType) {
-	name(nvim_get_autocmds)
-}
+func Autocmds(opts map[string]any) (result []*AutocmdType) { _ = "STUB: not implemented"; return nil }
 
 // CreateAutocmd create an autocommand.
 //
 // The API allows for two (mutually exclusive) types of actions to be executed when the autocommand
 // triggers: a callback function (Lua or Vimscript), or a command (like regular autocommands).
-func CreateAutocmd(event any, opts map[string]any) (id int) {
-	name(nvim_create_autocmd)
-}
+func CreateAutocmd(event any, opts map[string]any) (id int) { _ = "STUB: not implemented"; return 0 }
 
 // DeleteAutocmd delete an autocommand by id.
 //
 // NOTE: Only autocommands created via the API have an id.
-func DeleteAutocmd(id int) {
-	name(nvim_del_autocmd)
-}
+func DeleteAutocmd(id int) { _ = "STUB: not implemented"; return }
 
 // ClearAutocmds clear all autocommands that match the corresponding {opts}.
 //
 // To delete a particular autocmd, see DeleteAutocmd.
-func ClearAutocmds(opts map[string]any) {
-	name(nvim_clear_autocmds)
-}
+func ClearAutocmds(opts map[string]any) { _ = "STUB: not implemented"; return }
 
 // CreateAugroup create or get an autocommand group(autocmd-groups).
-func CreateAugroup(name string, opts map[string]any) (id int) {
-	name(nvim_create_augroup)
-}
+func CreateAugroup(name string, opts map[string]any) (id int) { _ = "STUB: not implemented"; return 0 }
 
 // DeleteAugroupByID delete an autocommand group by id.
-func DeleteAugroupByID(id int) {
-	name(nvim_del_augroup_by_id)
-}
+func DeleteAugroupByID(id int) { _ = "STUB: not implemented"; return }
 
 // DeleteAugroupByID delete an autocommand group by name.
-func DeleteAugroupByName(name string) {
-	name(nvim_del_augroup_by_name)
-}
+func DeleteAugroupByName(name string) { _ = "STUB: not implemented"; return }
 
 // ExecAutocmds execute all autocommands for {event} that match the corresponding {opts} autocmd-execute.
-func ExecAutocmds(event any, opts map[string]any) {
-	name(nvim_exec_autocmds)
-}
+func ExecAutocmds(event any, opts map[string]any) { _ = "STUB: not implemented"; return }
 
 // buffer.c
 
@@ -71,9 +55,7 @@ func ExecAutocmds(event any, opts map[string]any) {
 // The buffer arg is specific Buffer, or 0 for current buffer.
 //
 // The returns line count, or 0 for unloaded buffer.
-func BufferLineCount(buffer Buffer) (count int) {
-	name(nvim_buf_line_count)
-}
+func BufferLineCount(buffer Buffer) (count int) { _ = "STUB: not implemented"; return 0 }
 
 // AttachBuffer activates buffer-update events on a channel.
 //
@@ -85,15 +67,15 @@ func BufferLineCount(buffer Buffer) (count int) {
 //
 // Returns whether the updates couldn't be enabled because the buffer isn't loaded or opts contained an invalid key.
 func AttachBuffer(buffer Buffer, sendBuffer bool, opts map[string]any) (attached bool) {
-	name(nvim_buf_attach)
+	_ = "STUB: not implemented"
+	return false
+
+	// DetachBuffer deactivate updates from this buffer to the current channel.
+	//
+	// Returns whether the updates couldn't be disabled because the buffer isn't loaded.
 }
 
-// DetachBuffer deactivate updates from this buffer to the current channel.
-//
-// Returns whether the updates couldn't be disabled because the buffer isn't loaded.
-func DetachBuffer(buffer Buffer) (detached bool) {
-	name(nvim_buf_detach)
-}
+func DetachBuffer(buffer Buffer) (detached bool) { _ = "STUB: not implemented"; return false }
 
 // BufferLines gets a line-range from the buffer.
 //
@@ -103,23 +85,26 @@ func DetachBuffer(buffer Buffer) (detached bool) {
 //
 // Out-of-bounds indices are clamped to the nearest valid value, unless strictIndexing is set.
 func BufferLines(buffer Buffer, start, end int, strictIndexing bool) (lines [][]byte) {
-	name(nvim_buf_get_lines)
+	_ = "STUB: not implemented"
+	return nil
+
+	// SetBufferLines sets or replaces a line-range in the buffer.
+	//
+	// Indexing is zero-based, end-exclusive.
+	// Negative indices are interpreted as length+1+index: -1 refers to the index past the end.
+	// So to change or delete the last element use start=-2 and end=-1.
+	//
+	// To insert lines at a given index, set start and end args to the same index.
+	//
+	// To delete a range of lines, set replacement arg to an empty array.
+	//
+	// Out-of-bounds indices are clamped to the nearest valid value, unless
+	// strict_indexing arg is set to true.
 }
 
-// SetBufferLines sets or replaces a line-range in the buffer.
-//
-// Indexing is zero-based, end-exclusive.
-// Negative indices are interpreted as length+1+index: -1 refers to the index past the end.
-// So to change or delete the last element use start=-2 and end=-1.
-//
-// To insert lines at a given index, set start and end args to the same index.
-//
-// To delete a range of lines, set replacement arg to an empty array.
-//
-// Out-of-bounds indices are clamped to the nearest valid value, unless
-// strict_indexing arg is set to true.
 func SetBufferLines(buffer Buffer, start, end int, strictIndexing bool, replacement [][]byte) {
-	name(nvim_buf_set_lines)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferText sets or replaces a range in the buffer.
@@ -136,99 +121,86 @@ func SetBufferLines(buffer Buffer, start, end int, strictIndexing bool, replacem
 //
 // Prefer SetBufferLines when adding or deleting entire lines only.
 func SetBufferText(buffer Buffer, startRow, startCol, endRow, endCol int, replacement [][]byte) {
-	name(nvim_buf_set_text)
+	_ = "STUB: not implemented"
+	return
+
+	// BufferText gets a range from the buffer.
+	//
+	// This differs from BufferLines in that it allows retrieving only
+	// portions of a line.
+	//
+	// Indexing is zero-based. Column indices are end-exclusive.
+	//
+	// Prefer BufferLines when retrieving entire lines.
+	//
+	// opts is optional parameters. Currently unused.
 }
 
-// BufferText gets a range from the buffer.
-//
-// This differs from BufferLines in that it allows retrieving only
-// portions of a line.
-//
-// Indexing is zero-based. Column indices are end-exclusive.
-//
-// Prefer BufferLines when retrieving entire lines.
-//
-// opts is optional parameters. Currently unused.
 func BufferText(buffer Buffer, startRow, startCol, endRow, endCol int, opts map[string]any) [][]byte {
-	name(nvim_buf_get_text)
+	_ = "STUB: not implemented"
+	return nil
+
+	// BufferOffset returns the byte offset of a line (0-indexed).
+	//
+	// Line 1 (index=0) has offset 0. UTF-8 bytes are counted. EOL is one byte.
+	// "fileformat" and "fileencoding" are ignored.
+	//
+	// The line index just after the last line gives the total byte-count of the buffer.
+	// A final EOL byte is counted if it would be written, see ":help eol".
+	//
+	// Unlike "line2byte" vim function, throws error for out-of-bounds indexing.
+	//
+	// If Buffer is unloaded buffer, returns -1.
 }
 
-// BufferOffset returns the byte offset of a line (0-indexed).
-//
-// Line 1 (index=0) has offset 0. UTF-8 bytes are counted. EOL is one byte.
-// "fileformat" and "fileencoding" are ignored.
-//
-// The line index just after the last line gives the total byte-count of the buffer.
-// A final EOL byte is counted if it would be written, see ":help eol".
-//
-// Unlike "line2byte" vim function, throws error for out-of-bounds indexing.
-//
-// If Buffer is unloaded buffer, returns -1.
-func BufferOffset(buffer Buffer, index int) (offset int) {
-	name(nvim_buf_get_offset)
-}
+func BufferOffset(buffer Buffer, index int) (offset int) { _ = "STUB: not implemented"; return 0 }
 
 // BufferVar gets a buffer-scoped (b:) variable.
 func BufferVar(buffer Buffer, name string) (value any) {
-	name(nvim_buf_get_var)
+	_ = "STUB: not implemented"
+	return *
+
+	// BufferChangedTick gets a changed tick of a buffer.
+	new(any)
 }
 
-// BufferChangedTick gets a changed tick of a buffer.
-func BufferChangedTick(buffer Buffer) (changedtick int) {
-	name(nvim_buf_get_changedtick)
-}
+func BufferChangedTick(buffer Buffer) (changedtick int) { _ = "STUB: not implemented"; return 0 }
 
 // BufferKeymap gets a list of buffer-local mapping definitions.
 //
 // The mode short-name ("n", "i", "v", ...).
-func BufferKeyMap(buffer Buffer, mode string) []*Mapping {
-	name(nvim_buf_get_keymap)
-}
+func BufferKeyMap(buffer Buffer, mode string) []*Mapping { _ = "STUB: not implemented"; return nil }
 
 // SetBufferKeyMap sets a buffer-local mapping for the given mode.
 func SetBufferKeyMap(buffer Buffer, mode, lhs, rhs string, opts map[string]bool) {
-	name(nvim_buf_set_keymap)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteBufferKeyMap unmaps a buffer-local mapping for the given mode.
-func DeleteBufferKeyMap(buffer Buffer, mode, lhs string) {
-	name(nvim_buf_del_keymap)
-}
+func DeleteBufferKeyMap(buffer Buffer, mode, lhs string) { _ = "STUB: not implemented"; return }
 
 // SetBufferVar sets a buffer-scoped (b:) variable.
-func SetBufferVar(buffer Buffer, name string, value any) {
-	name(nvim_buf_set_var)
-}
+func SetBufferVar(buffer Buffer, name string, value any) { _ = "STUB: not implemented"; return }
 
 // DeleteBufferVar removes a buffer-scoped (b:) variable.
-func DeleteBufferVar(buffer Buffer, name string) {
-	name(nvim_buf_del_var)
-}
+func DeleteBufferVar(buffer Buffer, name string) { _ = "STUB: not implemented"; return }
 
 // BufferNumber gets a buffer's number.
 //
 // Deprecated: Use int(buffer) to get the buffer's number as an integer.
-func BufferNumber(buffer Buffer) (number int) {
-	name(nvim_buf_get_number)
-	deprecatedSince(2)
-}
+func BufferNumber(buffer Buffer) (number int) { _ = "STUB: not implemented"; return 0 }
 
 // BufferName gets the full file name for the buffer.
-func BufferName(buffer Buffer) (name string) {
-	name(nvim_buf_get_name)
-}
+func BufferName(buffer Buffer) (name string) { _ = "STUB: not implemented"; return "" }
 
 // SetBufferName sets the full file name for a buffer.
-func SetBufferName(buffer Buffer, name string) {
-	name(nvim_buf_set_name)
-}
+func SetBufferName(buffer Buffer, name string) { _ = "STUB: not implemented"; return }
 
 // IsBufferLoaded checks if a buffer is valid and loaded.
 //
 // See |help api-buffer| for more info about unloaded buffers.
-func IsBufferLoaded(buffer Buffer) (loaded bool) {
-	name(nvim_buf_is_loaded)
-}
+func IsBufferLoaded(buffer Buffer) (loaded bool) { _ = "STUB: not implemented"; return false }
 
 // DeleteBuffer deletes the buffer.
 // See
@@ -244,41 +216,39 @@ func IsBufferLoaded(buffer Buffer) (loaded bool) {
 //	unload
 //
 // Unloaded only, do not delete. See |help :bunload|. bool type.
-func DeleteBuffer(buffer Buffer, opts map[string]bool) {
-	name(nvim_buf_delete)
-}
+func DeleteBuffer(buffer Buffer, opts map[string]bool) { _ = "STUB: not implemented"; return }
 
 // IsBufferValid returns whether the buffer is valid.
 //
 // Note: Even if a buffer is valid it may have been unloaded.
 // See |help api-buffer| for more info about unloaded buffers.
-func IsBufferValid(buffer Buffer) (valid bool) {
-	name(nvim_buf_is_valid)
-}
+func IsBufferValid(buffer Buffer) (valid bool) { _ = "STUB: not implemented"; return false }
 
 // DeleteBufferMark deletes a named mark in the buffer.
 // See |help mark-motions|.
 func DeleteBufferMark(buffer Buffer, name string) (deleted bool) {
-	name(nvim_buf_del_mark)
+	_ = "STUB: not implemented"
+	return false
+
+	// SetBufferMark sets a named mark in the given buffer, all marks are allowed
+	// file/uppercase, visual, last change, etc.
+	// See |help mark-motions|.
+	//
+	// line and col are (1,0)-indexed.
+	//
+	// opts is optional parameters. Reserved for future use.
 }
 
-// SetBufferMark sets a named mark in the given buffer, all marks are allowed
-// file/uppercase, visual, last change, etc.
-// See |help mark-motions|.
-//
-// line and col are (1,0)-indexed.
-//
-// opts is optional parameters. Reserved for future use.
 func SetBufferMark(buffer Buffer, name string, line, col int, opts map[string]any) (set bool) {
-	name(nvim_buf_set_mark)
+	_ = "STUB: not implemented"
+	return false
+
+	// BufferMark return a tuple (row,col) representing the position of the named mark.
+	//
+	// Marks are (1,0)-indexed.
 }
 
-// BufferMark return a tuple (row,col) representing the position of the named mark.
-//
-// Marks are (1,0)-indexed.
-func BufferMark(buffer Buffer, name string) (pos [2]int) {
-	name(nvim_buf_get_mark)
-}
+func BufferMark(buffer Buffer, name string) (pos [2]int) { _ = "STUB: not implemented"; return nil }
 
 // ClearBufferHighlight clears highlights from a given source group and a range
 // of lines.
@@ -291,8 +261,8 @@ func BufferMark(buffer Buffer, name string) (pos [2]int) {
 //
 // Deprecated: Use ClearBufferNamespace instead.
 func ClearBufferHighlight(buffer Buffer, srcID, startLine, endLine int) {
-	name(nvim_buf_clear_highlight)
-	deprecatedSince(7)
+	_ = "STUB: not implemented"
+	return
 }
 
 // SetBufferVirtualText set the virtual text (annotation) for a buffer line.
@@ -317,8 +287,8 @@ func ClearBufferHighlight(buffer Buffer, srcID, startLine, endLine int) {
 //
 // Deprecated: Use SetBufferExtmark instead.
 func SetBufferVirtualText(buffer Buffer, nsID, line int, chunks []TextChunk, opts map[string]any) (id int) {
-	name(nvim_buf_set_virtual_text)
-	deprecatedSince(8)
+	_ = "STUB: not implemented"
+	return 0
 }
 
 // command.c
@@ -480,8 +450,8 @@ func SetBufferVirtualText(buffer Buffer, nsID, line int, chunks []TextChunk, opt
 //	topleft
 //	botright
 func ParseCmd(str string, opts map[string]any) (cmd Cmd) {
-	name(nvim_parse_cmd)
-	returnPtr()
+	_ = "STUB: not implemented"
+	return *new(Cmd)
 }
 
 // Cmd executes an Ex command.
@@ -504,51 +474,51 @@ func ParseCmd(str string, opts map[string]any) (cmd Cmd) {
 //
 // Whether to return command output.
 func Cmd(cmd *Cmd, opts map[string]bool) (output string) {
-	name(nvim_cmd)
+	_ = "STUB: not implemented"
+
+	// CreateUserCommand create a new user command.
+	//
+	// name is name of the new user command. Must begin with an uppercase letter.
+	//
+	// command is replacement command to execute when this user command is executed.
+	// When called from Lua, the command can also be a Lua function.
+	//
+	// opts is optional command attributes. See |command-attributes| for more details.
+	//
+	// To use boolean attributes (such as |:command-bang| or |:command-bar|) set the value to "true".
+	// In addition to the string options listed in |:command-complete|,
+	// the "complete" key also accepts a Lua function which works like the "customlist" completion mode |:command-completion-customlist|.
+	//
+	//	desc (string)
+	//
+	// Used for listing the command when a Lua function is used for {command}.
+	//
+	//	force (bool, default true)
+	//
+	// Override any previous definition.
+	return ""
 }
 
-// CreateUserCommand create a new user command.
-//
-// name is name of the new user command. Must begin with an uppercase letter.
-//
-// command is replacement command to execute when this user command is executed.
-// When called from Lua, the command can also be a Lua function.
-//
-// opts is optional command attributes. See |command-attributes| for more details.
-//
-// To use boolean attributes (such as |:command-bang| or |:command-bar|) set the value to "true".
-// In addition to the string options listed in |:command-complete|,
-// the "complete" key also accepts a Lua function which works like the "customlist" completion mode |:command-completion-customlist|.
-//
-//	desc (string)
-//
-// Used for listing the command when a Lua function is used for {command}.
-//
-//	force (bool, default true)
-//
-// Override any previous definition.
 func CreateUserCommand(name string, command UserCommand, opts map[string]any) {
-	name(nvim_create_user_command)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteUserCommand delete a user-defined command.
-func DeleteUserCommand(name string) {
-	name(nvim_del_user_command)
-}
+func DeleteUserCommand(name string) { _ = "STUB: not implemented"; return }
 
 // CreateBufferUserCommand create a new user command |user-commands| in the given buffer.
 //
 // Only commands created with |:command-buffer| or this function can be deleted with this function.
 func CreateBufferUserCommand(buffer Buffer, name string, command UserCommand, opts map[string]any) {
-	name(nvim_buf_create_user_command)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteBufferUserCommand create a new user command |user-commands| in the given buffer.
 //
 // Only commands created with |:command-buffer| or this function can be deleted with this function.
-func DeleteBufferUserCommand(buffer Buffer, name string) {
-	name(nvim_buf_del_user_command)
-}
+func DeleteBufferUserCommand(buffer Buffer, name string) { _ = "STUB: not implemented"; return }
 
 // Commands gets a map of global (non-buffer-local) Ex commands.
 // Currently only user-commands are supported, not builtin Ex commands.
@@ -557,52 +527,44 @@ func DeleteBufferUserCommand(buffer Buffer, name string) {
 //
 //	{"builtin":false}
 func Commands(opts map[string]any) (commands map[string]*Command) {
-	name(nvim_get_commands)
+	_ = "STUB: not implemented"
+	return nil
+
+	// BufferCommands gets a map of buffer-local user-commands.
+	//
+	// opts is optional parameters. Currently not used.
 }
 
-// BufferCommands gets a map of buffer-local user-commands.
-//
-// opts is optional parameters. Currently not used.
 func BufferCommands(buffer Buffer, opts map[string]any) map[string]*Command {
-	name(nvim_buf_get_commands)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // tabpage.c
 
 // TabpageWindows gets the windows in a tabpage.
-func TabpageWindows(tabpage Tabpage) (windows []Window) {
-	name(nvim_tabpage_list_wins)
-}
+func TabpageWindows(tabpage Tabpage) (windows []Window) { _ = "STUB: not implemented"; return nil }
 
 // TabpageVar gets a tab-scoped (t:) variable.
 func TabpageVar(tabpage Tabpage, name string) (value any) {
-	name(nvim_tabpage_get_var)
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 // SetTabpageVar sets a tab-scoped (t:) variable.
-func SetTabpageVar(tabpage Tabpage, name string, value any) {
-	name(nvim_tabpage_set_var)
-}
+func SetTabpageVar(tabpage Tabpage, name string, value any) { _ = "STUB: not implemented"; return }
 
 // DeleteTabpageVar removes a tab-scoped (t:) variable.
-func DeleteTabpageVar(tabpage Tabpage, name string) {
-	name(nvim_tabpage_del_var)
-}
+func DeleteTabpageVar(tabpage Tabpage, name string) { _ = "STUB: not implemented"; return }
 
 // TabpageWindow gets the current window in a tabpage.
-func TabpageWindow(tabpage Tabpage) Window {
-	name(nvim_tabpage_get_win)
-}
+func TabpageWindow(tabpage Tabpage) Window { _ = "STUB: not implemented"; return *new(Window) }
 
 // TabpageNumber gets the tabpage number.
-func TabpageNumber(tabpage Tabpage) (number int) {
-	name(nvim_tabpage_get_number)
-}
+func TabpageNumber(tabpage Tabpage) (number int) { _ = "STUB: not implemented"; return 0 }
 
 // IsTabpageValid checks if a tabpage is valid.
-func IsTabpageValid(tabpage Tabpage) (valid bool) {
-	name(nvim_tabpage_is_valid)
-}
+func IsTabpageValid(tabpage Tabpage) (valid bool) { _ = "STUB: not implemented"; return false }
 
 // extmark.c
 
@@ -616,9 +578,7 @@ func IsTabpageValid(tabpage Tabpage) (valid bool) {
 // namespace is created.
 //
 // The returns the namespace ID.
-func CreateNamespace(name string) (nsID int) {
-	name(nvim_create_namespace)
-}
+func CreateNamespace(name string) (nsID int) { _ = "STUB: not implemented"; return 0 }
 
 // BufferExtmarkByID beturns position for a given extmark id.
 //
@@ -628,7 +588,8 @@ func CreateNamespace(name string) (nsID int) {
 //
 // Whether to include the details dict. bool type.
 func BufferExtmarkByID(buffer Buffer, nsID, id int, opt map[string]any) (pos []int) {
-	name(nvim_buf_get_extmark_by_id)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // BufferExtmarks gets extmarks in "traversal order" from a |charwise| region defined by
@@ -657,7 +618,8 @@ func BufferExtmarkByID(buffer Buffer, nsID, id int, opt map[string]any) (pos []i
 //
 // Whether to include the details dict. bool type.
 func BufferExtmarks(buffer Buffer, nsID int, start, end any, opt map[string]any) (marks []ExtMark) {
-	name(nvim_buf_get_extmarks)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetBufferExtmark creates or updates an extmark.
@@ -757,37 +719,41 @@ func BufferExtmarks(buffer Buffer, nsID int, start, end any, opt map[string]any)
 //
 // A priority value for the highlight group. For example treesitter highlighting uses a value of 100.
 func SetBufferExtmark(buffer Buffer, nsID, line, col int, opts map[string]any) (id int) {
-	name(nvim_buf_set_extmark)
+	_ = "STUB: not implemented"
+	return 0
 }
 
 // DeleteBufferExtmark removes an extmark.
 //
 // THe returns whether the extmark was found.
 func DeleteBufferExtmark(buffer Buffer, nsID, extmarkID int) (deleted bool) {
-	name(nvim_buf_del_extmark)
+	_ = "STUB: not implemented"
+	return false
+
+	// AddBufferHighlight adds a highlight to buffer.
+	//
+	// IT useful for plugins that dynamically generate highlights to a buffer like a semantic highlighter or linter.
+	//
+	// The function adds a single highlight to a buffer.
+	// Unlike |matchaddpos()| vim function, highlights follow changes to line numbering as lines are
+	// inserted/removed above the highlighted line, like signs and marks do.
+	//
+	// Namespaces are used for batch deletion/updating of a set of highlights.
+	// To create a namespace, use CreateNamespace which returns a namespace id.
+	// Pass it in to this function as nsID to add highlights to the namespace.
+	// All highlights in the same namespace can then be cleared with single call to ClearBufferNamespace.
+	// If the highlight never will be deleted by an API call, pass nsID = -1.
+	//
+	// As a shorthand, "srcID = 0" can be used to create a new namespace for the
+	// highlight, the allocated id is then returned.
+	//
+	// If hlGroup arg is the empty string, no highlight is added, but a new `nsID` is still returned.
+	// This is supported for backwards compatibility, new code should use CreateNamespaceto create a new empty namespace.
 }
 
-// AddBufferHighlight adds a highlight to buffer.
-//
-// IT useful for plugins that dynamically generate highlights to a buffer like a semantic highlighter or linter.
-//
-// The function adds a single highlight to a buffer.
-// Unlike |matchaddpos()| vim function, highlights follow changes to line numbering as lines are
-// inserted/removed above the highlighted line, like signs and marks do.
-//
-// Namespaces are used for batch deletion/updating of a set of highlights.
-// To create a namespace, use CreateNamespace which returns a namespace id.
-// Pass it in to this function as nsID to add highlights to the namespace.
-// All highlights in the same namespace can then be cleared with single call to ClearBufferNamespace.
-// If the highlight never will be deleted by an API call, pass nsID = -1.
-//
-// As a shorthand, "srcID = 0" can be used to create a new namespace for the
-// highlight, the allocated id is then returned.
-//
-// If hlGroup arg is the empty string, no highlight is added, but a new `nsID` is still returned.
-// This is supported for backwards compatibility, new code should use CreateNamespaceto create a new empty namespace.
 func AddBufferHighlight(buffer Buffer, srcID int, hlGroup string, line, startCol, endCol int) (id int) {
-	name(nvim_buf_add_highlight)
+	_ = "STUB: not implemented"
+	return 0
 }
 
 // ClearBufferNamespace clears namespaced objects (highlights, extmarks, virtual text) from a region.
@@ -795,7 +761,8 @@ func AddBufferHighlight(buffer Buffer, srcID int, hlGroup string, line, startCol
 //
 // To clear the namespace in the entire buffer, specify line_start=0 and line_end=-1.
 func ClearBufferNamespace(buffer Buffer, nsID, lineStart, lineEnd int) {
-	name(nvim_buf_clear_namespace)
+	_ = "STUB: not implemented"
+	return
 }
 
 // options.c
@@ -816,7 +783,8 @@ func ClearBufferNamespace(buffer Buffer, nsID, lineStart, lineEnd int) {
 //
 // Analogous to |:setglobal| and |:setlocal|, respectively.
 func OptionValue(name string, opts map[string]OptionValueScope) (optionValue any) {
-	name(nvim_get_option_value)
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 // SetOptionValue sets the value of an option. The behavior of this function matches that of
@@ -830,7 +798,8 @@ func OptionValue(name string, opts map[string]OptionValueScope) (optionValue any
 //
 // Analogous to |:setglobal| and |:setlocal|, respectively.
 func SetOptionValue(name string, value any, opts map[string]OptionValueScope) {
-	name(nvim_set_option_value)
+	_ = "STUB: not implemented"
+	return
 }
 
 // AllOptionsInfo gets the option information for all options.
@@ -887,10 +856,7 @@ func SetOptionValue(name string, value any, opts map[string]OptionValueScope) {
 //	flaglist
 //
 // List of single char flags.
-func AllOptionsInfo() (opinfo OptionInfo) {
-	name(nvim_get_all_options_info)
-	returnPtr()
-}
+func AllOptionsInfo() (opinfo OptionInfo) { _ = "STUB: not implemented"; return *new(OptionInfo) }
 
 // OptionInfo gets the option information for one option.
 //
@@ -944,41 +910,40 @@ func AllOptionsInfo() (opinfo OptionInfo) {
 //
 // List of single char flags.
 func OptionInfo(name string, opts map[string]any) (opinfo OptionInfo) {
-	name(nvim_get_option_info2)
-	returnPtr()
+	_ = "STUB: not implemented"
+	return *new(OptionInfo)
 }
 
 // SetOption sets an option value.
-func SetOption(name string, value any) {
-	name(nvim_set_option)
-}
+func SetOption(name string, value any) { _ = "STUB: not implemented"; return }
 
 // Option gets an option value string.
 func Option(name string) (option any) {
-	name(nvim_get_option)
+	_ = "STUB: not implemented"
+	return *
+
+	// BufferOption gets a buffer option value.
+	new(any)
 }
 
-// BufferOption gets a buffer option value.
 func BufferOption(buffer Buffer, name string) (value any) {
-	name(nvim_buf_get_option)
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 // SetBufferOption sets a buffer option value.
 //
 // Passing nil as value arg to deletes the option (only works if there's a global fallback).
-func SetBufferOption(buffer Buffer, name string, value any) {
-	name(nvim_buf_set_option)
-}
+func SetBufferOption(buffer Buffer, name string, value any) { _ = "STUB: not implemented"; return }
 
 // WindowOption gets a window option value.
 func WindowOption(window Window, name string) (value any) {
-	name(nvim_win_get_option)
+	_ = "STUB: not implemented"
+	return *new(any)
 }
 
 // SetWindowOption sets a window option value. Passing "nil" as value deletes the option(only works if there's a global fallback).
-func SetWindowOption(window Window, name string, value any) {
-	name(nvim_win_set_option)
-}
+func SetWindowOption(window Window, name string, value any) { _ = "STUB: not implemented"; return }
 
 // ui.c
 
@@ -995,46 +960,32 @@ func SetWindowOption(window Window, name string, value any) {
 //	        // handle update
 //	    }
 //	})
-func AttachUI(width, height int, options map[string]any) {
-	name(nvim_ui_attach)
-}
+func AttachUI(width, height int, options map[string]any) { _ = "STUB: not implemented"; return }
 
 // SetFocusUI tells the nvim server if focus was gained or lost by the GUI.
-func SetFocusUI(gained bool) {
-	name(nvim_ui_set_focus)
-}
+func SetFocusUI(gained bool) { _ = "STUB: not implemented"; return }
 
 // DetachUI unregisters the client as a remote UI.
-func DetachUI() {
-	name(nvim_ui_detach)
-}
+func DetachUI() { _ = "STUB: not implemented"; return }
 
 // TryResizeUI notifies Nvim that the client window has resized. If possible,
 // Nvim will send a redraw request to resize.
-func TryResizeUI(width, height int) {
-	name(nvim_ui_try_resize)
-}
+func TryResizeUI(width, height int) { _ = "STUB: not implemented"; return }
 
 // SetUIOption sets a UI option.
-func SetUIOption(name string, value any) {
-	name(nvim_ui_set_option)
-}
+func SetUIOption(name string, value any) { _ = "STUB: not implemented"; return }
 
 // TryResizeUIGrid tell Nvim to resize a grid. Triggers a grid_resize event with the requested
 // grid size or the maximum size if it exceeds size limits.
 //
 // On invalid grid handle, fails with error.
-func TryResizeUIGrid(grid, width, height int) {
-	name(nvim_ui_try_resize_grid)
-}
+func TryResizeUIGrid(grid, width, height int) { _ = "STUB: not implemented"; return }
 
 // SetPumHeight tells Nvim the number of elements displaying in the popumenu, to decide
 // <PageUp> and <PageDown> movement.
 //
 // height is popupmenu height, must be greater than zero.
-func SetPumHeight(height int) {
-	name(nvim_ui_pum_set_height)
-}
+func SetPumHeight(height int) { _ = "STUB: not implemented"; return }
 
 // SetPumBounds tells Nvim the geometry of the popumenu, to align floating windows with an
 // external popup menu.
@@ -1046,9 +997,7 @@ func SetPumHeight(height int) {
 //
 // Floats need not use the same font size, nor be anchored to exact grid corners, so one can set floating-point
 // numbers to the popup menu geometry.
-func SetPumBounds(width, height, row, col float64) {
-	name(nvim_ui_pum_set_bounds)
-}
+func SetPumBounds(width, height, row, col float64) { _ = "STUB: not implemented"; return }
 
 // vimscript.c
 
@@ -1058,19 +1007,24 @@ func SetPumBounds(width, height, row, col float64) {
 //
 // When fails with VimL error, does not update "v:errmsg".
 func Exec(src string, opts map[string]any) (out map[string]any) {
-	name(nvim_exec2)
+	_ = "STUB: not implemented"
+
+	// Command executes an ex-command.
+	//
+	// When fails with VimL error, does not update "v:errmsg".
+	return nil
 }
 
-// Command executes an ex-command.
-//
-// When fails with VimL error, does not update "v:errmsg".
 func Command(cmd string) {
-	name(nvim_command)
+	_ = "STUB: not implemented"
+
+	// ParseExpression parse a VimL expression.
+	return
 }
 
-// ParseExpression parse a VimL expression.
 func ParseExpression(expr, flags string, highlight bool) (expression map[string]any) {
-	name(nvim_parse_expression)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // vim.c
@@ -1095,8 +1049,8 @@ func ParseExpression(expr, flags string, highlight bool) (expression map[string]
 //
 // The returned HLAttrs highlight groups as a map from group name to a highlight definition map as in SetHighlight, or only a single highlight definition map if requested by name or id.
 func HL(nsID int, opts map[string]any) (highlight HLAttrs) {
-	name(nvim_get_hl)
-	returnPtr()
+	_ = "STUB: not implemented"
+	return *new(HLAttrs)
 }
 
 // HLByID gets a highlight definition by name.
@@ -1107,9 +1061,8 @@ func HL(nsID int, opts map[string]any) (highlight HLAttrs) {
 //
 // The returned highlight is the highlight definition.
 func HLByID(hlID int, rgb bool) (highlight HLAttrs) {
-	name(nvim_get_hl_by_id)
-	returnPtr()
-	deprecatedSince(9)
+	_ = "STUB: not implemented"
+	return *new(HLAttrs)
 }
 
 // HLIDByName gets a highlight group by name.
@@ -1119,9 +1072,7 @@ func HLByID(hlID int, rgb bool) (highlight HLAttrs) {
 // The returns hlID is the highlight id.
 //
 // This function similar to HLByID, but allocates a new ID if not present.
-func HLIDByName(name string) (hlID int) {
-	name(nvim_get_hl_id_by_name)
-}
+func HLIDByName(name string) (hlID int) { _ = "STUB: not implemented"; return 0 }
 
 // HLByName gets a highlight definition by id.
 //
@@ -1131,9 +1082,8 @@ func HLIDByName(name string) (hlID int) {
 //
 // The returned highlight is the highlight definition.
 func HLByName(name string, rgb bool) (highlight HLAttrs) {
-	name(nvim_get_hl_by_name)
-	returnPtr()
-	deprecatedSince(9)
+	_ = "STUB: not implemented"
+	return *new(HLAttrs)
 }
 
 // SetHighlight sets a highlight group.
@@ -1150,24 +1100,22 @@ func HLByName(name string, rgb bool) (highlight HLAttrs) {
 //
 // don't override existing definition, like "hi default".
 func SetHighlight(nsID int, name string, val *HLAttrs) {
-	name(nvim_set_hl)
+	_ = "STUB: not implemented"
+
+	// SetHighlightNamespace set active namespace for highlights. This can be set for a single window,
+	//
+	// See SetWindowHeightNamespace.
+	return
 }
 
-// SetHighlightNamespace set active namespace for highlights. This can be set for a single window,
-//
-// See SetWindowHeightNamespace.
-func SetHighlightNamespace(nsID int) {
-	name(nvim_set_hl_ns)
-}
+func SetHighlightNamespace(nsID int) { _ = "STUB: not implemented"; return }
 
 // SetFastHighlightNamespace set active namespace for highlights while redrawing.
 //
 // This function meant to be called while redrawing, primarily from
 // nvim_set_decoration_provider on_win and on_line callbacks, which
 // are allowed to change the namespace during a redraw cycle.
-func SetFastHighlightNamespace(nsID int) {
-	name(nvim_set_hl_ns_fast)
-}
+func SetFastHighlightNamespace(nsID int) { _ = "STUB: not implemented"; return }
 
 // FeedKeys input-keys to Nvim, subject to various quirks controlled by "mode"
 // flags. Unlike Input, this is a blocking call.
@@ -1194,9 +1142,7 @@ func SetFastHighlightNamespace(nsID int) {
 // This matters for undo, opening folds, etc.
 //
 // escapeCSI is whether the escape K_SPECIAL/CSI bytes in keys.
-func FeedKeys(keys, mode string, escapeCSI bool) {
-	name(nvim_feedkeys)
-}
+func FeedKeys(keys, mode string, escapeCSI bool) { _ = "STUB: not implemented"; return }
 
 // Input queues raw user-input.
 //
@@ -1214,78 +1160,80 @@ func FeedKeys(keys, mode string, escapeCSI bool) {
 // The returned written is number of bytes actually written (can be fewer than
 // requested if the buffer becomes full).
 func Input(keys string) (written int) {
-	name(nvim_input)
+	_ = "STUB: not implemented"
+
+	// InputMouse Send mouse event from GUI.
+	//
+	// This API is non-blocking. It does not wait on any result, but queues the event to be
+	// processed soon by the event loop.
+	//
+	// button is mouse button. One of
+	//
+	//	left
+	//	right
+	//	middle
+	//	wheel
+	//
+	// action is for ordinary buttons. One of
+	//
+	//	press
+	//	drag
+	//	release
+	//
+	// For the wheel, One of
+	//
+	//	up
+	//	down
+	//	left
+	//	right
+	//
+	// modifier is string of modifiers each represented by a single char.
+	// The same specifiers are used as for a key press, except
+	// that the "-" separator is optional, so "C-A-", "c-a"
+	// and "CA" can all be used to specify "Ctrl+Alt+Click".
+	//
+	// grid is grid number if the client uses "ui-multigrid", else 0.
+	//
+	// row is mouse row-position (zero-based, like redraw events).
+	//
+	// col is mouse column-position (zero-based, like redraw events).
+	return 0
 }
 
-// InputMouse Send mouse event from GUI.
-//
-// This API is non-blocking. It does not wait on any result, but queues the event to be
-// processed soon by the event loop.
-//
-// button is mouse button. One of
-//
-//	left
-//	right
-//	middle
-//	wheel
-//
-// action is for ordinary buttons. One of
-//
-//	press
-//	drag
-//	release
-//
-// For the wheel, One of
-//
-//	up
-//	down
-//	left
-//	right
-//
-// modifier is string of modifiers each represented by a single char.
-// The same specifiers are used as for a key press, except
-// that the "-" separator is optional, so "C-A-", "c-a"
-// and "CA" can all be used to specify "Ctrl+Alt+Click".
-//
-// grid is grid number if the client uses "ui-multigrid", else 0.
-//
-// row is mouse row-position (zero-based, like redraw events).
-//
-// col is mouse column-position (zero-based, like redraw events).
 func InputMouse(button, action, modifier string, grid, row, col int) {
-	name(nvim_input_mouse)
+	_ = "STUB: not implemented"
+	return
+
+	// ReplaceTermcodes replaces terminal codes and "keycodes" (<CR>, <Esc>, ...) in a string with
+	// the internal representation.
+	//
+	// str is string to be converted.
+	//
+	// fromPart is legacy Vim parameter. Usually true.
+	//
+	// doLT is also translate <lt>. Ignored if "special" is false.
+	//
+	// special is replace "keycodes", e.g. "<CR>" becomes a "\n" char.
+	//
+	// The returned sequences are Nvim's internal representation of keys, for example:
+	//
+	//	<esc> -> '\x1b'
+	//	<cr>  -> '\r'
+	//	<c-l> -> '\x0c'
+	//	<up>  -> '\x80ku'
+	//
+	// The returned sequences can be used as input to feedkeys.
 }
 
-// ReplaceTermcodes replaces terminal codes and "keycodes" (<CR>, <Esc>, ...) in a string with
-// the internal representation.
-//
-// str is string to be converted.
-//
-// fromPart is legacy Vim parameter. Usually true.
-//
-// doLT is also translate <lt>. Ignored if "special" is false.
-//
-// special is replace "keycodes", e.g. "<CR>" becomes a "\n" char.
-//
-// The returned sequences are Nvim's internal representation of keys, for example:
-//
-//	<esc> -> '\x1b'
-//	<cr>  -> '\r'
-//	<c-l> -> '\x0c'
-//	<up>  -> '\x80ku'
-//
-// The returned sequences can be used as input to feedkeys.
 func ReplaceTermcodes(str string, fromPart, doLT, special bool) (input string) {
-	name(nvim_replace_termcodes)
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // CommandOutput executes a single ex command and returns the output.
 //
 // Deprecated: Use Exec instead.
-func CommandOutput(cmd string) (out string) {
-	name(nvim_command_output)
-	deprecatedSince(7)
-}
+func CommandOutput(cmd string) (out string) { _ = "STUB: not implemented"; return "" }
 
 // Eval evaluates a VimL expression.
 //
@@ -1297,20 +1245,18 @@ func CommandOutput(cmd string) (out string) {
 //
 //	:help expression
 func Eval(expr string) (result any) {
-	name(nvim_eval)
+	_ = "STUB: not implemented"
+
+	// StringWidth calculates the number of display cells occupied by "text".
+	//
+	// "<Tab>" counts as one cell.
+	return *new(any)
 }
 
-// StringWidth calculates the number of display cells occupied by "text".
-//
-// "<Tab>" counts as one cell.
-func StringWidth(s string) (width int) {
-	name(nvim_strwidth)
-}
+func StringWidth(s string) (width int) { _ = "STUB: not implemented"; return 0 }
 
 // RuntimePaths gets the paths contained in "runtimepath".
-func RuntimePaths() (paths []string) {
-	name(nvim_list_runtime_paths)
-}
+func RuntimePaths() (paths []string) { _ = "STUB: not implemented"; return nil }
 
 // RuntimeFiles find files in runtime directories.
 //
@@ -1331,54 +1277,51 @@ func RuntimePaths() (paths []string) {
 // Without the slash it would instead look for an ordinary file called "rplugin/python".
 //
 // all is whether to return all matches or only the first.
-func RuntimeFiles(name string, all bool) (files []string) {
-	name(nvim_get_runtime_file)
-}
+func RuntimeFiles(name string, all bool) (files []string) { _ = "STUB: not implemented"; return nil }
 
 // SetCurrentDirectory changes the global working directory.
-func SetCurrentDirectory(dir string) {
-	name(nvim_set_current_dir)
-}
+func SetCurrentDirectory(dir string) { _ = "STUB: not implemented"; return }
 
 // CurrentLine gets the current line.
-func CurrentLine() (line []byte) {
-	name(nvim_get_current_line)
-}
+func CurrentLine() (line []byte) { _ = "STUB: not implemented"; return nil }
 
 // SetCurrentLine sets the current line.
-func SetCurrentLine(line []byte) {
-	name(nvim_set_current_line)
-}
+func SetCurrentLine(line []byte) { _ = "STUB: not implemented"; return }
 
 // DeleteCurrentLine deletes the current line.
-func DeleteCurrentLine() {
-	name(nvim_del_current_line)
-}
+func DeleteCurrentLine() { _ = "STUB: not implemented"; return }
 
 // Var gets a global (g:) variable.
 func Var(name string) (value any) {
-	name(nvim_get_var)
+	_ = "STUB: not implemented"
+
+	// SetVar sets a global (g:) variable.
+	return *new(any)
 }
 
-// SetVar sets a global (g:) variable.
 func SetVar(name string, value any) {
-	name(nvim_set_var)
+	_ = "STUB: not implemented"
+
+	// DeleteVar removes a global (g:) variable.
+	return
 }
 
-// DeleteVar removes a global (g:) variable.
 func DeleteVar(name string) {
-	name(nvim_del_var)
+	_ = "STUB: not implemented"
+
+	// VVar gets a v: variable.
+	return
 }
 
-// VVar gets a v: variable.
 func VVar(name string) (value any) {
-	name(nvim_get_vvar)
+	_ = "STUB: not implemented"
+	return *
+
+	// SetVVar sets a v: variable, if it is not readonly.
+	new(any)
 }
 
-// SetVVar sets a v: variable, if it is not readonly.
-func SetVVar(name string, value any) {
-	name(nvim_set_vvar)
-}
+func SetVVar(name string, value any) { _ = "STUB: not implemented"; return }
 
 // Echo echo a message.
 //
@@ -1389,61 +1332,45 @@ func SetVVar(name string, value any) {
 //
 // opts is optional parameters. Reserved for future use.
 func Echo(chunks []TextChunk, history bool, opts map[string]any) {
-	name(nvim_echo)
+	_ = "STUB: not implemented"
+
+	// WriteOut writes a message to the Vim output buffer.
+	//
+	// Does not append "\n", the message is buffered (won't display) until a linefeed is written.
+	return
 }
 
-// WriteOut writes a message to the Vim output buffer.
-//
-// Does not append "\n", the message is buffered (won't display) until a linefeed is written.
-func WriteOut(str string) {
-	name(nvim_out_write)
-}
+func WriteOut(str string) { _ = "STUB: not implemented"; return }
 
 // WriteErr writes a message to the Vim error buffer.
 //
 // Does not append "\n", the message is buffered (won't display) until a linefeed is written.
-func WriteErr(str string) {
-	name(nvim_err_write)
-}
+func WriteErr(str string) { _ = "STUB: not implemented"; return }
 
 // WritelnErr writes a message to the Vim error buffer.
 //
 // Appends "\n", so the buffer is flushed and displayed.
-func WritelnErr(str string) {
-	name(nvim_err_writeln)
-}
+func WritelnErr(str string) { _ = "STUB: not implemented"; return }
 
 // Buffers gets the current list of buffer handles.
 //
 // Includes unlisted (unloaded/deleted) buffers, like ":ls!". Use IsBufferLoaded to check if a buffer is loaded.
-func Buffers() (buffers []Buffer) {
-	name(nvim_list_bufs)
-}
+func Buffers() (buffers []Buffer) { _ = "STUB: not implemented"; return nil }
 
 // CurrentBuffer gets the current buffer.
-func CurrentBuffer() (buffer Buffer) {
-	name(nvim_get_current_buf)
-}
+func CurrentBuffer() (buffer Buffer) { _ = "STUB: not implemented"; return *new(Buffer) }
 
 // SetCurrentBuffer sets the current buffer.
-func SetCurrentBuffer(buffer Buffer) {
-	name(nvim_set_current_buf)
-}
+func SetCurrentBuffer(buffer Buffer) { _ = "STUB: not implemented"; return }
 
 // Windows gets the current list of window handles.
-func Windows() (windows []Window) {
-	name(nvim_list_wins)
-}
+func Windows() (windows []Window) { _ = "STUB: not implemented"; return nil }
 
 // CurrentWindow gets the current window.
-func CurrentWindow() (window Window) {
-	name(nvim_get_current_win)
-}
+func CurrentWindow() (window Window) { _ = "STUB: not implemented"; return *new(Window) }
 
 // SetCurrentWindow sets the current window.
-func SetCurrentWindow(window Window) {
-	name(nvim_set_current_win)
-}
+func SetCurrentWindow(window Window) { _ = "STUB: not implemented"; return }
 
 // CreateBuffer creates a new, empty, unnamed buffer.
 //
@@ -1456,81 +1383,81 @@ func SetCurrentWindow(window Window) {
 //	noswapfile
 //	nomodeline
 func CreateBuffer(listed, scratch bool) (buffer Buffer) {
-	name(nvim_create_buf)
+	_ = "STUB: not implemented"
+	return *
+
+	// OpenTerm opens a terminal instance in a buffer.
+	//
+	// By default (and currently the only option) the terminal will not be
+	// connected to an external process. Instead, input send on the channel
+	// will be echoed directly by the terminal. This is useful to disply
+	// ANSI terminal sequences returned as part of a rpc message, or similar.
+	//
+	// Note that to directly initiate the terminal using the right size, display the
+	// buffer in a configured window before calling this. For instance, for a
+	// floating display, first create an empty buffer using CreateBuffer,
+	// then display it using OpenWindow, and then call this function.
+	// Then "nvim_chan_send" cal be called immediately to process sequences
+	// in a virtual terminal having the intended size.
+	//
+	// buffer is the buffer to use (expected to be empty).
+	//
+	// opts is optional parameters. Reserved for future use.
+	new(Buffer)
 }
 
-// OpenTerm opens a terminal instance in a buffer.
-//
-// By default (and currently the only option) the terminal will not be
-// connected to an external process. Instead, input send on the channel
-// will be echoed directly by the terminal. This is useful to disply
-// ANSI terminal sequences returned as part of a rpc message, or similar.
-//
-// Note that to directly initiate the terminal using the right size, display the
-// buffer in a configured window before calling this. For instance, for a
-// floating display, first create an empty buffer using CreateBuffer,
-// then display it using OpenWindow, and then call this function.
-// Then "nvim_chan_send" cal be called immediately to process sequences
-// in a virtual terminal having the intended size.
-//
-// buffer is the buffer to use (expected to be empty).
-//
-// opts is optional parameters. Reserved for future use.
 func OpenTerm(buffer Buffer, opts map[string]any) (channel int) {
-	name(nvim_open_term)
+	_ = "STUB: not implemented"
+	return 0
+
+	// OpenWindow open a new window.
+	//
+	// Currently this is used to open floating and external windows.
+	// Floats are windows that are drawn above the split layout, at some anchor
+	// position in some other window.
+	// Floats can be drawn internally or by external GUI with the "ui-multigrid" extension.
+	// External windows are only supported with multigrid GUIs, and are displayed as separate top-level windows.
+	//
+	// For a general overview of floats, see
+	//
+	//	:help api-floatwin
+	//
+	// Exactly one of "external" and "relative" must be specified.
+	// The "width" and "height" of the new window must be specified.
+	//
+	// With relative=editor (row=0,col=0) refers to the top-left corner of the
+	// screen-grid and (row=Lines-1,col=Columns-1) refers to the bottom-right
+	// corner.
+	// Fractional values are allowed, but the builtin implementation
+	// (used by non-multigrid UIs) will always round down to nearest integer.
+	//
+	// Out-of-bounds values, and configurations that make the float not fit inside
+	// the main editor, are allowed.
+	// The builtin implementation truncates values so floats are fully within the main screen grid.
+	// External GUIs could let floats hover outside of the main window like a tooltip, but
+	// this should not be used to specify arbitrary WM screen positions.
 }
 
-// OpenWindow open a new window.
-//
-// Currently this is used to open floating and external windows.
-// Floats are windows that are drawn above the split layout, at some anchor
-// position in some other window.
-// Floats can be drawn internally or by external GUI with the "ui-multigrid" extension.
-// External windows are only supported with multigrid GUIs, and are displayed as separate top-level windows.
-//
-// For a general overview of floats, see
-//
-//	:help api-floatwin
-//
-// Exactly one of "external" and "relative" must be specified.
-// The "width" and "height" of the new window must be specified.
-//
-// With relative=editor (row=0,col=0) refers to the top-left corner of the
-// screen-grid and (row=Lines-1,col=Columns-1) refers to the bottom-right
-// corner.
-// Fractional values are allowed, but the builtin implementation
-// (used by non-multigrid UIs) will always round down to nearest integer.
-//
-// Out-of-bounds values, and configurations that make the float not fit inside
-// the main editor, are allowed.
-// The builtin implementation truncates values so floats are fully within the main screen grid.
-// External GUIs could let floats hover outside of the main window like a tooltip, but
-// this should not be used to specify arbitrary WM screen positions.
 func OpenWindow(buffer Buffer, enter bool, config *WindowConfig) (window Window) {
-	name(nvim_open_win)
+	_ = "STUB: not implemented"
+	return *
+
+	// Tabpages gets the current list of tabpage handles.
+	new(Window)
 }
 
-// Tabpages gets the current list of tabpage handles.
-func Tabpages() (tabpages []Tabpage) {
-	name(nvim_list_tabpages)
-}
+func Tabpages() (tabpages []Tabpage) { _ = "STUB: not implemented"; return nil }
 
 // CurrentTabpage gets the current tabpage.
-func CurrentTabpage() (tabpage Tabpage) {
-	name(nvim_get_current_tabpage)
-}
+func CurrentTabpage() (tabpage Tabpage) { _ = "STUB: not implemented"; return *new(Tabpage) }
 
 // SetCurrentTabpage sets the current tabpage.
-func SetCurrentTabpage(tabpage Tabpage) {
-	name(nvim_set_current_tabpage)
-}
+func SetCurrentTabpage(tabpage Tabpage) { _ = "STUB: not implemented"; return }
 
 // Namespaces gets existing, non-anonymous namespaces.
 //
 // The return dict that maps from names to namespace ids.
-func Namespaces() (namespaces map[string]int) {
-	name(nvim_get_namespaces)
-}
+func Namespaces() (namespaces map[string]int) { _ = "STUB: not implemented"; return nil }
 
 // Paste pastes at cursor, in any mode.
 //
@@ -1578,43 +1505,43 @@ func Namespaces() (namespaces map[string]int) {
 //
 // Client must cancel the paste.
 func Paste(data string, crlf bool, phase int) (state bool) {
-	name(nvim_paste)
+	_ = "STUB: not implemented"
+
+	// Put puts text at cursor, in any mode.
+	//
+	// Compare :put and p which are always linewise.
+	//
+	// lines is readfile() style list of lines.
+	//
+	// typ is edit behavior: any getregtype() result, or:
+	//
+	//	 b
+	//	blockwise-visual mode (may include width, e.g. "b3")
+	//	 c
+	//	characterwise mode
+	//	 l
+	//	linewise mode
+	//	 ""
+	//
+	// guess by contents, see |setreg()|.
+	//
+	// After is insert after cursor (like `p`), or before (like `P`).
+	//
+	// follow arg is place cursor at end of inserted text.
+	return false
 }
 
-// Put puts text at cursor, in any mode.
-//
-// Compare :put and p which are always linewise.
-//
-// lines is readfile() style list of lines.
-//
-// typ is edit behavior: any getregtype() result, or:
-//
-//	 b
-//	blockwise-visual mode (may include width, e.g. "b3")
-//	 c
-//	characterwise mode
-//	 l
-//	linewise mode
-//	 ""
-//
-// guess by contents, see |setreg()|.
-//
-// After is insert after cursor (like `p`), or before (like `P`).
-//
-// follow arg is place cursor at end of inserted text.
 func Put(lines []string, typ string, after, follow bool) {
-	name(nvim_put)
+	_ = "STUB: not implemented"
+
+	// Subscribe subscribes to event broadcasts.
+	return
 }
 
-// Subscribe subscribes to event broadcasts.
-func Subscribe(event string) {
-	name(nvim_subscribe)
-}
+func Subscribe(event string) { _ = "STUB: not implemented"; return }
 
 // Unsubscribe unsubscribes to event broadcasts.
-func Unsubscribe(event string) {
-	name(nvim_unsubscribe)
-}
+func Unsubscribe(event string) { _ = "STUB: not implemented"; return }
 
 // ColorByName Returns the 24-bit RGB value of a ColorMap color name or "#rrggbb" hexadecimal string.
 //
@@ -1622,18 +1549,14 @@ func Unsubscribe(event string) {
 //
 //	ColorByName("Pink")
 //	ColorByName("#cbcbcb")
-func ColorByName(name string) (color int) {
-	name(nvim_get_color_by_name)
-}
+func ColorByName(name string) (color int) { _ = "STUB: not implemented"; return 0 }
 
 // ColorMap returns a map of color names and RGB values.
 //
 // Keys are color names (e.g. "Aqua") and values are 24-bit RGB color values (e.g. 65535).
 //
 // The returns map is color names and RGB values.
-func ColorMap() (colorMap map[string]int) {
-	name(nvim_get_color_map)
-}
+func ColorMap() (colorMap map[string]int) { _ = "STUB: not implemented"; return nil }
 
 // Context gets a map of the current editor state.
 // This API still under development.
@@ -1650,28 +1573,28 @@ func ColorMap() (colorMap map[string]int) {
 //	funcs
 //	sfuncs
 func Context(opts map[string][]string) (context map[string]any) {
-	name(nvim_get_context)
+	_ = "STUB: not implemented"
+	return nil
+
+	// LoadContext Sets the current editor state from the given context map.
 }
 
-// LoadContext Sets the current editor state from the given context map.
 func LoadContext(context map[string]any) (contextMap any) {
-	name(nvim_load_context)
+	_ = "STUB: not implemented"
+	return *
+
+	// Mode gets the current mode.
+	//
+	// |mode()| "blocking" is true if Nvim is waiting for input.
+	new(any)
 }
 
-// Mode gets the current mode.
-//
-// |mode()| "blocking" is true if Nvim is waiting for input.
-func Mode() (mode Mode) {
-	name(nvim_get_mode)
-	returnPtr()
-}
+func Mode() (mode Mode) { _ = "STUB: not implemented"; return *new(Mode) }
 
 // KeyMap gets a list of global (non-buffer-local) |mapping| definitions.
 //
 // The mode arg is the mode short-name, like "n", "i", "v" or etc.
-func KeyMap(mode string) (maps []*Mapping) {
-	name(nvim_get_keymap)
-}
+func KeyMap(mode string) (maps []*Mapping) { _ = "STUB: not implemented"; return nil }
 
 // SetKeyMap sets a global mapping for the given mode.
 //
@@ -1697,24 +1620,18 @@ func KeyMap(mode string) (maps []*Mapping) {
 //
 // Optional parameters map. Accepts all ":map-arguments" as keys excluding "buffer" but including "noremap".
 // Values are Booleans. Unknown key is an error.
-func SetKeyMap(mode, lhs, rhs string, opts map[string]bool) {
-	name(nvim_set_keymap)
-}
+func SetKeyMap(mode, lhs, rhs string, opts map[string]bool) { _ = "STUB: not implemented"; return }
 
 // DeleteKeyMap unmaps a global mapping for the given mode.
 //
 // To unmap a buffer-local mapping, use DeleteBufferKeyMap().
-func DeleteKeyMap(mode, lhs string) {
-	name(nvim_del_keymap)
-}
+func DeleteKeyMap(mode, lhs string) { _ = "STUB: not implemented"; return }
 
 // APIInfo returns a 2-tuple (Array), where item 0 is the current channel id and item
 // 1 is the "api-metadata" map (Dictionary).
 //
 // Returns 2-tuple [{channel-id}, {api-metadata}].
-func APIInfo() (apiInfo []any) {
-	name(nvim_get_api_info)
-}
+func APIInfo() (apiInfo []any) { _ = "STUB: not implemented"; return nil }
 
 // SetClientInfo self-identifies the client.
 //
@@ -1725,7 +1642,8 @@ func APIInfo() (apiInfo []any) {
 // appropriate. Example: library first identifies the channel, then a plugin
 // using that library later identifies itself.
 func SetClientInfo(name string, version ClientVersion, typ ClientType, methods map[string]*ClientMethod, attributes ClientAttributes) {
-	name(nvim_set_client_info)
+	_ = "STUB: not implemented"
+	return
 }
 
 // ChannelInfo get information about a channel.
@@ -1782,48 +1700,41 @@ func SetClientInfo(name string, version ClientVersion, typ ClientType, methods m
 //	client
 //
 // Information about the client on the other end of the RPC channel, if it has added it using SetClientInfo() (optional).
-func ChannelInfo(channelID int) (channel Channel) {
-	name(nvim_get_chan_info)
-	returnPtr()
-}
+func ChannelInfo(channelID int) (channel Channel) { _ = "STUB: not implemented"; return *new(Channel) }
 
 // Channels get information about all open channels.
-func Channels() (channels []*Channel) {
-	name(nvim_list_chans)
-}
+func Channels() (channels []*Channel) { _ = "STUB: not implemented"; return nil }
 
 // UIs gets a list of dictionaries representing attached UIs.
-func UIs() (uis []*UI) {
-	name(nvim_list_uis)
-}
+func UIs() (uis []*UI) { _ = "STUB: not implemented"; return nil }
 
 // ProcChildren gets the immediate children of process `pid`.
-func ProcChildren(pid int) (processes []uint) {
-	name(nvim_get_proc_children)
-}
+func ProcChildren(pid int) (processes []uint) { _ = "STUB: not implemented"; return nil }
 
 // Proc gets info describing process "pid".
 func Proc(pid int) (process Process) {
-	name(nvim_get_proc)
+	_ = "STUB: not implemented"
+	return *
+
+	// SelectPopupmenuItem selects an item in the completion popupmenu.
+	//
+	// If |ins-completion| is not active this API call is silently ignored.
+	// Useful for an external UI using |ui-popupmenu| to control the popupmenu
+	// with the mouse. Can also be used in a mapping; use <cmd> |:map-cmd| to
+	// ensure the mapping doesn't end completion mode.
+	//
+	// opts optional parameters. Reserved for future use.
+	new(Process)
 }
 
-// SelectPopupmenuItem selects an item in the completion popupmenu.
-//
-// If |ins-completion| is not active this API call is silently ignored.
-// Useful for an external UI using |ui-popupmenu| to control the popupmenu
-// with the mouse. Can also be used in a mapping; use <cmd> |:map-cmd| to
-// ensure the mapping doesn't end completion mode.
-//
-// opts optional parameters. Reserved for future use.
 func SelectPopupmenuItem(item int, insert, finish bool, opts map[string]any) {
-	name(nvim_select_popupmenu_item)
+	_ = "STUB: not implemented"
+	return
 }
 
 // DeleteMark deletes a uppercase/file named mark.
 // See |help mark-motions|.
-func DeleteMark(name string) (deleted bool) {
-	name(nvim_del_mark)
-}
+func DeleteMark(name string) (deleted bool) { _ = "STUB: not implemented"; return false }
 
 // Mark returns a tuple (row, col, buffer, buffername) representing the position of
 // the uppercase/file named mark.
@@ -1831,8 +1742,8 @@ func DeleteMark(name string) (deleted bool) {
 //
 // opts is optional parameters. Reserved for future use.
 func Mark(name string, opts map[string]any) (mark Mark) {
-	name(nvim_get_mark)
-	returnPtr()
+	_ = "STUB: not implemented"
+	return *new(Mark)
 }
 
 // EvalStatusLine evaluates statusline string.
@@ -1859,85 +1770,69 @@ func Mark(name string, opts map[string]any) (mark Mark) {
 //
 // Evaluate tabline instead of statusline. When true, {winid} is ignored.
 func EvalStatusLine(name string, opts map[string]any) (statusline map[string]any) {
-	name(nvim_eval_statusline)
-}
+	_ = "STUB: not implemented"
+	return nil
 
-// window.c
+	// window.c
+}
 
 // WindowBuffer gets the current buffer in a window.
 func WindowBuffer(window Window) (buffer Buffer) {
-	name(nvim_win_get_buf)
+	_ = "STUB: not implemented"
+	return *
+
+	// SetBufferToWindow Sets the current buffer in a window, without side-effects.
+	new(Buffer)
 }
 
-// SetBufferToWindow Sets the current buffer in a window, without side-effects.
-func SetBufferToWindow(window Window, buffer Buffer) {
-	name(nvim_win_set_buf)
-}
+func SetBufferToWindow(window Window, buffer Buffer) { _ = "STUB: not implemented"; return }
 
 // WindowCursor gets the (1,0)-indexed cursor position in the window.
-func WindowCursor(window Window) (pos [2]int) {
-	name(nvim_win_get_cursor)
-}
+func WindowCursor(window Window) (pos [2]int) { _ = "STUB: not implemented"; return nil }
 
 // SetWindowCursor sets the (1,0)-indexed cursor position in the window.
-func SetWindowCursor(window Window, pos [2]int) {
-	name(nvim_win_set_cursor)
-}
+func SetWindowCursor(window Window, pos [2]int) { _ = "STUB: not implemented"; return }
 
 // WindowHeight returns the window height.
-func WindowHeight(window Window) (height int) {
-	name(nvim_win_get_height)
-}
+func WindowHeight(window Window) (height int) { _ = "STUB: not implemented"; return 0 }
 
 // SetWindowHeight Sets the window height. This will only succeed if the screen is split horizontally.
-func SetWindowHeight(window Window, height int) {
-	name(nvim_win_set_height)
-}
+func SetWindowHeight(window Window, height int) { _ = "STUB: not implemented"; return }
 
 // WindowWidth returns the window width.
-func WindowWidth(window Window) (width int) {
-	name(nvim_win_get_width)
-}
+func WindowWidth(window Window) (width int) { _ = "STUB: not implemented"; return 0 }
 
 // SetWindowWidth Sets the window width. This will only succeed if the screen is split vertically.
-func SetWindowWidth(window Window, width int) {
-	name(nvim_win_set_width)
-}
+func SetWindowWidth(window Window, width int) { _ = "STUB: not implemented"; return }
 
 // WindowVar gets a window-scoped (w:) variable.
 func WindowVar(window Window, name string) (value any) {
-	name(nvim_win_get_var)
+	_ = "STUB: not implemented"
+	return *
+
+	// SetWindowVar sets a window-scoped (w:) variable.
+	new(any)
 }
 
-// SetWindowVar sets a window-scoped (w:) variable.
-func SetWindowVar(window Window, name string, value any) {
-	name(nvim_win_set_var)
-}
+func SetWindowVar(window Window, name string, value any) { _ = "STUB: not implemented"; return }
 
 // DeleteWindowVar removes a window-scoped (w:) variable.
-func DeleteWindowVar(window Window, name string) {
-	name(nvim_win_del_var)
-}
+func DeleteWindowVar(window Window, name string) { _ = "STUB: not implemented"; return }
 
 // WindowPosition gets the window position in display cells. First position is zero.
-func WindowPosition(window Window) (pos [2]int) {
-	name(nvim_win_get_position)
-}
+func WindowPosition(window Window) (pos [2]int) { _ = "STUB: not implemented"; return nil }
 
 // WindowTabpage gets the window tabpage.
 func WindowTabpage(window Window) (tabpage Tabpage) {
-	name(nvim_win_get_tabpage)
+	_ = "STUB: not implemented"
+	return *new(Tabpage)
 }
 
 // WindowNumber gets the window number.
-func WindowNumber(window Window) (number int) {
-	name(nvim_win_get_number)
-}
+func WindowNumber(window Window) (number int) { _ = "STUB: not implemented"; return 0 }
 
 // IsWindowValid checks if a window is valid.
-func IsWindowValid(window Window) (valid bool) {
-	name(nvim_win_is_valid)
-}
+func IsWindowValid(window Window) (valid bool) { _ = "STUB: not implemented"; return false }
 
 // SetWindowConfig configure window position. Currently this is only used to configure
 // floating and external windows (including changing a split window to these types).
@@ -1946,9 +1841,7 @@ func IsWindowValid(window Window) (valid bool) {
 // changed. "row"/"col" and "relative" must be reconfigured together.
 //
 // See documentation at OpenWindow, for the meaning of parameters.
-func SetWindowConfig(window Window, config *WindowConfig) {
-	name(nvim_win_set_config)
-}
+func SetWindowConfig(window Window, config *WindowConfig) { _ = "STUB: not implemented"; return }
 
 // WindowConfig return window configuration.
 //
@@ -1956,8 +1849,8 @@ func SetWindowConfig(window Window, config *WindowConfig) {
 //
 // Relative will be an empty string for normal windows.
 func WindowConfig(window Window) (config WindowConfig) {
-	name(nvim_win_get_config)
-	returnPtr()
+	_ = "STUB: not implemented"
+	return *new(WindowConfig)
 }
 
 // HideWindow closes the window and hide the buffer it contains (like ":hide" with a
@@ -1966,19 +1859,13 @@ func WindowConfig(window Window) (config WindowConfig) {
 // Like ":hide" the buffer becomes hidden unless another window is editing it,
 // or "bufhidden" is "unload", "delete" or "wipe" as opposed to ":close" or
 // CloseWindow, which will close the buffer.
-func HideWindow(window Window) {
-	name(nvim_win_hide)
-}
+func HideWindow(window Window) { _ = "STUB: not implemented"; return }
 
 // CloseWindow Closes the window (like ":close" with a window-ID).
-func CloseWindow(window Window, force bool) {
-	name(nvim_win_close)
-}
+func CloseWindow(window Window, force bool) { _ = "STUB: not implemented"; return }
 
 // SetWindowHeightNamespace set highlight namespace for a window. This will use highlights defined in
 // this namespace, but fall back to global highlights (ns=0) when missing.
 //
 // This takes predecence over the 'winhighlight' option.
-func SetWindowHeightNamespace(window Window, nsID int) {
-	name(nvim_win_set_hl_ns)
-}
+func SetWindowHeightNamespace(window Window, nsID int) { _ = "STUB: not implemented"; return }

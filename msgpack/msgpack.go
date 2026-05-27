@@ -48,14 +48,6 @@ const (
 
 type aborted struct{ err error }
 
-func abort(err error) { panic(aborted{err}) }
+func abort(err error) { _ = "STUB: not implemented"; return }
 
-func handleAbort(err *error) {
-	if r := recover(); r != nil {
-		if a, ok := r.(aborted); ok {
-			*err = a.err
-		} else {
-			panic(r)
-		}
-	}
-}
+func handleAbort(err *error) { _ = "STUB: not implemented"; return }

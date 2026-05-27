@@ -1,17 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/neovim/go-client/nvim"
 )
 
-func hello(v *nvim.Nvim, args []string) error {
-	return v.WriteOut(fmt.Sprintf("Hello %s\n", strings.Join(args, " ")))
-}
+func hello(v *nvim.Nvim, args []string) error { _ = "STUB: not implemented"; return nil }
 
 func main() {
 	// Turn off timestamps in output.

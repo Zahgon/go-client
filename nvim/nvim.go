@@ -3,17 +3,11 @@ package nvim
 import (
 	"bytes"
 	"context"
-	"errors"
-	"fmt"
 	"io"
-	"log"
 	"net"
 	"os/exec"
-	"reflect"
-	"strings"
 	"sync"
 	"syscall"
-	"time"
 
 	"github.com/neovim/go-client/msgpack"
 	"github.com/neovim/go-client/msgpack/rpc"
@@ -44,58 +38,18 @@ type Nvim struct {
 //
 // By default, the NewChildProcess and Dial functions start a goroutine to run Serve().
 // Callers of the low-level New function are responsible for running Serve().
-func (v *Nvim) Serve() error {
-	v.readMu.Lock()
-	defer v.readMu.Unlock()
-	return v.ep.Serve()
-}
+func (v *Nvim) Serve() error { _ = "STUB: not implemented"; return nil }
 
-func (v *Nvim) startServe() {
-	v.serveCh = make(chan error, 1)
-	go func() {
-		v.serveCh <- v.Serve()
-		close(v.serveCh)
-	}()
-}
+func (v *Nvim) startServe() { _ = "STUB: not implemented"; return }
 
 // Close releases the resources used the client.
-func (v *Nvim) Close() error {
-	if v.cmd != nil && v.cmd.Process != nil {
-		// The child process should exit cleanly on call to v.ep.Close(). Kill
-		// the process if it does not exit as expected.
-		t := time.AfterFunc(10*time.Second, func() { v.cmd.Process.Kill() })
-		defer t.Stop()
-	}
+func (v *Nvim) Close() error { _ = "STUB: not implemented"; return nil }
 
-	err := v.ep.Close()
-
-	if v.cmd != nil {
-		v.readMu.Lock()
-		defer v.readMu.Unlock()
-
-		_ = v.cmd.Wait()
-	}
-
-	if v.serveCh != nil {
-		var errServe error
-		select {
-		case errServe = <-v.serveCh:
-		case <-time.After(10 * time.Second):
-			errServe = errors.New("nvim: Serve did not exit")
-		}
-		if err == nil && errServe != nil {
-			err = errServe
-		}
-	}
-
-	return err
-}
+// The child process should exit cleanly on call to v.ep.Close(). Kill
+// the process if it does not exit as expected.
 
 // ExitCode returns the exit code of the exited nvim process.
-func (v *Nvim) ExitCode() int {
-	v.cmd.Wait()
-	return v.cmd.ProcessState.ExitCode()
-}
+func (v *Nvim) ExitCode() int { _ = "STUB: not implemented"; return 0 }
 
 // New creates an Nvim client. When connecting to Nvim over stdio, use stdin as
 // r and stdout as w and c, When connecting to Nvim over a network connection,
@@ -105,11 +59,8 @@ func (v *Nvim) ExitCode() int {
 //
 //	:help rpc-connecting
 func New(r io.Reader, w io.Writer, c io.Closer, logf func(string, ...any)) (*Nvim, error) {
-	ep, err := rpc.NewEndpoint(r, w, c, rpc.WithLogf(logf), withExtensions())
-	if err != nil {
-		return nil, err
-	}
-	return &Nvim{ep: ep}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ChildProcessOption specifies an option for creating a child process.
@@ -132,126 +83,68 @@ type childProcessOptions struct {
 // include the --embed flag or other flags that cause Nvim to use stdin/stdout
 // as a MsgPack RPC channel.
 func ChildProcessArgs(args ...string) ChildProcessOption {
-	return ChildProcessOption{func(cpos *childProcessOptions) {
-		cpos.args = args
-	}}
+	_ = "STUB: not implemented"
+	return *new(ChildProcessOption)
 }
 
 // ChildProcessCommand specifies the command to run. NewChildProcess runs
 // "nvim" by default.
 func ChildProcessCommand(command string) ChildProcessOption {
-	return ChildProcessOption{func(cpos *childProcessOptions) {
-		cpos.command = command
-	}}
+	_ = "STUB: not implemented"
+	return *new(ChildProcessOption)
 }
 
 // ChildProcessContext specifies the context to use when starting the command.
 // The background context is used by defaullt.
 func ChildProcessContext(ctx context.Context) ChildProcessOption {
-	return ChildProcessOption{func(cpos *childProcessOptions) {
-		cpos.ctx = ctx
-	}}
+	_ = "STUB: not implemented"
+	return *new(ChildProcessOption)
 }
 
 // ChildProcessDir specifies the working directory for the process. The current
 // working directory is used by default.
 func ChildProcessDir(dir string) ChildProcessOption {
-	return ChildProcessOption{func(cpos *childProcessOptions) {
-		cpos.dir = dir
-	}}
+	_ = "STUB: not implemented"
+	return *new(ChildProcessOption)
 }
 
 // ChildProcessEnv specifies the environment for the child process. The current
 // process environment is used by default.
 func ChildProcessEnv(env []string) ChildProcessOption {
-	return ChildProcessOption{func(cpos *childProcessOptions) {
-		cpos.env = env
-	}}
+	_ = "STUB: not implemented"
+	return *new(ChildProcessOption)
 }
 
 // ChildProcessServe specifies whether Server should be run in a goroutine.
 // The default is to run Serve().
 func ChildProcessServe(serve bool) ChildProcessOption {
-	return ChildProcessOption{func(cpos *childProcessOptions) {
-		cpos.serve = serve
-	}}
+	_ = "STUB: not implemented"
+	return *new(ChildProcessOption)
 }
 
 // ChildProcessLogf specifies function for logging output. The log.Printf
 // function is used by default.
 func ChildProcessLogf(logf func(string, ...any)) ChildProcessOption {
-	return ChildProcessOption{func(cpos *childProcessOptions) {
-		cpos.logf = logf
-	}}
+	_ = "STUB: not implemented"
+	return *new(ChildProcessOption)
 }
 
 // ChildProcessDisableEmbed disables the --embed flag of nvim.
 // See: https://neovim.io/doc/user/starting.html#--embed for details.
 func ChildProcessDisableEmbed() ChildProcessOption {
-	return ChildProcessOption{func(cpos *childProcessOptions) {
-		cpos.disableEmbed = true
-	}}
+	_ = "STUB: not implemented"
+	return *new(ChildProcessOption)
 }
 
 // appendEmbedFlagIfNeeded appends the --embed flag, if it is not yet added.
 // This behavior can be overriden by setting the ChildProcessDisableEmbed() process option.
-func appendEmbedFlagIfNeeded(cpos *childProcessOptions) {
-	for _, arg := range cpos.args {
-		if arg == "--embed" {
-			return
-		}
-	}
-	if !cpos.disableEmbed {
-		cpos.logf("[go-client/nvim] Warning: '--embed' flag missing, appending by default. It enables RPC calls via stdin/stdout. To disable this behavior, add ChildProcessDisableEmbed(). More info: https://neovim.io/doc/user/starting.html#--embed")
-		cpos.args = append(cpos.args, "--embed")
-		return
-	}
-}
+func appendEmbedFlagIfNeeded(cpos *childProcessOptions) { _ = "STUB: not implemented"; return }
 
 // NewChildProcess returns a client connected to stdin and stdout of a new
 // child process.
 func NewChildProcess(options ...ChildProcessOption) (*Nvim, error) {
-	cpos := &childProcessOptions{
-		serve:   true,
-		logf:    log.Printf,
-		command: "nvim",
-		ctx:     context.Background(),
-	}
-	for _, cpo := range options {
-		cpo.f(cpos)
-	}
-
-	appendEmbedFlagIfNeeded(cpos)
-
-	cmd := exec.CommandContext(cpos.ctx, cpos.command, cpos.args...)
-	cmd.Env = cpos.env
-	cmd.Dir = cpos.dir
-	cmd.SysProcAttr = embedProcAttr
-
-	inw, err := cmd.StdinPipe()
-	if err != nil {
-		return nil, err
-	}
-
-	outr, err := cmd.StdoutPipe()
-	if err != nil {
-		inw.Close()
-		return nil, err
-	}
-
-	err = cmd.Start()
-	if err != nil {
-		return nil, err
-	}
-
-	v, _ := New(outr, inw, inw, cpos.logf)
-	v.cmd = cmd
-
-	if cpos.serve {
-		v.startServe()
-	}
-
-	return v, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // DialOption specifies an option for dialing to Nvim.
@@ -269,32 +162,25 @@ type dialOptions struct {
 // DialContext specifies the context to use when starting the command.
 // The background context is used by default.
 func DialContext(ctx context.Context) DialOption {
-	return DialOption{func(dos *dialOptions) {
-		dos.ctx = ctx
-	}}
+	_ = "STUB: not implemented"
+	return *new(DialOption)
 }
 
 // DialNetDial specifies a function used to dial a network connection. A
 // default net.Dialer DialContext method is used by default.
 func DialNetDial(f func(ctx context.Context, network, address string) (net.Conn, error)) DialOption {
-	return DialOption{func(dos *dialOptions) {
-		dos.netDial = f
-	}}
+	_ = "STUB: not implemented"
+	return *new(DialOption)
 }
 
 // DialServe specifies whether Server should be run in a goroutine.
 // The default is to run Serve().
-func DialServe(serve bool) DialOption {
-	return DialOption{func(dos *dialOptions) {
-		dos.serve = serve
-	}}
-}
+func DialServe(serve bool) DialOption { _ = "STUB: not implemented"; return *new(DialOption) }
 
 // DialLogf specifies function for logging output. The log.Printf function is used by default.
 func DialLogf(logf func(string, ...any)) DialOption {
-	return DialOption{func(dos *dialOptions) {
-		dos.logf = logf
-	}}
+	_ = "STUB: not implemented"
+	return *new(DialOption)
 }
 
 // Dial dials an Nvim instance given an address in the format used by
@@ -303,38 +189,8 @@ func DialLogf(logf func(string, ...any)) DialOption {
 //	:help rpc-connecting
 //	:help $NVIM_LISTEN_ADDRESS
 func Dial(address string, options ...DialOption) (*Nvim, error) {
-	var d net.Dialer
-	dos := &dialOptions{
-		ctx:     context.Background(),
-		logf:    log.Printf,
-		netDial: d.DialContext,
-		serve:   true,
-	}
-
-	for _, do := range options {
-		do.f(dos)
-	}
-
-	network := "unix"
-	if strings.Contains(address, ":") {
-		network = "tcp"
-	}
-
-	c, err := dos.netDial(dos.ctx, network, address)
-	if err != nil {
-		return nil, err
-	}
-
-	v, err := New(c, c, c, dos.logf)
-	if err != nil {
-		c.Close()
-		return nil, err
-	}
-
-	if dos.serve {
-		v.startServe()
-	}
-	return v, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // RegisterHandler registers fn as a MessagePack RPC handler for the named
@@ -350,43 +206,20 @@ func Dial(address string, options ...DialOption) (*Nvim, error) {
 //
 //	:help rpcrequest()
 //	:help rpcnotify()
-func (v *Nvim) RegisterHandler(method string, fn any) error {
-	var args []any
-	t := reflect.TypeOf(fn)
-	if t.Kind() == reflect.Func && t.NumIn() > 0 && t.In(0) == reflect.TypeOf(v) {
-		args = append(args, v)
-	}
-	return v.ep.Register(method, fn, args...)
-}
+func (v *Nvim) RegisterHandler(method string, fn any) error { _ = "STUB: not implemented"; return nil }
 
 // ChannelID returns Nvim's channel id for this client.
-func (v *Nvim) ChannelID() int {
-	v.channelIDMu.Lock()
-	defer v.channelIDMu.Unlock()
-	if v.channelID != 0 {
-		return v.channelID
-	}
-	var info struct {
-		ChannelID int `msgpack:",array"`
-		Info      any `msgpack:"-"`
-	}
-	if err := v.ep.Call("nvim_get_api_info", &info); err != nil {
-		// TODO: log error and exit process?
-	}
-	v.channelID = info.ChannelID
-	return v.channelID
-}
+func (v *Nvim) ChannelID() int { _ = "STUB: not implemented"; return 0 }
+
+// TODO: log error and exit process?
 
 func (v *Nvim) call(sm string, result any, args ...any) error {
-	return fixError(sm, v.ep.Call(sm, result, args...))
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewBatch creates a new batch.
-func (v *Nvim) NewBatch() *Batch {
-	b := &Batch{ep: v.ep}
-	b.enc = msgpack.NewEncoder(&b.buf)
-	return b
-}
+func (v *Nvim) NewBatch() *Batch { _ = "STUB: not implemented"; return nil }
 
 // Batch collects API function calls and executes them atomically.
 //
@@ -411,70 +244,12 @@ type Batch struct {
 }
 
 // Execute executes the API function calls in the batch.
-func (b *Batch) Execute() error {
-	defer func() {
-		b.buf.Reset()
-		b.sms = b.sms[:0]
-		b.results = b.results[:0]
-		b.err = nil
-	}()
-
-	if b.err != nil {
-		return b.err
-	}
-
-	result := struct {
-		Results []any `msgpack:",array"`
-		Error   *struct {
-			Index   int `msgpack:",array"`
-			Type    int
-			Message string
-		}
-	}{
-		b.results,
-		nil,
-	}
-
-	err := b.ep.Call("nvim_call_atomic", &result, &batchArg{n: len(b.sms), p: b.buf.Bytes()})
-	if err != nil {
-		return err
-	}
-
-	e := result.Error
-	if e == nil {
-		return nil
-	}
-
-	if e.Index < 0 || e.Index >= len(b.sms) ||
-		(e.Type != exceptionError && e.Type != validationError) {
-		return fmt.Errorf("nvim:nvim_call_atomic %d %d %s", e.Index, e.Type, e.Message)
-	}
-	errorType := "exception"
-	if e.Type == validationError {
-		errorType = "validation"
-	}
-	return &BatchError{
-		Index: e.Index,
-		Err:   fmt.Errorf("nvim:%s %s: %s", b.sms[e.Index], errorType, e.Message),
-	}
-}
+func (b *Batch) Execute() error { _ = "STUB: not implemented"; return nil }
 
 // emptyArgs represents a empty interface slice which use to empty args.
 var emptyArgs = []any{}
 
-func (b *Batch) call(sm string, result any, args ...any) {
-	if b.err != nil {
-		return
-	}
-	if args == nil {
-		args = emptyArgs
-	}
-	b.sms = append(b.sms, sm)
-	b.results = append(b.results, result)
-	b.enc.PackArrayLen(2)
-	b.enc.PackString(sm)
-	b.err = b.enc.Encode(args)
-}
+func (b *Batch) call(sm string, result any, args ...any) { _ = "STUB: not implemented"; return }
 
 // batchArg represents a batch call arguments.
 type batchArg struct {
@@ -487,8 +262,8 @@ var _ msgpack.Marshaler = (*batchArg)(nil)
 
 // MarshalMsgPack implements msgpack.Marshaler.
 func (a *batchArg) MarshalMsgPack(enc *msgpack.Encoder) error {
-	enc.PackArrayLen(int64(a.n))
-	return enc.PackRaw(a.p)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // BatchError represents an error from a API function call in a Batch.
@@ -502,40 +277,26 @@ type BatchError struct {
 }
 
 // Error implements the error interface.
-func (e *BatchError) Error() string {
-	return e.Err.Error()
-}
+func (e *BatchError) Error() string { _ = "STUB: not implemented"; return "" }
 
-func fixError(sm string, err error) error {
-	if e, ok := err.(rpc.Error); ok {
-		if a, ok := e.Value.([]any); ok && len(a) == 2 {
-			switch a[0] {
-			case int64(exceptionError), uint64(exceptionError):
-				return fmt.Errorf("nvim:%s exception: %v", sm, a[1])
-			case int64(validationError), uint64(validationError):
-				return fmt.Errorf("nvim:%s validation: %v", sm, a[1])
-			}
-		}
-	}
-	return err
-}
+func fixError(sm string, err error) error { _ = "STUB: not implemented"; return nil }
 
 // ErrorList is a list of errors.
 type ErrorList []error
 
 // Error implements the error interface.
-func (el ErrorList) Error() string {
-	return el[0].Error()
-}
+func (el ErrorList) Error() string { _ = "STUB: not implemented"; return "" }
 
 // Request makes a any RPC request.
 func (v *Nvim) Request(procedure string, result any, args ...any) error {
-	return v.call(procedure, result, args...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Request makes a any RPC request atomically as a part of batch request.
 func (b *Batch) Request(procedure string, result any, args ...any) {
-	b.call(procedure, result, args...)
+	_ = "STUB: not implemented"
+	return
 }
 
 // Call calls a VimL function with the given arguments.
@@ -548,10 +309,8 @@ func (b *Batch) Request(procedure string, result any, args ...any) {
 //
 // result is the result of the function call.
 func (v *Nvim) Call(fname string, result any, args ...any) error {
-	if args == nil {
-		args = emptyArgs
-	}
-	return v.call("nvim_call_function", result, fname, args)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Call calls a VimL function with the given arguments.
@@ -563,12 +322,7 @@ func (v *Nvim) Call(fname string, result any, args ...any) error {
 // args is function arguments packed in an array.
 //
 // result is the result of the function call.
-func (b *Batch) Call(fname string, result any, args ...any) {
-	if args == nil {
-		args = emptyArgs
-	}
-	b.call("nvim_call_function", result, fname, args)
-}
+func (b *Batch) Call(fname string, result any, args ...any) { _ = "STUB: not implemented"; return }
 
 // CallDict calls a VimL dictionary function with the given arguments.
 //
@@ -582,10 +336,8 @@ func (b *Batch) Call(fname string, result any, args ...any) {
 //
 // result is the result of the function call.
 func (v *Nvim) CallDict(dict []any, fname string, result any, args ...any) error {
-	if args == nil {
-		args = emptyArgs
-	}
-	return v.call("nvim_call_dict_function", result, fname, dict, args)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // CallDict calls a VimL dictionary function with the given arguments.
@@ -600,10 +352,8 @@ func (v *Nvim) CallDict(dict []any, fname string, result any, args ...any) error
 //
 // result is the result of the function call.
 func (b *Batch) CallDict(dict []any, fname string, result any, args ...any) {
-	if args == nil {
-		args = emptyArgs
-	}
-	b.call("nvim_call_dict_function", result, fname, dict, args)
+	_ = "STUB: not implemented"
+	return
 }
 
 // ExecLua execute Lua code.
@@ -619,10 +369,8 @@ func (b *Batch) CallDict(dict []any, fname string, result any, args ...any) {
 //
 // The returned result value of Lua code if present or nil.
 func (v *Nvim) ExecLua(code string, result any, args ...any) error {
-	if args == nil {
-		args = emptyArgs
-	}
-	return v.call("nvim_exec_lua", result, code, args)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ExecLua execute Lua code.
@@ -637,12 +385,7 @@ func (v *Nvim) ExecLua(code string, result any, args ...any) error {
 // args is arguments to the code.
 //
 // The returned result value of Lua code if present or nil.
-func (b *Batch) ExecLua(code string, result any, args ...any) {
-	if args == nil {
-		args = emptyArgs
-	}
-	b.call("nvim_exec_lua", result, code, args)
-}
+func (b *Batch) ExecLua(code string, result any, args ...any) { _ = "STUB: not implemented"; return }
 
 // Notify the user with a message.
 //
@@ -655,16 +398,8 @@ func (b *Batch) ExecLua(code string, result any, args ...any) {
 //
 // opts is reserved for future use.
 func (v *Nvim) Notify(msg string, logLevel LogLevel, opts map[string]any) error {
-	if logLevel == LogErrorLevel {
-		return v.WritelnErr(msg)
-	}
-
-	chunks := []TextChunk{
-		{
-			Text: msg,
-		},
-	}
-	return v.Echo(chunks, true, opts)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Notify the user with a message.
@@ -678,56 +413,17 @@ func (v *Nvim) Notify(msg string, logLevel LogLevel, opts map[string]any) error 
 //
 // opts is reserved for future use.
 func (b *Batch) Notify(msg string, logLevel LogLevel, opts map[string]any) {
-	if logLevel == LogErrorLevel {
-		b.WritelnErr(msg)
-		return
-	}
-
-	chunks := []TextChunk{
-		{
-			Text: msg,
-		},
-	}
-	b.Echo(chunks, true, opts)
+	_ = "STUB: not implemented"
+	return
 }
 
 // decodeExt decodes a MsgPack encoded number to go int value.
-func decodeExt(p []byte) (int, error) {
-	switch {
-	case len(p) == 1 && p[0] <= 0x7f:
-		return int(p[0]), nil
-	case len(p) == 2 && p[0] == 0xcc:
-		return int(p[1]), nil
-	case len(p) == 3 && p[0] == 0xcd:
-		return int(uint16(p[2]) | uint16(p[1])<<8), nil
-	case len(p) == 5 && p[0] == 0xce:
-		return int(uint32(p[4]) | uint32(p[3])<<8 | uint32(p[2])<<16 | uint32(p[1])<<24), nil
-	case len(p) == 2 && p[0] == 0xd0:
-		return int(int8(p[1])), nil
-	case len(p) == 3 && p[0] == 0xd1:
-		return int(int16(uint16(p[2]) | uint16(p[1])<<8)), nil
-	case len(p) == 5 && p[0] == 0xd2:
-		return int(int32(uint32(p[4]) | uint32(p[3])<<8 | uint32(p[2])<<16 | uint32(p[1])<<24)), nil
-	case len(p) == 1 && p[0] >= 0xe0:
-		return int(int8(p[0])), nil
-	default:
-		return 0, fmt.Errorf("go-client/nvim: error decoding extension bytes %x", p)
-	}
-}
+func decodeExt(p []byte) (int, error) { _ = "STUB: not implemented"; return 0, nil }
 
 // encodeExt encodes n to MsgPack format.
-func encodeExt(n int) []byte {
-	return []byte{0xd2, byte(n >> 24), byte(n >> 16), byte(n >> 8), byte(n)}
-}
+func encodeExt(n int) []byte { _ = "STUB: not implemented"; return nil }
 
 func unmarshalExt(dec *msgpack.Decoder, id int, v any) (int, error) {
-	if dec.Type() != msgpack.Extension || dec.Extension() != id {
-		err := &msgpack.DecodeConvertError{
-			SrcType:  dec.Type(),
-			DestType: reflect.TypeOf(v).Elem(),
-		}
-		dec.Skip()
-		return 0, err
-	}
-	return decodeExt(dec.BytesNoCopy())
+	_ = "STUB: not implemented"
+	return 0, nil
 }

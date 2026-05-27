@@ -1,11 +1,7 @@
 package plugin
 
 import (
-	"bytes"
-	"fmt"
 	"reflect"
-	"sort"
-	"strings"
 
 	"github.com/neovim/go-client/nvim"
 )
@@ -20,20 +16,13 @@ type Plugin struct {
 }
 
 // New returns an intialized plugin.
-func New(v *nvim.Nvim) *Plugin {
-	p := &Plugin{
-		Nvim:            v,
-		eventPathCounts: make(map[string]int),
-	}
+func New(v *nvim.Nvim) *Plugin { _ = "STUB: not implemented"; return nil }
 
-	// Disable support for "specs" method until path mechanism for supporting
-	// binary executables with Nvim is worked out.
-	// err := v.RegisterHandler("specs", func(path string) ([]*pluginSpec, error) {
-	//  return p.pluginSpecs, nil
-	// })
-
-	return p
-}
+// Disable support for "specs" method until path mechanism for supporting
+// binary executables with Nvim is worked out.
+// err := v.RegisterHandler("specs", func(path string) ([]*pluginSpec, error) {
+//  return p.pluginSpecs, nil
+// })
 
 type pluginSpec struct {
 	sm   string
@@ -43,30 +32,11 @@ type pluginSpec struct {
 	Opts map[string]string `msgpack:"opts"`
 }
 
-func (spec *pluginSpec) path() string {
-	if i := strings.Index(spec.sm, ":"); i > 0 {
-		return spec.sm[:i]
-	}
+func (spec *pluginSpec) path() string { _ = "STUB: not implemented"; return "" }
 
-	return ""
-}
+func isSync(f any) bool { _ = "STUB: not implemented"; return false }
 
-func isSync(f any) bool {
-	t := reflect.TypeOf(f)
-
-	return t.Kind() == reflect.Func && t.NumOut() > 0
-}
-
-func (p *Plugin) handle(fn any, spec *pluginSpec) {
-	p.pluginSpecs = append(p.pluginSpecs, spec)
-	if p.Nvim == nil {
-		return
-	}
-
-	if err := p.Nvim.RegisterHandler(spec.sm, fn); err != nil {
-		panic(err)
-	}
-}
+func (p *Plugin) handle(fn any, spec *pluginSpec) { _ = "STUB: not implemented"; return }
 
 // Handle registers fn as a MessagePack RPC handler for the specified method
 // name. The function signature for fn is one of
@@ -81,15 +51,7 @@ func (p *Plugin) handle(fn any, spec *pluginSpec) {
 //
 //	:help rpcrequest()
 //	:help rpcnotify()
-func (p *Plugin) Handle(method string, fn any) {
-	if p.Nvim == nil {
-		return
-	}
-
-	if err := p.Nvim.RegisterHandler(method, fn); err != nil {
-		panic(err)
-	}
-}
+func (p *Plugin) Handle(method string, fn any) { _ = "STUB: not implemented"; return }
 
 // FunctionOptions specifies function options.
 type FunctionOptions struct {
@@ -127,19 +89,8 @@ type FunctionOptions struct {
 //
 //	{'GOPATH': $GOPATH, Cwd: getcwd()}
 func (p *Plugin) HandleFunction(options *FunctionOptions, fn any) {
-	m := make(map[string]string)
-
-	if options.Eval != "" {
-		m["eval"] = eval(options.Eval, fn)
-	}
-
-	p.handle(fn, &pluginSpec{
-		sm:   `0:function:` + options.Name,
-		Type: `function`,
-		Name: options.Name,
-		Sync: isSync(fn),
-		Opts: m,
-	})
+	_ = "STUB: not implemented"
+	return
 }
 
 // CommandOptions specifies command options.
@@ -230,55 +181,7 @@ type CommandOptions struct {
 // evaluate in Nvim from the type of fn's last argument. See the
 // HandleFunction documentation for information on how the expression is
 // generated.
-func (p *Plugin) HandleCommand(options *CommandOptions, fn any) {
-	m := make(map[string]string)
-
-	if options.NArgs != "" {
-		m[`nargs`] = options.NArgs
-	}
-
-	switch {
-	case options.Range == `.`:
-		options.Range = ""
-		fallthrough
-	case options.Range != "":
-		m[`range`] = options.Range
-	case options.Count != "":
-		m[`count`] = options.Count
-	}
-
-	if options.Bang {
-		m[`bang`] = ""
-	}
-
-	if options.Register {
-		m[`register`] = ""
-	}
-
-	if options.Eval != "" {
-		m[`eval`] = eval(options.Eval, fn)
-	}
-
-	if options.Addr != "" {
-		m[`addr`] = options.Addr
-	}
-
-	if options.Bar {
-		m[`bar`] = ""
-	}
-
-	if options.Complete != "" {
-		m[`complete`] = options.Complete
-	}
-
-	p.handle(fn, &pluginSpec{
-		sm:   `0:command:` + options.Name,
-		Type: `command`,
-		Name: options.Name,
-		Sync: isSync(fn),
-		Opts: m,
-	})
-}
+func (p *Plugin) HandleCommand(options *CommandOptions, fn any) { _ = "STUB: not implemented"; return }
 
 // AutocmdOptions specifies autocmd options.
 type AutocmdOptions struct {
@@ -313,177 +216,24 @@ type AutocmdOptions struct {
 // If options.Eval == "*", then HandleAutocmd constructs the expression to
 // evaluate in Nvim from the type of fn's last argument. See the HandleFunction
 // documentation for information on how the expression is generated.
-func (p *Plugin) HandleAutocmd(options *AutocmdOptions, fn any) {
-	pattern := ""
+func (p *Plugin) HandleAutocmd(options *AutocmdOptions, fn any) { _ = "STUB: not implemented"; return }
 
-	m := make(map[string]string)
-
-	if options.Group != "" {
-		m[`group`] = options.Group
-	}
-
-	if options.Pattern != "" {
-		m[`pattern`] = options.Pattern
-		pattern = options.Pattern
-	}
-
-	if options.Nested {
-		m[`nested`] = `1`
-	}
-
-	if options.Once {
-		m[`once`] = `1`
-	}
-
-	if options.Eval != "" {
-		m[`eval`] = eval(options.Eval, fn)
-	}
-
-	// Compute unique path for event and pattern.
-	ep := options.Event + ":" + pattern
-	i := p.eventPathCounts[ep]
-	p.eventPathCounts[ep] = i + 1
-
-	sm := fmt.Sprintf(`%d:autocmd:%s`, i, ep)
-
-	p.handle(fn, &pluginSpec{
-		sm:   sm,
-		Type: `autocmd`,
-		Name: options.Event,
-		Sync: isSync(fn),
-		Opts: m,
-	})
-}
+// Compute unique path for event and pattern.
 
 // RegisterForTests registers the plugin with Nvim. Use this method for testing
 // plugins in an embedded instance of Nvim.
-func (p *Plugin) RegisterForTests() error {
-	specs := make(map[string][]*pluginSpec)
-	for _, spec := range p.pluginSpecs {
-		specs[spec.path()] = append(specs[spec.path()], spec)
-	}
+func (p *Plugin) RegisterForTests() error { _ = "STUB: not implemented"; return nil }
 
-	const host = "nvim-go-test"
-	for path, specs := range specs {
-		if err := p.Nvim.Call("remote#host#RegisterPlugin", nil, host, path, specs); err != nil {
-			return err
-		}
-	}
-	err := p.Nvim.Call("remote#host#Register", nil, host, "x", p.Nvim.ChannelID())
+func eval(eval string, f any) string { _ = "STUB: not implemented"; return "" }
 
-	return err
-}
-
-func eval(eval string, f any) string {
-	if eval != `*` {
-		return eval
-	}
-
-	ft := reflect.TypeOf(f)
-	if ft.Kind() != reflect.Func || ft.NumIn() < 1 {
-		panic(`Eval: "*" option requires function with at least one argument`)
-	}
-
-	argt := ft.In(ft.NumIn() - 1)
-	if argt.Kind() != reflect.Ptr || argt.Elem().Kind() != reflect.Struct {
-		panic(`Eval: "*" option requires function with pointer to struct as last argument`)
-	}
-
-	return structEval(argt.Elem())
-}
-
-func structEval(t reflect.Type) string {
-	var sb strings.Builder
-
-	sb.WriteByte('{')
-	sep := ""
-
-	for i := 0; i < t.NumField(); i++ {
-		sf := t.Field(i)
-		if sf.Anonymous {
-			panic(`Eval: "*" does not support anonymous fields`)
-		}
-
-		eval := sf.Tag.Get("eval")
-		if eval == "" {
-			ft := sf.Type
-			if ft.Kind() == reflect.Ptr {
-				ft = ft.Elem()
-			}
-
-			if ft.Kind() == reflect.Struct {
-				eval = structEval(ft)
-			}
-		}
-		if eval == "" {
-			continue
-		}
-
-		name := strings.Split(sf.Tag.Get("msgpack"), ",")[0]
-		if name == "" {
-			name = sf.Name
-		}
-
-		sb.WriteString(sep)
-		sb.WriteByte('\'')
-		sb.WriteString(name)
-		sb.WriteString("': ")
-		sb.WriteString(eval)
-		sep = ", "
-	}
-	sb.WriteByte('}')
-
-	return sb.String()
-}
+func structEval(t reflect.Type) string { _ = "STUB: not implemented"; return "" }
 
 type byServiceMethod []*pluginSpec
 
-func (a byServiceMethod) Len() int           { return len(a) }
-func (a byServiceMethod) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a byServiceMethod) Less(i, j int) bool { return a[i].sm < a[j].sm }
+func (a byServiceMethod) Len() int           { _ = "STUB: not implemented"; return 0 }
+func (a byServiceMethod) Swap(i, j int)      { _ = "STUB: not implemented"; return }
+func (a byServiceMethod) Less(i, j int) bool { _ = "STUB: not implemented"; return false }
 
-func (p *Plugin) Manifest(host string) []byte {
-	var buf bytes.Buffer
+func (p *Plugin) Manifest(host string) []byte { _ = "STUB: not implemented"; return nil }
 
-	// Sort for consistent order on output.
-	sort.Sort(byServiceMethod(p.pluginSpecs))
-	escape := strings.NewReplacer(`'`, `''`).Replace
-
-	prevPath := ""
-	for _, spec := range p.pluginSpecs {
-		path := spec.path()
-		if path != prevPath {
-			if prevPath != "" {
-				fmt.Fprintf(&buf, "\\ )")
-			}
-			fmt.Fprintf(&buf, "call remote#host#RegisterPlugin('%s', '%s', [\n", host, path)
-			prevPath = path
-		}
-
-		sync := "0"
-		if spec.Sync {
-			sync = "1"
-		}
-
-		fmt.Fprintf(&buf, "\\ {'type': '%s', 'name': '%s', 'sync': %s, 'opts': {", spec.Type, spec.Name, sync)
-
-		var keys []string
-		for k := range spec.Opts {
-			keys = append(keys, k)
-		}
-		sort.Strings(keys)
-
-		optDelim := ""
-		for _, k := range keys {
-			fmt.Fprintf(&buf, "%s'%s': '%s'", optDelim, k, escape(spec.Opts[k]))
-			optDelim = ", "
-		}
-
-		fmt.Fprintf(&buf, "}},\n")
-	}
-	if prevPath != "" {
-		fmt.Fprintf(&buf, "\\ ])\n")
-	}
-
-	return buf.Bytes()
-}
+// Sort for consistent order on output.

@@ -41,18 +41,7 @@ var typeNames = [...]string{
 }
 
 // String returns a string representation of the Type.
-func (t Type) String() string {
-	var n string
-
-	if 0 <= t && t < Type(len(typeNames)) {
-		n = typeNames[t]
-	}
-	if n == "" {
-		n = "unknown"
-	}
-
-	return n
-}
+func (t Type) String() string { _ = "STUB: not implemented"; return "" }
 
 // ErrDataSizeTooLarge is the data size too large error.
 var ErrDataSizeTooLarge = errors.New("msgpack: data size too large")
@@ -71,11 +60,7 @@ type Decoder struct {
 const bufioReaderSize = 4096
 
 // NewDecoder allocates and initializes a new decoder.
-func NewDecoder(r io.Reader) *Decoder {
-	return &Decoder{
-		r: bufio.NewReaderSize(r, bufioReaderSize),
-	}
-}
+func NewDecoder(r io.Reader) *Decoder { _ = "STUB: not implemented"; return nil }
 
 // ExtensionMap specifies functions for converting MessagePack extensions to Go
 // values.
@@ -86,160 +71,81 @@ type ExtensionMap map[int]func([]byte) (any, error)
 
 // SetExtensions specifies functions for converting MessagePack extensions to Go
 // values.
-func (d *Decoder) SetExtensions(extensions ExtensionMap) {
-	d.extensions = extensions
-}
+func (d *Decoder) SetExtensions(extensions ExtensionMap) { _ = "STUB: not implemented"; return }
 
 // Type returns the type of the current value in the stream.
 func (d *Decoder) Type() Type {
-	return d.t
+	_ = "STUB: not implemented"
+
+	// Extension returns the type of the current Extension value.
+	return *new(Type)
 }
 
-// Extension returns the type of the current Extension value.
 func (d *Decoder) Extension() int {
-	return int(d.n)
+	_ = "STUB: not implemented"
+
+	// Bytes returns the current String, Binary or Extension value as a slice of
+	// bytes.
+	return 0
 }
 
-// Bytes returns the current String, Binary or Extension value as a slice of
-// bytes.
-func (d *Decoder) Bytes() []byte {
-	if d.peek {
-		p := make([]byte, len(d.p))
-		copy(p, d.p)
-		d.p = p
-	}
-
-	return d.p
-}
+func (d *Decoder) Bytes() []byte { _ = "STUB: not implemented"; return nil }
 
 // BytesNoCopy returns the current String, Binary or Extension value as a slice
 // of bytes. The underlying array may point to data that will be overwritten by
 // a subsequent call to Unpack.
 func (d *Decoder) BytesNoCopy() []byte {
-	return d.p
+	_ = "STUB: not implemented"
+
+	// String returns the current String, Binary or Extension value as a string.
+	return nil
 }
 
-// String returns the current String, Binary or Extension value as a string.
 func (d *Decoder) String() string {
-	return string(d.p)
+	_ = "STUB: not implemented"
+
+	// Int returns the current Int value.
+	return ""
 }
 
-// Int returns the current Int value.
 func (d *Decoder) Int() int64 {
-	return int64(d.n)
+	_ = "STUB: not implemented"
+
+	// Uint returns the current Uint value.
+	return 0
 }
 
-// Uint returns the current Uint value.
 func (d *Decoder) Uint() uint64 {
-	return d.n
+	_ = "STUB: not implemented"
+
+	// Len returns the current ArrayLen or MapLen value.
+	return 0
 }
 
-// Len returns the current ArrayLen or MapLen value.
 func (d *Decoder) Len() int {
-	return int(d.n)
+	_ = "STUB: not implemented"
+
+	// Bool returns the current Bool value.
+	return 0
 }
 
-// Bool returns the current Bool value.
-func (d *Decoder) Bool() bool {
-	if d.n != 0 {
-		return true
-	}
-
-	return false
-}
+func (d *Decoder) Bool() bool { _ = "STUB: not implemented"; return false }
 
 // Float returns the current Float value.
-func (d *Decoder) Float() float64 {
-	return math.Float64frombits(d.n)
-}
+func (d *Decoder) Float() float64 { _ = "STUB: not implemented"; return 0 }
 
 // Unpack reads the next value from the MessagePack stream. Call Type to get the
 // type of the current value. Call Bool, Uint, Int, Float, Bytes or Extension
 // to get the value.
-func (d *Decoder) Unpack() error {
-	if d.err != nil {
-		return d.err
-	}
+func (d *Decoder) Unpack() error { _ = "STUB: not implemented"; return nil }
 
-	code, err := d.r.ReadByte()
-	if err != nil {
-		// Don't call d.fatal here because we don't want io.EOF converted to
-		// io.ErrUnexpectedEOF
-		d.err = err
-		return err
-	}
-
-	f := formats[code]
-	d.t = f.t
-
-	d.n, err = f.n(d, code)
-	if err != nil {
-		return d.fatal(err)
-	}
-
-	if !f.more {
-		d.p = nil
-		return nil
-	}
-
-	nn := int(d.n)
-	if nn < 0 {
-		return d.fatal(ErrDataSizeTooLarge)
-	}
-
-	if f.t == Extension {
-		var b byte
-		b, err = d.r.ReadByte()
-		if err != nil {
-			return d.fatal(err)
-		}
-		d.n = uint64(b)
-	}
-
-	if nn <= bufioReaderSize {
-		d.peek = true
-		d.p, err = d.r.Peek(nn)
-		if err != nil {
-			return d.fatal(err)
-		}
-		d.r.Discard(nn)
-	} else {
-		d.peek = false
-		d.p = make([]byte, nn)
-		_, err := io.ReadFull(d.r, d.p)
-		if err != nil {
-			return d.fatal(err)
-		}
-	}
-
-	return nil
-}
+// Don't call d.fatal here because we don't want io.EOF converted to
+// io.ErrUnexpectedEOF
 
 // Skip skips over any nested values in the stream.
-func (d *Decoder) Skip() error {
-	n := d.skipCount()
+func (d *Decoder) Skip() error { _ = "STUB: not implemented"; return nil }
 
-	for n > 0 {
-		n--
-		if err := d.Unpack(); err != nil {
-			return err
-		}
-		n += d.skipCount()
-	}
-
-	return nil
-}
-
-func (d *Decoder) skipCount() int {
-	switch d.Type() {
-	case ArrayLen:
-		return d.Len()
-	case MapLen:
-		return 2 * d.Len()
-	default:
-		return 0
-	}
-}
+func (d *Decoder) skipCount() int { _ = "STUB: not implemented"; return 0 }
 
 var formats = [256]*struct {
 	t    Type
@@ -447,49 +353,12 @@ func init() {
 	}
 }
 
-func (d *Decoder) fatal(err error) error {
-	if err == io.EOF {
-		err = io.ErrUnexpectedEOF
-	}
+func (d *Decoder) fatal(err error) error { _ = "STUB: not implemented"; return nil }
 
-	d.t = Invalid
-	d.err = err
-	return err
-}
+func (d *Decoder) read1(format byte) (uint64, error) { _ = "STUB: not implemented"; return 0, nil }
 
-func (d *Decoder) read1(format byte) (uint64, error) {
-	b, err := d.r.ReadByte()
+func (d *Decoder) read2(format byte) (uint64, error) { _ = "STUB: not implemented"; return 0, nil }
 
-	return uint64(b), err
-}
+func (d *Decoder) read4(format byte) (uint64, error) { _ = "STUB: not implemented"; return 0, nil }
 
-func (d *Decoder) read2(format byte) (uint64, error) {
-	p, err := d.r.Peek(2)
-	if err != nil {
-		return 0, err
-	}
-	d.r.Discard(2)
-
-	return uint64(p[1]) | uint64(p[0])<<8, nil
-}
-
-func (d *Decoder) read4(format byte) (uint64, error) {
-	p, err := d.r.Peek(4)
-	if err != nil {
-		return 0, err
-	}
-	d.r.Discard(4)
-
-	return uint64(p[3]) | uint64(p[2])<<8 | uint64(p[1])<<16 | uint64(p[0])<<24, nil
-}
-
-func (d *Decoder) read8(format byte) (uint64, error) {
-	p, err := d.r.Peek(8)
-	if err != nil {
-		return 0, err
-	}
-	d.r.Discard(8)
-
-	return uint64(p[7]) | uint64(p[6])<<8 | uint64(p[5])<<16 | uint64(p[4])<<24 |
-		uint64(p[3])<<32 | uint64(p[2])<<40 | uint64(p[1])<<48 | uint64(p[0])<<56, nil
-}
+func (d *Decoder) read8(format byte) (uint64, error) { _ = "STUB: not implemented"; return 0, nil }
